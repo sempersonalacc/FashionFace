@@ -1,0 +1,72 @@
+## Build results
+bin/
+obj/
+out/
+
+## Visual Studio
+.vs/
+*.user
+*.suo
+
+## Rider / IntelliJ
+.idea/
+*.sln.iml
+
+## ASP.NET Core
+appsettings.*.json
+
+## Logs
+*.log
+logs/
+
+## User-specific files
+*.userprefs
+
+## NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuget.props
+*.nuget.targets
+
+## DotNet tools
+/.store/
+/.tools/
+/dotnet-tools.json
+
+## Entity Framework Core
+Migrations/
+
+## Cache
+*.dbmdl
+*.cache
+*.svd
+*.pdb
+
+## IIS / Hosting
+_IISExpress/
+iisexpress/
+
+## OS-specific
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+## JetBrains Rider
+*.sln.iml
+
+## Temporary files
+*.tmp
+*.temp
+
+## Coverage
+coverage/
+*.coverage
+*.coveragexml
+TestResults/

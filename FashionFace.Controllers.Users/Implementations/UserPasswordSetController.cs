@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using FashionFace.Controllers.Base.Attributes.Groups;
-using FashionFace.Controllers.Base.Implementations.Base;
+using FashionFace.Controllers.Users.Implementations.Base;
 using FashionFace.Controllers.Users.Requests.Models;
 using FashionFace.Facades.Users.Args;
 using FashionFace.Facades.Users.Interfaces;
@@ -18,7 +18,7 @@ namespace FashionFace.Controllers.Users.Implementations;
 )]
 public sealed class UserPasswordSetController(
     IUserPasswordSetFacade facade
-) : BaseAuthorizeController
+) : BaseUserController
 {
     [HttpPatch]
     public async Task Invoke(

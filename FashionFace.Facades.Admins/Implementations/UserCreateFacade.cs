@@ -11,12 +11,14 @@ using FashionFace.Repositories.Context.Models.IdentityEntities;
 using FashionFace.Repositories.Interfaces;
 using FashionFace.Repositories.Transactions.Interfaces;
 
+using static FashionFace.Common.Constants.Constants.UserRoleConstants;
 using static FashionFace.Common.Exceptions.Constants.ExceptionConstants;
 
 namespace FashionFace.Facades.Admins.Implementations;
 
 public sealed class UserCreateFacade(
     IUserManagerDecorator userManagerDecorator,
+    IRoleManagerDecorator roleManagerDecorator,
     IExceptionDescriptor exceptionDescriptor,
     ICreateRepository createRepository,
     ITransactionManager  transactionManager
@@ -82,6 +84,21 @@ public sealed class UserCreateFacade(
         {
             throw exceptionDescriptor.IdentityErrorList(
                 createResult.Errors
+            );
+        }
+
+        var addRoleResult =
+            await
+                roleManagerDecorator
+                    .AddToRoleAsync(
+                        applicationUser,
+                        User
+                    );
+
+        if (!addRoleResult.Succeeded)
+        {
+            throw exceptionDescriptor.IdentityErrorList(
+                addRoleResult.Errors
             );
         }
 

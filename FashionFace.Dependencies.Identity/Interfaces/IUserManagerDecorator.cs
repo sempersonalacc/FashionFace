@@ -13,19 +13,8 @@ public interface IUserManagerDecorator
     Task<ApplicationUser?> FindByEmailAsync(string username);
     Task<ApplicationUser?> FindByNameAsync(string username);
 
-    Task<bool> CheckPasswordAsync(
-        ApplicationUser user,
-        string password
-    );
-
     Task<IdentityResult> CreateAsync(
         ApplicationUser user,
         string password
-    );
-
-    Task<IdentityResult> ChangePasswordAsync(
-        ApplicationUser user,
-        string oldPassword,
-        string newPassword
     );
 }

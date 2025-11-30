@@ -14,6 +14,7 @@ namespace FashionFace.Facades.Anonymous.Implementations;
 
 public sealed class LoginFacade(
     IUserManagerDecorator userManagerDecorator,
+    IPasswordManagerDecorator passwordManagerDecorator,
     IExceptionDescriptor exceptionDescriptor,
     IAuthenticationModelCreateFacade authenticationModelCreateFacade
 ) : ILoginFacade
@@ -53,7 +54,7 @@ public sealed class LoginFacade(
 
         var isValidPassword =
             await
-                userManagerDecorator
+                passwordManagerDecorator
                     .CheckPasswordAsync(
                         user,
                         password

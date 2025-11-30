@@ -19,4 +19,9 @@ public interface IPasswordManagerDecorator
         string currentPassword,
         string newPassword
     );
+
+    Task<bool> CheckPasswordAsync(
+        ApplicationUser user,
+        string password
+    );
 }

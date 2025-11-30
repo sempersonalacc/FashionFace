@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 
+using FashionFace.Controllers.Admins.Implementations.Base;
 using FashionFace.Controllers.Admins.Requests.Models.Users;
 using FashionFace.Controllers.Admins.Responses.Models.Users;
 using FashionFace.Controllers.Base.Attributes.Groups;
-using FashionFace.Controllers.Base.Implementations.Base;
 using FashionFace.Facades.Admins.Args;
 using FashionFace.Facades.Admins.Interfaces;
 
@@ -19,7 +19,7 @@ namespace FashionFace.Controllers.Admins.Implementations.Users;
 )]
 public sealed class AdminUserCreateController(
     IUserCreateFacade facade
-) : BaseAuthorizeController
+) : BaseAdminController
 {
     [HttpPost]
     public async Task<UserCreateResponse> Invoke(

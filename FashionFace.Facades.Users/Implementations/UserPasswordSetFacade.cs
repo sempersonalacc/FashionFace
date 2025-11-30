@@ -12,6 +12,7 @@ namespace FashionFace.Facades.Users.Implementations;
 
 public sealed class UserPasswordSetFacade(
     IUserManagerDecorator userManagerDecorator,
+    IPasswordManagerDecorator passwordManagerDecorator,
     IExceptionDescriptor exceptionDescriptor
 ) : IUserPasswordSetFacade
 {
@@ -37,7 +38,7 @@ public sealed class UserPasswordSetFacade(
 
         var validOldPassword =
             await
-                userManagerDecorator
+                passwordManagerDecorator
                     .CheckPasswordAsync(
                         user,
                         oldPassword
@@ -52,7 +53,7 @@ public sealed class UserPasswordSetFacade(
 
         var identityResult =
             await
-                userManagerDecorator
+                passwordManagerDecorator
                     .ChangePasswordAsync(
                         user,
                         oldPassword,

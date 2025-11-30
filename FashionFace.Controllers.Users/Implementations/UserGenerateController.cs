@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 
 using FashionFace.Controllers.Base.Attributes.Groups;
-using FashionFace.Controllers.Base.Implementations.Base;
+using FashionFace.Controllers.Users.Implementations.Base;
 using FashionFace.Controllers.Users.Requests.Models;
 using FashionFace.Controllers.Users.Responses.Models;
 using FashionFace.Facades.Users.Args;
@@ -17,7 +17,7 @@ namespace FashionFace.Controllers.Users.Implementations;
 )]
 public sealed class UserGenerateController(
     IGenerateFacade facade
-) : BaseAuthorizeController
+) : BaseUserController
 {
     [HttpPost]
     public async Task<GenerateResponse> Invoke(

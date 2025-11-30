@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Implementations\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\FashionFace.Controllers.Anonymous.Requests\FashionFace.Controllers.Anonymous.Requests.csproj" />
       <ProjectReference Include="..\FashionFace.Controllers.Anonymous.Responses\FashionFace.Controllers.Anonymous.Responses.csproj" />
       <ProjectReference Include="..\FashionFace.Controllers.Base\FashionFace.Controllers.Base.csproj" />

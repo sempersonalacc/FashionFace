@@ -27,29 +27,11 @@ public sealed class UserManagerDecorator(
             username
         );
 
-    public async Task<bool> CheckPasswordAsync(
-        ApplicationUser user,
-        string password
-    ) => await userManager.CheckPasswordAsync(
-        user,
-        password
-    );
-
     public async Task<IdentityResult> CreateAsync(
         ApplicationUser user,
         string password
     ) => await userManager.CreateAsync(
         user,
         password
-    );
-
-    public async Task<IdentityResult> ChangePasswordAsync(
-        ApplicationUser user,
-        string oldPassword,
-        string newPassword
-    ) => await userManager.ChangePasswordAsync(
-        user,
-        oldPassword,
-        newPassword
     );
 }

@@ -30,4 +30,13 @@ public sealed class PasswordManagerDecorator(
         currentPassword,
         newPassword
     );
+
+    public async Task<bool> CheckPasswordAsync(
+        ApplicationUser user,
+        string password
+    ) => await userManager.CheckPasswordAsync(
+        user,
+        password
+    );
+
 }

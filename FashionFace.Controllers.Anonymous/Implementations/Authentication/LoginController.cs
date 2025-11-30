@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 
+using FashionFace.Controllers.Anonymous.Implementations.Base;
 using FashionFace.Controllers.Anonymous.Requests.Models.Authentication;
 using FashionFace.Controllers.Anonymous.Responses.Models.Authentication;
 using FashionFace.Controllers.Base.Attributes.Groups;
-using FashionFace.Controllers.Base.Implementations.Base;
 using FashionFace.Facades.Anonymous.Args;
 using FashionFace.Facades.Anonymous.Interfaces;
 

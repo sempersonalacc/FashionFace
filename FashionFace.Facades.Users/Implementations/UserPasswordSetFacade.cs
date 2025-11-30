@@ -2,13 +2,13 @@
 
 using FashionFace.Common.Exceptions.Interfaces;
 using FashionFace.Dependencies.Identity.Interfaces;
-using FashionFace.Facades.Admins.Args;
-using FashionFace.Facades.Admins.Interfaces;
+using FashionFace.Facades.Users.Args;
+using FashionFace.Facades.Users.Interfaces;
 using FashionFace.Repositories.Context.Models.IdentityEntities;
 
 using static FashionFace.Common.Exceptions.Constants.ExceptionConstants;
 
-namespace FashionFace.Facades.Admins.Implementations;
+namespace FashionFace.Facades.Users.Implementations;
 
 public sealed class UserPasswordSetFacade(
     IUserManagerDecorator userManagerDecorator,

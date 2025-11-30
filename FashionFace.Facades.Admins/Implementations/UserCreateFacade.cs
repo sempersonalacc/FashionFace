@@ -1,11 +1,15 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using FashionFace.Common.Exceptions.Interfaces;
 using FashionFace.Dependencies.Identity.Interfaces;
 using FashionFace.Facades.Admins.Args;
 using FashionFace.Facades.Admins.Interfaces;
 using FashionFace.Facades.Admins.Models;
+using FashionFace.Repositories.Context.Models;
 using FashionFace.Repositories.Context.Models.IdentityEntities;
+using FashionFace.Repositories.Interfaces;
+using FashionFace.Repositories.Transactions.Interfaces;
 
 using static FashionFace.Common.Exceptions.Constants.ExceptionConstants;
 
@@ -13,7 +17,9 @@ namespace FashionFace.Facades.Admins.Implementations;
 
 public sealed class UserCreateFacade(
     IUserManagerDecorator userManagerDecorator,
-    IExceptionDescriptor exceptionDescriptor
+    IExceptionDescriptor exceptionDescriptor,
+    ICreateRepository createRepository,
+    ITransactionManager  transactionManager
 ) : IUserCreateFacade
 {
     public async Task<UserCreateResult> Execute(UserCreateArgs args)
@@ -53,7 +59,11 @@ public sealed class UserCreateFacade(
             );
         }
 
-        var user =
+        using var transaction =
+            await
+                transactionManager.BeginTransaction();
+
+        var applicationUser =
             new ApplicationUser
             {
                 Email = email,
@@ -64,7 +74,7 @@ public sealed class UserCreateFacade(
             await
                 userManagerDecorator
                     .CreateAsync(
-                        user,
+                        applicationUser,
                         password
                     );
 
@@ -75,9 +85,25 @@ public sealed class UserCreateFacade(
             );
         }
 
+        var profile =
+            new Profile
+            {
+                Id = Guid.NewGuid(),
+                ApplicationUserId = applicationUser.Id,
+            };
+
+        await
+            createRepository
+                .CreateAsync(
+                    profile
+                );
+
+        await
+            transaction.CommitAsync();
+
         var result =
             new UserCreateResult(
-                user.Id
+                applicationUser.Id
             );
 
         return

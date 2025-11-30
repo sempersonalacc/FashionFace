@@ -1,4 +1,4 @@
-﻿namespace FashionFace.Controllers.Admins.Requests.Models.Users;
+﻿namespace FashionFace.Controllers.Users.Requests.Models;
 
 public sealed record UserPasswordSetRequest(
     string OldPassword,

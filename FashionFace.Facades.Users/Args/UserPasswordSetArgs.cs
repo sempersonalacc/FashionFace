@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FashionFace.Facades.Admins.Args;
+namespace FashionFace.Facades.Users.Args;
 
 public sealed record UserPasswordSetArgs(
     Guid UserId,

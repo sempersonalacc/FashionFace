@@ -1,16 +1,22 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
 using FashionFace.Common.Exceptions.Interfaces;
 using FashionFace.Dependencies.Identity.Interfaces;
 using FashionFace.Facades.Anonymous.Args;
 using FashionFace.Facades.Anonymous.Interfaces;
+using FashionFace.Repositories.Context.Models;
 using FashionFace.Repositories.Context.Models.IdentityEntities;
+using FashionFace.Repositories.Interfaces;
+using FashionFace.Repositories.Transactions.Interfaces;
 
 namespace FashionFace.Facades.Anonymous.Implementations;
 
 public sealed class RegisterFacade(
     IUserManagerDecorator userManagerDecorator,
-    IExceptionDescriptor exceptionDescriptor
+    IExceptionDescriptor exceptionDescriptor,
+    ICreateRepository createRepository,
+    ITransactionManager  transactionManager
 ) : IRegisterFacade
 {
     public async Task Execute(
@@ -34,6 +40,10 @@ public sealed class RegisterFacade(
             throw exceptionDescriptor.Exists<ApplicationUser>();
         }
 
+        using var transaction =
+            await
+                transactionManager.BeginTransaction();
+
         var applicationUser =
             new ApplicationUser
             {
@@ -55,5 +65,21 @@ public sealed class RegisterFacade(
                 identityCreateResult.Errors
             );
         }
+
+        var profile =
+            new Profile
+            {
+                Id = Guid.NewGuid(),
+                ApplicationUserId = applicationUser.Id,
+            };
+
+        await
+            createRepository
+                .CreateAsync(
+                    profile
+                );
+
+        await
+            transaction.CommitAsync();
     }
 }

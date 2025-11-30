@@ -1,22 +1,22 @@
 ﻿using System.Threading.Tasks;
 
-using FashionFace.Controllers.Admins.Requests.Models.Users;
 using FashionFace.Controllers.Base.Attributes.Groups;
 using FashionFace.Controllers.Base.Implementations.Base;
-using FashionFace.Facades.Admins.Args;
-using FashionFace.Facades.Admins.Interfaces;
+using FashionFace.Controllers.Users.Requests.Models;
+using FashionFace.Facades.Users.Args;
+using FashionFace.Facades.Users.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace FashionFace.Controllers.Admins.Implementations.Users;
+namespace FashionFace.Controllers.Users.Implementations;
 
-[AdminControllerGroup(
+[UserControllerGroup(
     "Users"
 )]
 [Route(
-    "api/v1/admin/user/password/set"
+    "api/v1/user/password/set"
 )]
-public sealed class AdminUserPasswordSetController(
+public sealed class UserPasswordSetController(
     IUserPasswordSetFacade facade
 ) : BaseAuthorizeController
 {

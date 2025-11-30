@@ -8,7 +8,7 @@ using FashionFace.Facades.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace FashionFace.Controllers.Implementations;
+namespace FashionFace.Controllers.Implementations.Users;
 
 [Route(
     "api/v1/user/password/set"

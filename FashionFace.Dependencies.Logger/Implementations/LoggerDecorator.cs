@@ -34,4 +34,12 @@ public sealed class LoggerDecorator(
                 "{Message}",
                 message
             );
+
+    public void LogInfo(
+        string message
+    ) =>
+        logger
+            .LogInformation(
+                message
+            );
 }

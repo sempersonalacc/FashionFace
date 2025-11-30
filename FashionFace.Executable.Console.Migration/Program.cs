@@ -83,4 +83,6 @@ catch (Exception exception)
 {
     logger.LogInformation("Failed to migrate");
     logger.LogInformation(exception.Message);
+
+    Environment.Exit(1); // notification for docker-compose.yml webapi service.
 }

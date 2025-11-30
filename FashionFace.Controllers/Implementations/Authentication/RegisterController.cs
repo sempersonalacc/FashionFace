@@ -8,7 +8,7 @@ using FashionFace.Facades.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace FashionFace.Controllers.Implementations;
+namespace FashionFace.Controllers.Implementations.Authentication;
 
 [Route(
     "api/v1/register"
@@ -24,7 +24,7 @@ public sealed class RegisterController(
     {
         var facadeArgs =
             new RegisterArgs(
-                request.Username,
+                request.Email,
                 request.Password
             );
 

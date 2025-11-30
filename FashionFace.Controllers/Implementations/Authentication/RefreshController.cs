@@ -8,29 +8,23 @@ using FashionFace.Facades.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace FashionFace.Controllers.Implementations;
+namespace FashionFace.Controllers.Implementations.Authentication;
 
 [Route(
-    "api/v1/user/create"
+    "api/v1/refresh"
 )]
-public sealed class UserCreateController(
-    IUserCreateFacade facade
-) : BaseAuthorizeController<UserCreateRequest, UserCreateResponse>
+public sealed class RefreshController(
+    IRefreshFacade facade
+) : BaseAnonymousController<RefreshRequest, RefreshResponse>
 {
     [HttpPost]
-    public override async Task<UserCreateResponse> Invoke(
-        [FromBody] UserCreateRequest request
+    public override async Task<RefreshResponse> Invoke(
+        [FromBody] RefreshRequest request
     )
     {
-        var userId =
-            GetUserId();
-
         var facadeArgs =
-            new UserCreateArgs(
-                userId,
-                request.Email,
-                request.Username,
-                request.Password
+            new RefreshArgs(
+                request.RefreshToken
             );
 
         var result =
@@ -41,8 +35,10 @@ public sealed class UserCreateController(
                     );
 
         var response =
-            new UserCreateResponse(
-                result.UserId
+            new RefreshResponse(
+                result.AccessToken,
+                result.RefreshToken,
+                result.AccessTokenExpiresAt
             );
 
         return

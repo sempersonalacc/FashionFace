@@ -34,9 +34,6 @@ packages/
 /.tools/
 /dotnet-tools.json
 
-## Entity Framework Core
-Migrations/
-
 ## Cache
 *.dbmdl
 *.cache

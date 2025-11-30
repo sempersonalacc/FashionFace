@@ -18,4 +18,8 @@
         <ProjectReference Include="..\FashionFace.Facades\FashionFace.Facades.csproj"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Implementations\Legacy\" />
+    </ItemGroup>
+
 </Project>

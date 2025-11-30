@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+namespace FashionFace.Controllers.Models;
+
 public sealed record LoginRequestLegacy(
     string Username,
     string Password

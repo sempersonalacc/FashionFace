@@ -16,4 +16,8 @@ public interface ILoggerDecorator
         Exception exception,
         string message
     );
+
+    void LogInfo(
+        string message
+    );
 }

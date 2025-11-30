@@ -66,7 +66,9 @@ serviceCollection.AddLogging(
 );
 
 serviceCollection.SetupDependencies();
-serviceCollection.AddScoped<IPasswordHasher<ApplicationUser>, BcryptPasswordHasher<ApplicationUser>>();
+
+// todo : to use BCript for legacy users
+//serviceCollection.AddScoped<IPasswordHasher<ApplicationUser>, BcryptPasswordHasher<ApplicationUser>>();
 
 var filters =
     new[]
@@ -211,6 +213,15 @@ serviceCollection.Configure<CorsSettings>(
 
 var corsSettings =
     corsSection.Get<CorsSettings>();
+
+
+foreach (var item in corsSettings.OriginList)
+{
+    Log.Information(
+            $"cors: {item}"
+        );
+}
+
 
 serviceCollection
     .AddCors(

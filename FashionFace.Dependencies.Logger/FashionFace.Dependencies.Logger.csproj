@@ -8,13 +8,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="Microsoft.Extensions.Logging.Abstractions">
-            <HintPath>..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.22\Microsoft.Extensions.Logging.Abstractions.dll</HintPath>
-        </Reference>
+        <ProjectReference Include="..\FashionFace.Common.Extensions.Dependencies\FashionFace.Common.Extensions.Dependencies.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\FashionFace.Common.Extensions.Dependencies\FashionFace.Common.Extensions.Dependencies.csproj" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
     </ItemGroup>
 
 </Project>

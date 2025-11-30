@@ -5,11 +5,18 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Threading.Tasks;
 
+using FashionFace.Common.Exceptions.Interfaces;
+using FashionFace.Dependencies.Logger.Interfaces;
 using FashionFace.Services.Singleton.Interfaces;
 
 using SkiaSharp;
 
-public sealed class ImageKitUtils : IImageKitService
+namespace FashionFace.Services.Singleton.Implementations;
+
+public sealed class ImageKitService(
+    ILoggerDecorator loggerDecorator,
+    IExceptionDescriptor exceptionDescriptor
+) : IImageKitService
 {
     private const string UploadUrl = "https://upload.imagekit.io/api/v1/files/upload";
 
@@ -46,8 +53,15 @@ public sealed class ImageKitUtils : IImageKitService
 
             using var outputStream = File.OpenWrite(tmpOutput);
 
-            var jpegData = SKImage.FromBitmap(resized)
-                .Encode(SKEncodedImageFormat.Jpeg, quality);
+            var jpegData =
+                SKImage
+                    .FromBitmap(
+                        resized
+                    )
+                    .Encode(
+                        SKEncodedImageFormat.Jpeg,
+                        quality
+                    );
 
             jpegData.SaveTo(outputStream);
 
@@ -88,7 +102,7 @@ public sealed class ImageKitUtils : IImageKitService
         if (!response.IsSuccessStatusCode)
         {
             var err = await response.Content.ReadAsStringAsync();
-            throw new Exception($"ImageKit error {response.StatusCode}: {err}");
+            throw exceptionDescriptor.Exception($"ImageKit error {response.StatusCode}: {err}");
         }
 
         var json = await response.Content.ReadAsStringAsync();
@@ -96,7 +110,7 @@ public sealed class ImageKitUtils : IImageKitService
 
         if (!doc.RootElement.TryGetProperty("url", out var urlProp))
         {
-            throw new Exception("ImageKit did not return URL");
+            throw  exceptionDescriptor.Exception("ImageKit did not return URL");
         }
 
         return urlProp.GetString()!;
@@ -114,11 +128,11 @@ public sealed class ImageKitUtils : IImageKitService
 
         try
         {
-            Console.WriteLine($"📁 Optimizing: {filename}");
+            loggerDecorator.LogInfo($"📁 Optimizing: {filename}");
 
             jpegPath = PreprocessToJpeg(fileBytes, maxWidth, quality);
 
-            Console.WriteLine($"🌐 Uploading to ImageKit...");
+            loggerDecorator.LogInfo($"🌐 Uploading to ImageKit...");
 
             var url = await UploadToImageKit(jpegPath, privateKey, folder);
 
@@ -126,7 +140,7 @@ public sealed class ImageKitUtils : IImageKitService
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"❌ Upload error: {ex.GetType().Name}: {ex.Message}");
+            loggerDecorator.LogInfo($"❌ Upload error: {ex.GetType().Name}: {ex.Message}");
             return null;
         }
         finally

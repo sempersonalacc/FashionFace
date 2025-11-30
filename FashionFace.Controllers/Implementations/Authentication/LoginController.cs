@@ -8,23 +8,24 @@ using FashionFace.Facades.Interfaces;
 
 using Microsoft.AspNetCore.Mvc;
 
-namespace FashionFace.Controllers.Implementations;
+namespace FashionFace.Controllers.Implementations.Authentication;
 
 [Route(
-    "api/v1/refresh"
+    "api/v1/login"
 )]
-public sealed class RefreshController(
-    IRefreshFacade facade
-) : BaseAnonymousController<RefreshRequest, RefreshResponse>
+public sealed class LoginController(
+    ILoginFacade facade
+) : BaseAnonymousController<LoginRequest, LoginResponse>
 {
     [HttpPost]
-    public override async Task<RefreshResponse> Invoke(
-        [FromBody] RefreshRequest request
+    public override async Task<LoginResponse> Invoke(
+        [FromBody] LoginRequest request
     )
     {
         var facadeArgs =
-            new RefreshArgs(
-                request.RefreshToken
+            new LoginArgs(
+                request.Username,
+                request.Password
             );
 
         var result =
@@ -35,7 +36,7 @@ public sealed class RefreshController(
                     );
 
         var response =
-            new RefreshResponse(
+            new LoginResponse(
                 result.AccessToken,
                 result.RefreshToken,
                 result.AccessTokenExpiresAt

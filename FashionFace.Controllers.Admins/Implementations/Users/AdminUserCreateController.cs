@@ -34,7 +34,10 @@ public sealed class AdminUserCreateController(
                 userId,
                 request.Email,
                 request.Username,
-                request.Password
+                request.Password,
+                request.Name,
+                request.Description,
+                request.AgeCategoryType
             );
 
         var result =

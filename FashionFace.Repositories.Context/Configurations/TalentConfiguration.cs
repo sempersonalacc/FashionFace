@@ -13,16 +13,22 @@ public sealed class TalentConfiguration : EntityBaseConfiguration<Talent>
         base.Configure(builder);
 
         builder
+            .Property(entity => entity.ProfileId)
+            .HasColumnName("ProfileId")
+            .HasColumnType("uuid")
+            .IsRequired();
+
+        builder
+            .Property(entity => entity.Description)
+            .HasColumnName("Description")
+            .HasColumnType("varchar(1024)")
+            .IsRequired();
+
+        builder
             .Property(entity => entity.Type)
             .HasColumnName("Type")
             .HasConversion<string>()
             .HasColumnType("varchar(32)")
-            .IsRequired();
-
-        builder
-            .Property(entity => entity.ProfileId)
-            .HasColumnName("ProfileId")
-            .HasColumnType("uuid")
             .IsRequired();
 
         builder

@@ -74,9 +74,9 @@ var db = scope.ServiceProvider.GetRequiredService<ApplicationDatabaseContext>();
 
 try
 {
-    logger.LogInformation("Migration started");
+    logger.LogInformation("Migration started...");
     db.Database.Migrate();
-    logger.LogInformation("Migration finished");
+    logger.LogInformation("Migration finished.");
 
 }
 catch (Exception exception)

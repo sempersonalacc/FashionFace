@@ -13,10 +13,6 @@ public sealed class TalentLocation : EntityBase
 
     public Guid? PlaceId { get; set; }
 
-    //todo : add availability dates
-    /*public DateTime? AvailableFrom { get; set; }
-    public DateTime? AvailableTo { get; set; }*/
-
     public City? City { get; set; }
     public Place? Place { get; set; }
     public Talent? Talent { get; set; }

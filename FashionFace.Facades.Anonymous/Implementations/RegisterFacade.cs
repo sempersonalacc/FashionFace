@@ -5,6 +5,7 @@ using FashionFace.Common.Exceptions.Interfaces;
 using FashionFace.Dependencies.Identity.Interfaces;
 using FashionFace.Facades.Anonymous.Args;
 using FashionFace.Facades.Anonymous.Interfaces;
+using FashionFace.Repositories.Context.Enums;
 using FashionFace.Repositories.Context.Models;
 using FashionFace.Repositories.Context.Models.IdentityEntities;
 using FashionFace.Repositories.Interfaces;
@@ -84,11 +85,16 @@ public sealed class RegisterFacade(
             );
         }
 
+        // todo : validate empty Name & Description
         var profile =
             new Profile
             {
                 Id = Guid.NewGuid(),
                 ApplicationUserId = applicationUser.Id,
+                CreatedAt =  DateTime.UtcNow,
+                AgeCategoryType = AgeCategoryType.Minor,
+                Name = string.Empty,
+                Description = string.Empty,
             };
 
         await

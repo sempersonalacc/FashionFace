@@ -19,16 +19,16 @@ public sealed class TalentLocationConfiguration : EntityBaseConfiguration<Talent
             .IsRequired();
 
         builder
+            .Property(entity => entity.CityId)
+            .HasColumnName("CityId")
+            .HasColumnType("uuid")
+            .IsRequired();
+
+        builder
             .Property(entity => entity.Type)
             .HasColumnName("Type")
             .HasConversion<string>()
             .HasColumnType("varchar(32)")
-            .IsRequired();
-
-        builder
-            .Property(entity => entity.CityId)
-            .HasColumnName("CityId")
-            .HasColumnType("uuid")
             .IsRequired();
 
         builder

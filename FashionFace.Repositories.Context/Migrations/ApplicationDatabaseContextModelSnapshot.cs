@@ -22,6 +22,88 @@ namespace FashionFace.Repositories.Context.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.AppearanceTraits", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("BodyType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("BodyType");
+
+                    b.Property<string>("EyeColorType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("EyeColorType");
+
+                    b.Property<string>("EyeShapeType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("EyeShapeType");
+
+                    b.Property<string>("FaceType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("FaceType");
+
+                    b.Property<string>("HairColorType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("HairColorType");
+
+                    b.Property<string>("HairLengthType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("HairLengthType");
+
+                    b.Property<string>("HairType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("HairType");
+
+                    b.Property<int>("Height")
+                        .HasColumnType("integer")
+                        .HasColumnName("Height");
+
+                    b.Property<string>("JawType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("JawType");
+
+                    b.Property<string>("NoseType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("NoseType");
+
+                    b.Property<Guid>("ProfileId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ProfileId");
+
+                    b.Property<string>("SexType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("SexType");
+
+                    b.Property<int>("ShoeSize")
+                        .HasColumnType("integer")
+                        .HasColumnName("ShoeSize");
+
+                    b.Property<string>("SkinToneType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("SkinToneType");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProfileId")
+                        .IsUnique();
+
+                    b.ToTable("AppearanceTraits", (string)null);
+                });
+
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Building", b =>
                 {
                     b.Property<Guid>("Id")
@@ -69,6 +151,30 @@ namespace FashionFace.Repositories.Context.Migrations
                         .IsUnique();
 
                     b.ToTable("City", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.FemaleTraits", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("AppearanceTraitsId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("AppearanceTraitsId");
+
+                    b.Property<string>("BustSizeType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("BustSizeType");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppearanceTraitsId")
+                        .IsUnique();
+
+                    b.ToTable("FemaleTraits", (string)null);
                 });
 
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationRole", b =>
@@ -187,6 +293,47 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.ToTable("Landmark", (string)null);
                 });
 
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.MaleTraits", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("AppearanceTraitsId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("AppearanceTraitsId");
+
+                    b.Property<string>("FacialHairLengthType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("FacialHairLengthType");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppearanceTraitsId")
+                        .IsUnique();
+
+                    b.ToTable("MaleTraits", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.MediaFile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("Uri")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Uri");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MediaFile", (string)null);
+                });
+
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Place", b =>
                 {
                     b.Property<Guid>("Id")
@@ -220,11 +367,6 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("TalentId");
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("varchar(1024)")
-                        .HasColumnName("Url");
-
                     b.HasKey("Id");
 
                     b.HasIndex("TalentId")
@@ -233,38 +375,7 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.ToTable("Portfolio", (string)null);
                 });
 
-            modelBuilder.Entity("FashionFace.Repositories.Context.Models.Profile", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("Id");
-
-                    b.Property<Guid>("ApplicationUserId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("ApplicationUserId");
-
-                    b.Property<string>("FamilyName")
-                        .HasColumnType("varchar(32)")
-                        .HasColumnName("FamilyName");
-
-                    b.Property<string>("GivenName")
-                        .HasColumnType("varchar(32)")
-                        .HasColumnName("GivenName");
-
-                    b.Property<string>("MiddleName")
-                        .HasColumnType("varchar(32)")
-                        .HasColumnName("MiddleName");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationUserId")
-                        .IsUnique();
-
-                    b.ToTable("Profile", (string)null);
-                });
-
-            modelBuilder.Entity("FashionFace.Repositories.Context.Models.Pseudonym", b =>
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.PortfolioMedia", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -276,21 +387,150 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("text")
                         .HasColumnName("Description");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("varchar(128)")
-                        .HasColumnName("Name");
-
-                    b.Property<Guid>("TalentId")
+                    b.Property<Guid>("OptimizedFileId")
                         .HasColumnType("uuid")
-                        .HasColumnName("TalentId");
+                        .HasColumnName("OptimizedFileId");
+
+                    b.Property<Guid>("OriginalFileId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("OriginalFileId");
+
+                    b.Property<string>("OriginalFileName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("OriginalFileName");
+
+                    b.Property<Guid>("PortfolioId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("PortfolioId");
+
+                    b.Property<string>("SystemFileName")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("SystemFileName");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TalentId")
+                    b.HasIndex("OptimizedFileId")
                         .IsUnique();
 
-                    b.ToTable("Pseudonym", (string)null);
+                    b.HasIndex("OriginalFileId")
+                        .IsUnique();
+
+                    b.HasIndex("PortfolioId");
+
+                    b.ToTable("PortfolioMedia", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.PortfolioMediaTag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("PortfolioMediaId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("PortfolioMediaId");
+
+                    b.Property<int>("PositionIndex")
+                        .HasColumnType("integer")
+                        .HasColumnName("PositionIndex");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("TagId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PortfolioMediaId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PortfolioMediaTag", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.PortfolioTag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("PortfolioId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("PortfolioMediaId");
+
+                    b.Property<int>("PositionIndex")
+                        .HasColumnType("integer")
+                        .HasColumnName("PositionIndex");
+
+                    b.Property<Guid>("TagId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("TagId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PortfolioId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PortfolioTag", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.Profile", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("AgeCategoryType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("AgeCategoryType");
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ApplicationUserId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("varchar(1024)")
+                        .HasColumnName("Description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("Name");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId")
+                        .IsUnique();
+
+                    b.ToTable("Profile", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.Tag", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Tag", (string)null);
                 });
 
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Talent", b =>
@@ -299,6 +539,11 @@ namespace FashionFace.Repositories.Context.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("Id");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("varchar(1024)")
+                        .HasColumnName("Description");
 
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uuid")
@@ -455,6 +700,17 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.AppearanceTraits", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.Profile", "Profile")
+                        .WithOne("AppearanceTraits")
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.AppearanceTraits", "ProfileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Profile");
+                });
+
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Building", b =>
                 {
                     b.HasOne("FashionFace.Repositories.Context.Models.Place", "Place")
@@ -464,6 +720,17 @@ namespace FashionFace.Repositories.Context.Migrations
                         .IsRequired();
 
                     b.Navigation("Place");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.FemaleTraits", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.AppearanceTraits", "AppearanceTraits")
+                        .WithOne("FemaleTraits")
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.FemaleTraits", "AppearanceTraitsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppearanceTraits");
                 });
 
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Landmark", b =>
@@ -477,6 +744,17 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.Navigation("Place");
                 });
 
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.MaleTraits", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.AppearanceTraits", "AppearanceTraits")
+                        .WithOne("MaleTraits")
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.MaleTraits", "AppearanceTraitsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppearanceTraits");
+                });
+
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Portfolio", b =>
                 {
                     b.HasOne("FashionFace.Repositories.Context.Models.Talent", "Talent")
@@ -488,6 +766,71 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.Navigation("Talent");
                 });
 
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.PortfolioMedia", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.MediaFile", "OptimizedFile")
+                        .WithOne()
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.PortfolioMedia", "OptimizedFileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.MediaFile", "OriginalFile")
+                        .WithOne()
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.PortfolioMedia", "OriginalFileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.Portfolio", "Portfolio")
+                        .WithMany("PortfolioMediaCollection")
+                        .HasForeignKey("PortfolioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("OptimizedFile");
+
+                    b.Navigation("OriginalFile");
+
+                    b.Navigation("Portfolio");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.PortfolioMediaTag", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.PortfolioMedia", "PortfolioMedia")
+                        .WithMany("PortfolioMediaTagCollection")
+                        .HasForeignKey("PortfolioMediaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.Tag", "Tag")
+                        .WithMany("PortfolioMediaTagCollection")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PortfolioMedia");
+
+                    b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.PortfolioTag", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.Portfolio", "Portfolio")
+                        .WithMany("PortfolioTagCollection")
+                        .HasForeignKey("PortfolioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.Tag", "Tag")
+                        .WithMany("PortfolioTagCollection")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Portfolio");
+
+                    b.Navigation("Tag");
+                });
+
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Profile", b =>
                 {
                     b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "ApplicationUser")
@@ -497,17 +840,6 @@ namespace FashionFace.Repositories.Context.Migrations
                         .IsRequired();
 
                     b.Navigation("ApplicationUser");
-                });
-
-            modelBuilder.Entity("FashionFace.Repositories.Context.Models.Pseudonym", b =>
-                {
-                    b.HasOne("FashionFace.Repositories.Context.Models.Talent", "Talent")
-                        .WithOne("Pseudonym")
-                        .HasForeignKey("FashionFace.Repositories.Context.Models.Pseudonym", "TalentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Talent");
                 });
 
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Talent", b =>
@@ -598,6 +930,13 @@ namespace FashionFace.Repositories.Context.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.AppearanceTraits", b =>
+                {
+                    b.Navigation("FemaleTraits");
+
+                    b.Navigation("MaleTraits");
+                });
+
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.City", b =>
                 {
                     b.Navigation("TalentLocationCollection");
@@ -617,16 +956,35 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.Navigation("TalentLocation");
                 });
 
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.Portfolio", b =>
+                {
+                    b.Navigation("PortfolioMediaCollection");
+
+                    b.Navigation("PortfolioTagCollection");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.PortfolioMedia", b =>
+                {
+                    b.Navigation("PortfolioMediaTagCollection");
+                });
+
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Profile", b =>
                 {
+                    b.Navigation("AppearanceTraits");
+
                     b.Navigation("TalentCollection");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.Tag", b =>
+                {
+                    b.Navigation("PortfolioMediaTagCollection");
+
+                    b.Navigation("PortfolioTagCollection");
                 });
 
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Talent", b =>
                 {
                     b.Navigation("Portfolio");
-
-                    b.Navigation("Pseudonym");
 
                     b.Navigation("TalentLocationCollection");
                 });

@@ -30,7 +30,10 @@ public sealed class UserCreateFacade(
             _,
             email,
             userName,
-            password
+            password,
+            name,
+            description,
+            ageCategoryType
             ) = args;
 
         var existingByEmail =
@@ -107,6 +110,10 @@ public sealed class UserCreateFacade(
             {
                 Id = Guid.NewGuid(),
                 ApplicationUserId = applicationUser.Id,
+                CreatedAt = DateTime.UtcNow,
+                AgeCategoryType = ageCategoryType,
+                Name = name,
+                Description = description,
             };
 
         await

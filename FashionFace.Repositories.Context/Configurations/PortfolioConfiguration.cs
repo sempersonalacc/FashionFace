@@ -14,21 +14,15 @@ public sealed class PortfolioConfiguration : EntityBaseConfiguration<Portfolio>
         base.Configure(builder);
 
         builder
-            .Property(entity => entity.Url)
-            .HasColumnName("Url")
-            .HasColumnType("varchar(1024)")
+            .Property(entity => entity.TalentId)
+            .HasColumnName("TalentId")
+            .HasColumnType("uuid")
             .IsRequired();
 
         builder
             .Property(entity => entity.Description)
             .HasColumnName("Description")
             .HasColumnType("text")
-            .IsRequired();
-
-        builder
-            .Property(entity => entity.TalentId)
-            .HasColumnName("TalentId")
-            .HasColumnType("uuid")
             .IsRequired();
 
         builder

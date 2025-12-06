@@ -65,6 +65,18 @@ namespace FashionFace.Repositories.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MediaFile",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Uri = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MediaFile", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Place",
                 columns: table => new
                 {
@@ -74,6 +86,18 @@ namespace FashionFace.Repositories.Context.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Place", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tag",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "varchar(32)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tag", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,9 +212,10 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ApplicationUserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    GivenName = table.Column<string>(type: "varchar(32)", nullable: true),
-                    MiddleName = table.Column<string>(type: "varchar(32)", nullable: true),
-                    FamilyName = table.Column<string>(type: "varchar(32)", nullable: true)
+                    Name = table.Column<string>(type: "varchar(32)", nullable: false),
+                    Description = table.Column<string>(type: "varchar(1024)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    AgeCategoryType = table.Column<string>(type: "varchar(32)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -242,11 +267,43 @@ namespace FashionFace.Repositories.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AppearanceTraits",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProfileId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SexType = table.Column<string>(type: "varchar(32)", nullable: false),
+                    FaceType = table.Column<string>(type: "varchar(32)", nullable: false),
+                    HairColorType = table.Column<string>(type: "varchar(32)", nullable: false),
+                    HairType = table.Column<string>(type: "varchar(32)", nullable: false),
+                    HairLengthType = table.Column<string>(type: "varchar(32)", nullable: false),
+                    BodyType = table.Column<string>(type: "varchar(32)", nullable: false),
+                    SkinToneType = table.Column<string>(type: "varchar(32)", nullable: false),
+                    EyeShapeType = table.Column<string>(type: "varchar(32)", nullable: false),
+                    EyeColorType = table.Column<string>(type: "varchar(32)", nullable: false),
+                    NoseType = table.Column<string>(type: "varchar(32)", nullable: false),
+                    JawType = table.Column<string>(type: "varchar(32)", nullable: false),
+                    Height = table.Column<int>(type: "integer", nullable: false),
+                    ShoeSize = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppearanceTraits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppearanceTraits_Profile_ProfileId",
+                        column: x => x.ProfileId,
+                        principalTable: "Profile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Talent",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ProfileId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Description = table.Column<string>(type: "varchar(1024)", nullable: false),
                     Type = table.Column<string>(type: "varchar(32)", nullable: false)
                 },
                 constraints: table =>
@@ -261,12 +318,49 @@ namespace FashionFace.Repositories.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FemaleTraits",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    AppearanceTraitsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    BustSizeType = table.Column<string>(type: "varchar(32)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FemaleTraits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_FemaleTraits_AppearanceTraits_AppearanceTraitsId",
+                        column: x => x.AppearanceTraitsId,
+                        principalTable: "AppearanceTraits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MaleTraits",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    AppearanceTraitsId = table.Column<Guid>(type: "uuid", nullable: false),
+                    FacialHairLengthType = table.Column<string>(type: "varchar(32)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MaleTraits", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MaleTraits_AppearanceTraits_AppearanceTraitsId",
+                        column: x => x.AppearanceTraitsId,
+                        principalTable: "AppearanceTraits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Portfolio",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     TalentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Url = table.Column<string>(type: "varchar(1024)", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
@@ -274,26 +368,6 @@ namespace FashionFace.Repositories.Context.Migrations
                     table.PrimaryKey("PK_Portfolio", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Portfolio_Talent_TalentId",
-                        column: x => x.TalentId,
-                        principalTable: "Talent",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Pseudonym",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    TalentId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "varchar(128)", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pseudonym", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Pseudonym_Talent_TalentId",
                         column: x => x.TalentId,
                         principalTable: "Talent",
                         principalColumn: "Id",
@@ -332,6 +406,99 @@ namespace FashionFace.Repositories.Context.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "PortfolioMedia",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PortfolioId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OriginalFileId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OptimizedFileId = table.Column<Guid>(type: "uuid", nullable: false),
+                    SystemFileName = table.Column<string>(type: "text", nullable: false),
+                    OriginalFileName = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PortfolioMedia", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PortfolioMedia_MediaFile_OptimizedFileId",
+                        column: x => x.OptimizedFileId,
+                        principalTable: "MediaFile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PortfolioMedia_MediaFile_OriginalFileId",
+                        column: x => x.OriginalFileId,
+                        principalTable: "MediaFile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PortfolioMedia_Portfolio_PortfolioId",
+                        column: x => x.PortfolioId,
+                        principalTable: "Portfolio",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PortfolioTag",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PortfolioMediaId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TagId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PositionIndex = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PortfolioTag", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PortfolioTag_Portfolio_PortfolioMediaId",
+                        column: x => x.PortfolioMediaId,
+                        principalTable: "Portfolio",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PortfolioTag_Tag_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tag",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PortfolioMediaTag",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    PortfolioMediaId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TagId = table.Column<Guid>(type: "uuid", nullable: false),
+                    PositionIndex = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PortfolioMediaTag", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PortfolioMediaTag_PortfolioMedia_PortfolioMediaId",
+                        column: x => x.PortfolioMediaId,
+                        principalTable: "PortfolioMedia",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_PortfolioMediaTag_Tag_TagId",
+                        column: x => x.TagId,
+                        principalTable: "Tag",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppearanceTraits_ProfileId",
+                table: "AppearanceTraits",
+                column: "ProfileId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -383,9 +550,21 @@ namespace FashionFace.Repositories.Context.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_FemaleTraits_AppearanceTraitsId",
+                table: "FemaleTraits",
+                column: "AppearanceTraitsId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Landmark_PlaceId",
                 table: "Landmark",
                 column: "PlaceId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MaleTraits_AppearanceTraitsId",
+                table: "MaleTraits",
+                column: "AppearanceTraitsId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -395,15 +574,46 @@ namespace FashionFace.Repositories.Context.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Profile_ApplicationUserId",
-                table: "Profile",
-                column: "ApplicationUserId",
+                name: "IX_PortfolioMedia_OptimizedFileId",
+                table: "PortfolioMedia",
+                column: "OptimizedFileId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pseudonym_TalentId",
-                table: "Pseudonym",
-                column: "TalentId",
+                name: "IX_PortfolioMedia_OriginalFileId",
+                table: "PortfolioMedia",
+                column: "OriginalFileId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PortfolioMedia_PortfolioId",
+                table: "PortfolioMedia",
+                column: "PortfolioId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PortfolioMediaTag_PortfolioMediaId",
+                table: "PortfolioMediaTag",
+                column: "PortfolioMediaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PortfolioMediaTag_TagId",
+                table: "PortfolioMediaTag",
+                column: "TagId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PortfolioTag_PortfolioMediaId",
+                table: "PortfolioTag",
+                column: "PortfolioMediaId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PortfolioTag_TagId",
+                table: "PortfolioTag",
+                column: "TagId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Profile_ApplicationUserId",
+                table: "Profile",
+                column: "ApplicationUserId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -450,13 +660,19 @@ namespace FashionFace.Repositories.Context.Migrations
                 name: "Building");
 
             migrationBuilder.DropTable(
+                name: "FemaleTraits");
+
+            migrationBuilder.DropTable(
                 name: "Landmark");
 
             migrationBuilder.DropTable(
-                name: "Portfolio");
+                name: "MaleTraits");
 
             migrationBuilder.DropTable(
-                name: "Pseudonym");
+                name: "PortfolioMediaTag");
+
+            migrationBuilder.DropTable(
+                name: "PortfolioTag");
 
             migrationBuilder.DropTable(
                 name: "TalentLocation");
@@ -465,10 +681,25 @@ namespace FashionFace.Repositories.Context.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AppearanceTraits");
+
+            migrationBuilder.DropTable(
+                name: "PortfolioMedia");
+
+            migrationBuilder.DropTable(
+                name: "Tag");
+
+            migrationBuilder.DropTable(
                 name: "City");
 
             migrationBuilder.DropTable(
                 name: "Place");
+
+            migrationBuilder.DropTable(
+                name: "MediaFile");
+
+            migrationBuilder.DropTable(
+                name: "Portfolio");
 
             migrationBuilder.DropTable(
                 name: "Talent");

@@ -15,22 +15,33 @@ public sealed class ProfileConfiguration : EntityBaseConfiguration<Profile>
         builder
             .Property(entity => entity.ApplicationUserId)
             .HasColumnName("ApplicationUserId")
-            .HasColumnType("uuid");
+            .HasColumnType("uuid")
+            .IsRequired();
 
         builder
-            .Property(entity => entity.GivenName)
-            .HasColumnName("GivenName")
-            .HasColumnType("varchar(32)");
+            .Property(entity => entity.Name)
+            .HasColumnName("Name")
+            .HasColumnType("varchar(32)")
+            .IsRequired();
 
         builder
-            .Property(entity => entity.MiddleName)
-            .HasColumnName("MiddleName")
-            .HasColumnType("varchar(32)");
+            .Property(entity => entity.Description)
+            .HasColumnName("Description")
+            .HasColumnType("varchar(1024)")
+            .IsRequired();
 
         builder
-            .Property(entity => entity.FamilyName)
-            .HasColumnName("FamilyName")
-            .HasColumnType("varchar(32)");
+            .Property(entity => entity.CreatedAt)
+            .HasColumnName("CreatedAt")
+            .HasColumnType("timestamp with time zone")
+            .IsRequired();
+
+        builder
+            .Property(entity => entity.AgeCategoryType)
+            .HasColumnName("AgeCategoryType")
+            .HasConversion<string>()
+            .HasColumnType("varchar(32)")
+            .IsRequired();
 
         builder
             .HasOne(entity => entity.ApplicationUser)

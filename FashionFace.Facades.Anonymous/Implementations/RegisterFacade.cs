@@ -85,16 +85,29 @@ public sealed class RegisterFacade(
             );
         }
 
+        var profileId =
+            Guid.NewGuid();
+
+        var appearanceTraits =
+            new AppearanceTraits
+            {
+                Id = Guid.NewGuid(),
+                ProfileId = profileId,
+            };
+
         // todo : validate empty Name & Description
         var profile =
             new Profile
             {
-                Id = Guid.NewGuid(),
+                Id = profileId,
                 ApplicationUserId = applicationUser.Id,
                 CreatedAt = DateTime.UtcNow,
                 AgeCategoryType = AgeCategoryType.Minor,
                 Name = string.Empty,
                 Description = string.Empty,
+
+                AppearanceTraits =
+                    appearanceTraits,
             };
 
         await

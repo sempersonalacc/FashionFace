@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 
 using FashionFace.Common.Extensions.Dependencies.Models;
+using FashionFace.Common.Extensions.Implementations;
 
 using static FashionFace.Common.Extensions.Dependencies.Models.LifeTimeType;
 

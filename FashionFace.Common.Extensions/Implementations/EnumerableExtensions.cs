@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace FashionFace.Common.Extensions.Dependencies.Implementations;
+namespace FashionFace.Common.Extensions.Implementations;
 
 [SuppressMessage(
     "ReSharper",

@@ -105,6 +105,16 @@ public sealed class UserCreateFacade(
             );
         }
 
+        var profileId =
+            Guid.NewGuid();
+
+        var appearanceTraits =
+            new AppearanceTraits
+            {
+                Id = Guid.NewGuid(),
+                ProfileId = profileId,
+            };
+
         var profile =
             new Profile
             {
@@ -114,6 +124,9 @@ public sealed class UserCreateFacade(
                 AgeCategoryType = ageCategoryType,
                 Name = name,
                 Description = description,
+
+                AppearanceTraits =
+                    appearanceTraits,
             };
 
         await

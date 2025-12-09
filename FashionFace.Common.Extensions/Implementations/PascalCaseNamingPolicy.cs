@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace FashionFace.Common.Extensions.Dependencies.Implementations;
+namespace FashionFace.Common.Extensions.Implementations;
 
 public sealed class PascalCaseNamingPolicy : JsonNamingPolicy
 {

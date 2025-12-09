@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-namespace FashionFace.Common.Extensions.Dependencies.Implementations;
+namespace FashionFace.Common.Extensions.Implementations;
 
 public static class StringExtensions
 {

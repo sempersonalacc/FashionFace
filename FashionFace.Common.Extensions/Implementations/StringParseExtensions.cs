@@ -1,4 +1,4 @@
-﻿namespace FashionFace.Common.Extensions.Dependencies.Implementations;
+﻿namespace FashionFace.Common.Extensions.Implementations;
 
 public static class StringParseExtensions
 {

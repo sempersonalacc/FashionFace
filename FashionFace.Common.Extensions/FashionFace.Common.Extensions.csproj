@@ -7,8 +7,4 @@
         <ImplicitUsings>disable</ImplicitUsings>
     </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\FashionFace.Repositories.Context\FashionFace.Repositories.Context.csproj" />
-    </ItemGroup>
-
 </Project>

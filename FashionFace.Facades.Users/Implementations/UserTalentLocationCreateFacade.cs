@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using FashionFace.Common.Exceptions.Interfaces;
 using FashionFace.Facades.Users.Args;
 using FashionFace.Facades.Users.Interfaces;
 using FashionFace.Facades.Users.Models;
 using FashionFace.Repositories.Context.Enums;
 using FashionFace.Repositories.Context.Models;
 using FashionFace.Repositories.Interfaces;
+using FashionFace.Repositories.Read.Interfaces;
+
+using Microsoft.EntityFrameworkCore;
 
 namespace FashionFace.Facades.Users.Implementations;
 
 public sealed class UserTalentLocationCreateFacade(
-    ICreateRepository createRepository
+    IGenericReadRepository genericReadRepository,
+    ICreateRepository createRepository,
+    IExceptionDescriptor exceptionDescriptor
 ) : IUserTalentLocationCreateFacade
 {
     public async Task<UserTalentLocationCreateResult> Execute(
@@ -19,12 +25,32 @@ public sealed class UserTalentLocationCreateFacade(
     )
     {
         var (
-            _,
+            userId,
             talentId,
             locationType,
             cityId,
             place
             ) = args;
+
+        var talentCollection =
+            genericReadRepository.GetCollection<Talent>();
+
+        var talent =
+            await
+                talentCollection
+                    .FirstOrDefaultAsync(
+                        entity =>
+                            entity.Id == talentId
+                            && entity
+                                .ProfileTalent!
+                                .Profile!
+                                .ApplicationUserId == userId
+                    );
+
+        if (talent is null)
+        {
+            throw exceptionDescriptor.NotFound<Talent>();
+        }
 
         var isPlaceType =
             locationType == LocationType.Place;

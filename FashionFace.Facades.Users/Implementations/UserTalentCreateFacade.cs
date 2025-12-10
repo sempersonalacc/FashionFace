@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
+using FashionFace.Common.Exceptions.Interfaces;
 using FashionFace.Facades.Users.Args;
 using FashionFace.Facades.Users.Interfaces;
 using FashionFace.Facades.Users.Models;
@@ -14,7 +16,8 @@ namespace FashionFace.Facades.Users.Implementations;
 
 public sealed class UserTalentCreateFacade(
     IGenericReadRepository genericReadRepository,
-    ICreateRepository createRepository
+    ICreateRepository createRepository,
+    IExceptionDescriptor exceptionDescriptor
 ) : IUserTalentCreateFacade
 {
     public async Task<UserTalentCreateResult> Execute(
@@ -39,13 +42,43 @@ public sealed class UserTalentCreateFacade(
                             entity.ApplicationUserId == userId
                     );
 
+        if (profile is null)
+        {
+            throw exceptionDescriptor.NotFound<Profile>();
+        }
+
+        var profileTalentCollection =
+            genericReadRepository.GetCollection<ProfileTalent>();
+
+        var lastProfileTalent =
+            await
+                profileTalentCollection
+                    .Where(
+                        entity =>
+                            entity.ProfileId == profile.Id
+                    )
+                    .OrderBy(
+                        entity =>
+                            entity.PositionIndex
+                    )
+                    .FirstOrDefaultAsync();
+
+        var lastPositionIndex =
+            lastProfileTalent?.PositionIndex ?? 0;
+
+        var positionIndex =
+            lastPositionIndex + 1000;
+
         var talentId =
+            Guid.NewGuid();
+
+        var portfolioId =
             Guid.NewGuid();
 
         var portfolio =
             new Portfolio
             {
-                Id = Guid.NewGuid(),
+                Id = portfolioId,
                 IsDeleted = false,
                 TalentId = talentId,
                 Description = portfolioDescription,
@@ -56,16 +89,25 @@ public sealed class UserTalentCreateFacade(
             {
                 Id = talentId,
                 IsDeleted = false,
-                ProfileId = profile!.Id,
                 TalentType = talentType,
                 Description = talentDescription,
                 Portfolio = portfolio,
             };
 
+        var profileTalent =
+            new ProfileTalent
+            {
+                Id = Guid.NewGuid(),
+                ProfileId = profile.Id,
+                TalentId = talentId,
+                Talent = talent,
+                PositionIndex = positionIndex,
+            };
+
         await
             createRepository
                 .CreateAsync(
-                    talent
+                    profileTalent
                 );
 
         var result =

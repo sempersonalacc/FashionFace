@@ -9,14 +9,11 @@ namespace FashionFace.Repositories.Context.Models;
 
 public sealed class Talent : EntityBase, IWithIsDeleted
 {
-    public required Guid ProfileId { get; set; }
-
     public required bool IsDeleted { get; set; }
     public required string Description { get; set; }
     public required TalentType TalentType { get; set; }
 
     public Portfolio? Portfolio { get; set; }
+    public ProfileTalent? ProfileTalent { get; set; }
     public ICollection<TalentLocation> TalentLocationCollection { get; set; }
-
-    public Profile? Profile { get; set; }
 }

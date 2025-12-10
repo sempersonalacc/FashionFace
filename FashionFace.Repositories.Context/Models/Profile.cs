@@ -19,7 +19,7 @@ public sealed class Profile : EntityBase, IWithIsDeleted
     public required AgeCategoryType AgeCategoryType { get; set; }
 
     public AppearanceTraits? AppearanceTraits { get; set; }
-    public ICollection<Talent> TalentCollection { get; set; }
+    public ICollection<ProfileTalent> ProfileTalentCollection { get; set; }
 
     public ApplicationUser? ApplicationUser { get; set; }
 }

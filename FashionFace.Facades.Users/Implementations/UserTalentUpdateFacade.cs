@@ -37,6 +37,7 @@ public sealed class UserTalentUpdateFacade(
                         entity =>
                             entity.Id == talentId
                             && entity
+                                .ProfileTalent!
                                 .Profile!
                                 .ApplicationUserId == userId
                     );

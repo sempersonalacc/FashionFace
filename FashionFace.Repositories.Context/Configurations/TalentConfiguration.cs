@@ -16,18 +16,6 @@ public sealed class TalentConfiguration : EntityBaseConfiguration<Talent>
 
         builder
             .Property(
-                entity => entity.ProfileId
-            )
-            .HasColumnName(
-                "ProfileId"
-            )
-            .HasColumnType(
-                "uuid"
-            )
-            .IsRequired();
-
-        builder
-            .Property(
                 entity => entity.Description
             )
             .HasColumnName(
@@ -50,19 +38,5 @@ public sealed class TalentConfiguration : EntityBaseConfiguration<Talent>
                 "varchar(32)"
             )
             .IsRequired();
-
-        builder
-            .HasOne(
-                entity => entity.Profile
-            )
-            .WithMany(
-                entity => entity.TalentCollection
-            )
-            .HasForeignKey(
-                entity => entity.ProfileId
-            )
-            .OnDelete(
-                DeleteBehavior.Cascade
-            );
     }
 }

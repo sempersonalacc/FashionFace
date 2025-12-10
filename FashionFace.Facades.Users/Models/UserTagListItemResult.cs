@@ -4,6 +4,6 @@ namespace FashionFace.Facades.Users.Models;
 
 public sealed record UserTagListItemResult(
     Guid Id,
-    int PositionIndex,
+    double PositionIndex,
     string Name
 );

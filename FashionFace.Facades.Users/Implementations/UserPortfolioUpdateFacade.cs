@@ -38,6 +38,7 @@ public sealed class UserPortfolioUpdateFacade(
                             entity.Id == portfolioId
                             && entity
                                 .Talent!
+                                .ProfileTalent!
                                 .Profile!
                                 .ApplicationUserId
                             == userId

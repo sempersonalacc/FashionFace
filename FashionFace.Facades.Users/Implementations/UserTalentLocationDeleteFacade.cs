@@ -37,6 +37,7 @@ public sealed class UserTalentLocationDeleteFacade(
                             entity.Id == talentLocationId
                             && entity
                                 .Talent!
+                                .ProfileTalent!
                                 .Profile!
                                 .ApplicationUserId == userId
                     );

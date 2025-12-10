@@ -43,6 +43,7 @@ public sealed class UserTalentLocationUpdateFacade(
                             entity.Id == talentLocationId
                             && entity
                                 .Talent!
+                                .ProfileTalent!
                                 .Profile!
                                 .ApplicationUserId == userId
                     );

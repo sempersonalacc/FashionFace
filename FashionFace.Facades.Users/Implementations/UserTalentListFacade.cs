@@ -33,7 +33,9 @@ public sealed class UserTalentListFacade(
                 talentCollection
                     .Where(
                         entity =>
-                            entity.ProfileId == profileId
+                            entity
+                                .ProfileTalent!
+                                .ProfileId == profileId
                     )
                     .ToListAsync();
 

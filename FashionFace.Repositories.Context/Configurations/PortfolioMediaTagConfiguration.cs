@@ -46,7 +46,7 @@ public sealed class PortfolioMediaTagConfiguration : EntityBaseConfiguration<Por
                 "PositionIndex"
             )
             .HasColumnType(
-                "integer"
+                "double precision"
             )
             .IsRequired();
 

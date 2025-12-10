@@ -1,0 +1,55 @@
+﻿using System.Threading.Tasks;
+
+using FashionFace.Controllers.Base.Attributes.Groups;
+using FashionFace.Controllers.Users.Implementations.Base;
+using FashionFace.Controllers.Users.Requests.Models.Talents;
+using FashionFace.Controllers.Users.Responses.Models.Talents;
+using FashionFace.Facades.Users.Args.Talents;
+using FashionFace.Facades.Users.Interfaces.Talents;
+
+using Microsoft.AspNetCore.Mvc;
+
+namespace FashionFace.Controllers.Users.Implementations.Talents;
+
+[UserControllerGroup(
+    "Talent"
+)]
+[Route(
+    "api/v1/user/talent"
+)]
+public sealed class UserTalentCreateController(
+    IUserTalentCreateFacade facade
+) : BaseUserController
+{
+    [HttpPost]
+    public async Task<UserTalentCreateResponse> Invoke(
+        [FromBody] UserTalentCreateRequest request
+    )
+    {
+        var userId =
+            GetUserId();
+
+        var facadeArgs =
+            new UserTalentCreateArgs(
+                userId,
+                request.TalentType,
+                request.TalentDescription,
+                request.PortfolioDescription
+            );
+
+        var result =
+            await
+                facade
+                    .Execute(
+                        facadeArgs
+                    );
+
+        var response =
+            new UserTalentCreateResponse(
+                result.TalentId
+            );
+
+        return
+            response;
+    }
+}

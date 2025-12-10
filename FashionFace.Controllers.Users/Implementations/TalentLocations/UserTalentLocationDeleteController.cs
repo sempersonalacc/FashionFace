@@ -20,7 +20,7 @@ public sealed class UserTalentLocationDeleteController(
     IUserTalentLocationDeleteFacade facade
 ) : BaseUserController
 {
-    [HttpPost]
+    [HttpDelete]
     public async Task Invoke(
         [FromBody] UserTalentLocationDeleteRequest request
     )

@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FashionFace.Controllers.Authorized.Implementations;
 
-[AdminControllerGroup(
+[AuthorizedControllerGroupAttribute(
     "City"
 )]
 [Route(

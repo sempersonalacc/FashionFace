@@ -13,4 +13,8 @@
         <PackageReference Include="SkiaSharp.NativeAssets.Linux.NoDependencies" Version="3.119.0"/>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\FashionFace.Common.Extensions.Dependencies\FashionFace.Common.Extensions.Dependencies.csproj" />
+    </ItemGroup>
+
 </Project>

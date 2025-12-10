@@ -6,6 +6,7 @@ using FashionFace.Dependencies.Identity.Interfaces;
 using FashionFace.Facades.Admins.Args;
 using FashionFace.Facades.Admins.Interfaces;
 using FashionFace.Facades.Admins.Models;
+using FashionFace.Repositories.Context.Enums;
 using FashionFace.Repositories.Context.Models;
 using FashionFace.Repositories.Context.Models.IdentityEntities;
 using FashionFace.Repositories.Interfaces;
@@ -108,17 +109,41 @@ public sealed class UserCreateFacade(
         var profileId =
             Guid.NewGuid();
 
+
+        var appearanceTraitsId =
+            Guid.NewGuid();
+
+        var maleTraits =
+            new MaleTraits
+            {
+                Id =  Guid.NewGuid(),
+                AppearanceTraitsId = appearanceTraitsId,
+                FacialHairLengthType = HairLengthType.Undefined,
+            };
+
+        var femaleTraits =
+            new FemaleTraits
+            {
+                Id =  Guid.NewGuid(),
+                AppearanceTraitsId = appearanceTraitsId,
+                BustSizeType =  BustSizeType.Undefined,
+            };
+
         var appearanceTraits =
             new AppearanceTraits
             {
-                Id = Guid.NewGuid(),
+                Id = appearanceTraitsId,
                 ProfileId = profileId,
+
+                MaleTraits = maleTraits,
+                FemaleTraits = femaleTraits,
             };
 
         var profile =
             new Profile
             {
                 Id = Guid.NewGuid(),
+                IsDeleted = false,
                 ApplicationUserId = applicationUser.Id,
                 CreatedAt = DateTime.UtcNow,
                 AgeCategoryType = ageCategoryType,

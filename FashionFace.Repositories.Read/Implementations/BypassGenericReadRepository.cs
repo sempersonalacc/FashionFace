@@ -3,13 +3,15 @@
 using FashionFace.Repositories.Context;
 using FashionFace.Repositories.Read.Interfaces;
 
+using Microsoft.EntityFrameworkCore;
+
 namespace FashionFace.Repositories.Read.Implementations;
 
-public sealed class GenericReadRepository(
+public sealed class BypassGenericReadRepository(
     ApplicationDatabaseContext context
-) : IGenericReadRepository
+) : IBypassGenericReadRepository
 {
     public IQueryable<T> GetCollection<T>()
         where T : class =>
-        context.Set<T>();
+        context.Set<T>().IgnoreQueryFilters();
 }

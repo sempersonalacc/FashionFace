@@ -4,8 +4,10 @@ using FashionFace.Repositories.Context.Enums;
 
 namespace FashionFace.Facades.Users.Args;
 
-public sealed record UserTalentUpdateArgs(
+public sealed record UserTalentLocationCreateArgs(
     Guid UserId,
     Guid TalentId,
-    string? Description
+    LocationType LocationType,
+    Guid CityId,
+    PlaceArgs? Place
 );

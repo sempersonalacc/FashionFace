@@ -9,7 +9,7 @@ public sealed class MaleTraits : EntityBase
 {
     public required Guid AppearanceTraitsId { get; set; }
 
-    public HairLengthType FacialHairLengthType { get; set; }
+    public required HairLengthType FacialHairLengthType { get; set; }
 
     public AppearanceTraits? AppearanceTraits { get; set; }
 }

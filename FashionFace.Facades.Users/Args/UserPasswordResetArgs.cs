@@ -2,7 +2,7 @@
 
 namespace FashionFace.Facades.Users.Args;
 
-public sealed record UserPasswordSetArgs(
+public sealed record UserPasswordResetArgs(
     Guid UserId,
     string OldPassword,
     string NewPassword

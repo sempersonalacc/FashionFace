@@ -11,51 +11,47 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FashionFace.Facades.Users.Implementations;
 
-public sealed class UserTalentUpdateFacade(
+public sealed class UserTalentLocationDeleteFacade(
     IGenericReadRepository genericReadRepository,
-    IExceptionDescriptor exceptionDescriptor,
-    IUpdateRepository updateRepository
-) : IUserTalentUpdateFacade
+    IUpdateRepository updateRepository,
+    IExceptionDescriptor exceptionDescriptor
+) : IUserTalentLocationDeleteFacade
 {
     public async Task Execute(
-        UserTalentUpdateArgs args
+        UserTalentLocationDeleteArgs args
     )
     {
         var (
             userId,
-            talentId,
-            description
+            talentLocationId
             ) = args;
 
-        var talentCollection =
-            genericReadRepository.GetCollection<Talent>();
+        var talentLocationCollection =
+            genericReadRepository.GetCollection<TalentLocation>();
 
-        var talent =
+        var talentLocation =
             await
-                talentCollection
+                talentLocationCollection
                     .FirstOrDefaultAsync(
                         entity =>
-                            entity.Id == talentId
+                            entity.Id == talentLocationId
                             && entity
+                                .Talent!
                                 .Profile!
                                 .ApplicationUserId == userId
                     );
 
-        if (talent is null)
+        if (talentLocation is null)
         {
-            throw exceptionDescriptor.NotFound<Talent>();
+            throw exceptionDescriptor.NotFound<TalentLocation>();
         }
 
-        if (description is not null)
-        {
-            talent.Description =
-                description;
-        }
+        talentLocation.IsDeleted = true;
 
         await
             updateRepository
                 .UpdateAsync(
-                    talent
+                    talentLocation
                 );
     }
 }

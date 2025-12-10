@@ -44,7 +44,7 @@ public sealed class UserTalentListFacade(
                         new UserTalentListItemResult(
                             entity.Id,
                             entity.Description,
-                            entity.Type
+                            entity.TalentType
                         )
                 )
                 .ToList();

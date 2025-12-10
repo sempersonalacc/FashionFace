@@ -10,13 +10,15 @@ using static FashionFace.Common.Exceptions.Constants.ExceptionConstants;
 
 namespace FashionFace.Facades.Users.Implementations;
 
-public sealed class UserPasswordSetFacade(
+public sealed class UserPasswordResetFacade(
     IUserManagerDecorator userManagerDecorator,
     IPasswordManagerDecorator passwordManagerDecorator,
     IExceptionDescriptor exceptionDescriptor
-) : IUserPasswordSetFacade
+) : IUserPasswordResetFacade
 {
-    public async Task Execute(UserPasswordSetArgs args)
+    public async Task Execute(
+        UserPasswordResetArgs args
+    )
     {
         var (
             userId,

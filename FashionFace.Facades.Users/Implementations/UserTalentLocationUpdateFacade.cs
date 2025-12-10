@@ -27,7 +27,7 @@ public sealed class UserTalentLocationUpdateFacade(
         var (
             userId,
             talentLocationId,
-            locationType
+            locationType,
             cityId,
             place
             ) = args;
@@ -58,49 +58,39 @@ public sealed class UserTalentLocationUpdateFacade(
         var oldPlaceId =
             talentLocation.PlaceId;
 
-        if (locationType == LocationType.Place && place is not null)
+        if (locationType == LocationType.Place)
         {
-            var placeId =
+            var buildingId =
                 Guid.NewGuid();
 
-            var newPlace =
-                new Place
-                {
-                    Id = placeId,
-                    Street = place.Street,
+            var landmarkId =
+                Guid.NewGuid();
 
+            var building =
+                new Building
+                {
+                    Id = buildingId,
+                    Name = place?.BuildingName ??  string.Empty,
                 };
 
-            if (place.BuildingName is not null)
-            {
-                var newBuilding =
-                    new Building
-                    {
-                        Id = Guid.NewGuid(),
-                        PlaceId = placeId,
-                        Name = place.BuildingName,
-                    };
-
-                newPlace.Building =
-                    newBuilding;
-            }
-
-            if (place.LandmarkName is not null)
-            {
-                var newLandmark =
-                    new Landmark
-                    {
-                        Id = Guid.NewGuid(),
-                        PlaceId = placeId,
-                        Name = place.LandmarkName,
-                    };
-
-                newPlace.Landmark =
-                    newLandmark;
-            }
+            var landmark =
+                new Landmark
+                {
+                    Id = landmarkId,
+                    Name = place?.LandmarkName ??  string.Empty,
+                };
 
             talentLocation.Place =
-                newPlace;
+                new()
+                {
+                    Id = Guid.NewGuid(),
+                    BuildingId = buildingId,
+                    LandmarkId = landmarkId,
+                    Street = place?.Street ?? string.Empty,
+                    Building = building,
+                    Landmark = landmark,
+
+                };
         }
 
         await

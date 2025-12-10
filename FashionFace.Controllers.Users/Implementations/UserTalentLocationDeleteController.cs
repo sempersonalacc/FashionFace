@@ -16,40 +16,22 @@ namespace FashionFace.Controllers.Users.Implementations;
 [Route(
     "api/v1/user/talent-location"
 )]
-public sealed class UserTalentLocationUpdateController(
-    IUserTalentLocationUpdateFacade facade
+public sealed class UserTalentLocationDeleteController(
+    IUserTalentLocationDeleteFacade facade
 ) : BaseUserController
 {
-    [ApiExplorerSettings(
-        IgnoreApi = true
-    )]
-    [HttpPut]
+    [HttpPost]
     public async Task Invoke(
-        [FromBody] UserTalentLocationUpdateRequest request
+        [FromBody] UserTalentLocationDeleteRequest request
     )
     {
         var userId =
             GetUserId();
 
-        var requestPlace =
-            request.Place;
-
-        var placeArgs =
-            requestPlace is null
-                ? null
-                : new PlaceArgs(
-                    requestPlace.Street,
-                    requestPlace.BuildingName,
-                    requestPlace.LandmarkName
-                );
-
         var facadeArgs =
-            new UserTalentLocationUpdateArgs(
+            new UserTalentLocationDeleteArgs(
                 userId,
-                request.TalentLocationId,
-                request.LocationType,
-                request.CityId,
-                placeArgs
+                request.TalentLocationId
             );
 
         await

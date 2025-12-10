@@ -16,6 +16,30 @@ public sealed class PlaceConfiguration : EntityBaseConfiguration<Place>
 
         builder
             .Property(
+                entity => entity.BuildingId
+            )
+            .HasColumnName(
+                "BuildingId"
+            )
+            .HasColumnType(
+                "uuid"
+            )
+            .IsRequired();
+
+        builder
+            .Property(
+                entity => entity.LandmarkId
+            )
+            .HasColumnName(
+                "LandmarkId"
+            )
+            .HasColumnType(
+                "uuid"
+            )
+            .IsRequired();
+
+        builder
+            .Property(
                 entity => entity.Street
             )
             .HasColumnName(
@@ -25,5 +49,33 @@ public sealed class PlaceConfiguration : EntityBaseConfiguration<Place>
                 "varchar(128)"
             )
             .IsRequired();
+
+        builder
+            .HasOne(
+                entity => entity.Building
+            )
+            .WithOne(
+                entity => entity.Place
+            )
+            .HasForeignKey<Place>(
+                entity => entity.BuildingId
+            )
+            .OnDelete(
+                DeleteBehavior.Cascade
+            );
+
+        builder
+            .HasOne(
+                entity => entity.Landmark
+            )
+            .WithOne(
+                entity => entity.Place
+            )
+            .HasForeignKey<Place>(
+                entity => entity.LandmarkId
+            )
+            .OnDelete(
+                DeleteBehavior.Cascade
+            );
     }
 }

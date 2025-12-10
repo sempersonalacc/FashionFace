@@ -16,23 +16,22 @@ namespace FashionFace.Controllers.Users.Implementations;
 [Route(
     "api/v1/user/talent"
 )]
-public sealed class UserTalentUpdateController(
-    IUserTalentUpdateFacade facade
+public sealed class UserTalentDeleteController(
+    IUserTalentDeleteFacade facade
 ) : BaseUserController
 {
-    [HttpPut]
+    [HttpDelete]
     public async Task Invoke(
-        [FromBody] UserTalentUpdateRequest request
+        [FromBody] UserTalentDeleteRequest request
     )
     {
         var userId =
             GetUserId();
 
         var facadeArgs =
-            new UserTalentUpdateArgs(
+            new UserTalentDeleteArgs(
                 userId,
-                request.TalentId,
-                request.Description
+                request.TalentId
             );
 
         await

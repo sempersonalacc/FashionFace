@@ -14,22 +14,22 @@ namespace FashionFace.Controllers.Users.Implementations;
     "Users"
 )]
 [Route(
-    "api/v1/user/password/set"
+    "api/v1/user/password/reset"
 )]
-public sealed class UserPasswordSetController(
-    IUserPasswordSetFacade facade
+public sealed class UserPasswordResetController(
+    IUserPasswordResetFacade facade
 ) : BaseUserController
 {
     [HttpPatch]
     public async Task Invoke(
-        [FromBody] UserPasswordSetRequest request
+        [FromBody] UserPasswordResetRequest request
     )
     {
         var userId =
             GetUserId();
 
         var facadeArgs =
-            new UserPasswordSetArgs(
+            new UserPasswordResetArgs(
                 userId,
                 request.OldPassword,
                 request.NewPassword

@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using FashionFace.Repositories.Context.Interfaces;
 using FashionFace.Repositories.Context.Models.Base;
 
 namespace FashionFace.Repositories.Context.Models;
 
-public sealed class Portfolio : EntityBase
+public sealed class Portfolio : EntityBase, IWithIsDeleted
 {
     public required Guid TalentId { get; set; }
 
+    public required bool IsDeleted { get; set; }
     public required string Description { get; set; }
 
     public ICollection<PortfolioMedia> PortfolioMediaCollection { get; set; }

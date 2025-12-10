@@ -40,10 +40,10 @@ public sealed class TalentConfiguration : EntityBaseConfiguration<Talent>
 
         builder
             .Property(
-                entity => entity.Type
+                entity => entity.TalentType
             )
             .HasColumnName(
-                "Type"
+                "LocationType"
             )
             .HasConversion<string>()
             .HasColumnType(

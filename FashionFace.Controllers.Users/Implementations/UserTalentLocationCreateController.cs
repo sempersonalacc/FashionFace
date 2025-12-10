@@ -3,6 +3,7 @@
 using FashionFace.Controllers.Base.Attributes.Groups;
 using FashionFace.Controllers.Users.Implementations.Base;
 using FashionFace.Controllers.Users.Requests.Models;
+using FashionFace.Controllers.Users.Responses.Models;
 using FashionFace.Facades.Users.Args;
 using FashionFace.Facades.Users.Interfaces;
 
@@ -16,16 +17,13 @@ namespace FashionFace.Controllers.Users.Implementations;
 [Route(
     "api/v1/user/talent-location"
 )]
-public sealed class UserTalentLocationUpdateController(
-    IUserTalentLocationUpdateFacade facade
+public sealed class UserTalentLocationCreateController(
+    IUserTalentLocationCreateFacade facade
 ) : BaseUserController
 {
-    [ApiExplorerSettings(
-        IgnoreApi = true
-    )]
-    [HttpPut]
-    public async Task Invoke(
-        [FromBody] UserTalentLocationUpdateRequest request
+    [HttpPost]
+    public async Task<UserTalentLocationCreateResponse> Invoke(
+        [FromBody] UserTalentLocationCreateRequest request
     )
     {
         var userId =
@@ -44,18 +42,27 @@ public sealed class UserTalentLocationUpdateController(
                 );
 
         var facadeArgs =
-            new UserTalentLocationUpdateArgs(
+            new UserTalentLocationCreateArgs(
                 userId,
-                request.TalentLocationId,
+                request.TalentId,
                 request.LocationType,
                 request.CityId,
                 placeArgs
             );
 
-        await
-            facade
-                .Execute(
-                    facadeArgs
-                );
+        var result =
+            await
+                facade
+                    .Execute(
+                        facadeArgs
+                    );
+
+        var response =
+            new UserTalentLocationCreateResponse(
+                result.TalentLocationId
+            );
+
+        return
+            response;
     }
 }

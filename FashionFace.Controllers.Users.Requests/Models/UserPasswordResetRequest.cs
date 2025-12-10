@@ -1,6 +1,6 @@
 ﻿namespace FashionFace.Controllers.Users.Requests.Models;
 
-public sealed record UserPasswordSetRequest(
+public sealed record UserPasswordResetRequest(
     string OldPassword,
     string NewPassword
 );

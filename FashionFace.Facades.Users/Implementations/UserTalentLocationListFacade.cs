@@ -93,7 +93,7 @@ public sealed class UserTalentLocationListFacade(
             var talentLocationListItemResult =
                 new UserTalentLocationListItemResult(
                     talentLocation.Id,
-                    talentLocation.Type,
+                    talentLocation.LocationType,
                     cityModel,
                     placeModel
                 );

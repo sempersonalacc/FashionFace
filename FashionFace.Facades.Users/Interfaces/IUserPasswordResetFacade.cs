@@ -3,4 +3,4 @@ using FashionFace.Facades.Users.Args;
 
 namespace FashionFace.Facades.Users.Interfaces;
 
-public interface IUserPasswordSetFacade : ICommandFacade<UserPasswordSetArgs>;
+public interface IUserPasswordResetFacade : ICommandFacade<UserPasswordResetArgs>;

@@ -16,18 +16,6 @@ public sealed class BuildingConfiguration : EntityBaseConfiguration<Building>
 
         builder
             .Property(
-                entity => entity.PlaceId
-            )
-            .HasColumnName(
-                "PlaceId"
-            )
-            .HasColumnType(
-                "uuid"
-            )
-            .IsRequired();
-
-        builder
-            .Property(
                 entity => entity.Name
             )
             .HasColumnName(
@@ -37,19 +25,5 @@ public sealed class BuildingConfiguration : EntityBaseConfiguration<Building>
                 "varchar(128)"
             )
             .IsRequired();
-
-        builder
-            .HasOne(
-                entity => entity.Place
-            )
-            .WithOne(
-                entity => entity.Building
-            )
-            .HasForeignKey<Building>(
-                entity => entity.PlaceId
-            )
-            .OnDelete(
-                DeleteBehavior.Cascade
-            );
     }
 }

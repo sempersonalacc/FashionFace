@@ -88,11 +88,33 @@ public sealed class RegisterFacade(
         var profileId =
             Guid.NewGuid();
 
+        var appearanceTraitsId =
+            Guid.NewGuid();
+
+        var maleTraits =
+            new MaleTraits
+        {
+            Id =  Guid.NewGuid(),
+            AppearanceTraitsId = appearanceTraitsId,
+            FacialHairLengthType = HairLengthType.Undefined,
+        };
+
+        var femaleTraits =
+            new FemaleTraits
+        {
+            Id =  Guid.NewGuid(),
+            AppearanceTraitsId = appearanceTraitsId,
+            BustSizeType =  BustSizeType.Undefined,
+        };
+
         var appearanceTraits =
             new AppearanceTraits
             {
-                Id = Guid.NewGuid(),
+                Id = appearanceTraitsId,
                 ProfileId = profileId,
+
+                MaleTraits = maleTraits,
+                FemaleTraits = femaleTraits,
             };
 
         // todo : validate empty Name & Description
@@ -100,6 +122,7 @@ public sealed class RegisterFacade(
             new Profile
             {
                 Id = profileId,
+                IsDeleted = false,
                 ApplicationUserId = applicationUser.Id,
                 CreatedAt = DateTime.UtcNow,
                 AgeCategoryType = AgeCategoryType.Minor,

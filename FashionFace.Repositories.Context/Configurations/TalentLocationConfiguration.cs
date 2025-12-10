@@ -40,10 +40,10 @@ public sealed class TalentLocationConfiguration : EntityBaseConfiguration<Talent
 
         builder
             .Property(
-                entity => entity.Type
+                entity => entity.LocationType
             )
             .HasColumnName(
-                "Type"
+                "LocationType"
             )
             .HasConversion<string>()
             .HasColumnType(
@@ -60,7 +60,8 @@ public sealed class TalentLocationConfiguration : EntityBaseConfiguration<Talent
             )
             .HasColumnType(
                 "uuid"
-            );
+            )
+            .IsRequired();
 
         builder
             .HasOne(

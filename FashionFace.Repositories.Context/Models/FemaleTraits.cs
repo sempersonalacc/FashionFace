@@ -9,7 +9,7 @@ public sealed class FemaleTraits : EntityBase
 {
     public required Guid AppearanceTraitsId { get; set; }
 
-    public BustSizeType BustSizeType { get; set; }
+    public required BustSizeType BustSizeType { get; set; }
 
     public AppearanceTraits? AppearanceTraits { get; set; }
 }

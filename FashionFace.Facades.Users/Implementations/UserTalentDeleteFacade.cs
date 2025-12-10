@@ -11,20 +11,19 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FashionFace.Facades.Users.Implementations;
 
-public sealed class UserTalentUpdateFacade(
+public sealed class UserTalentDeleteFacade(
     IGenericReadRepository genericReadRepository,
-    IExceptionDescriptor exceptionDescriptor,
-    IUpdateRepository updateRepository
-) : IUserTalentUpdateFacade
+    IUpdateRepository updateRepository,
+    IExceptionDescriptor exceptionDescriptor
+) : IUserTalentDeleteFacade
 {
     public async Task Execute(
-        UserTalentUpdateArgs args
+        UserTalentDeleteArgs args
     )
     {
         var (
             userId,
-            talentId,
-            description
+            talentId
             ) = args;
 
         var talentCollection =
@@ -46,11 +45,7 @@ public sealed class UserTalentUpdateFacade(
             throw exceptionDescriptor.NotFound<Talent>();
         }
 
-        if (description is not null)
-        {
-            talent.Description =
-                description;
-        }
+        talent.IsDeleted = true;
 
         await
             updateRepository

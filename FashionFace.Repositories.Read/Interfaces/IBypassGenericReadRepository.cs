@@ -2,7 +2,7 @@
 
 namespace FashionFace.Repositories.Read.Interfaces;
 
-public interface IGenericReadRepository
+public interface IBypassGenericReadRepository
 {
     IQueryable<T> GetCollection<T>()
         where T : class;

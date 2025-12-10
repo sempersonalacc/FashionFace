@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using FashionFace.Common.Exceptions.Interfaces;
 using FashionFace.Facades.Users.Args;
@@ -15,7 +14,6 @@ namespace FashionFace.Facades.Users.Implementations;
 
 public sealed class UserMaleTraitsUpdateFacade(
     IGenericReadRepository genericReadRepository,
-    ICreateRepository createRepository,
     IUpdateRepository updateRepository,
     IExceptionDescriptor exceptionDescriptor
 ) : IUserMaleTraitsUpdateFacade
@@ -70,32 +68,18 @@ public sealed class UserMaleTraitsUpdateFacade(
                             == userId
                     );
 
-        if (maleTraits is not null)
+        if (maleTraits is null)
         {
-            maleTraits.FacialHairLengthType =
-                facialHairLengthType;
-
-            await
-                updateRepository
-                    .UpdateAsync(
-                        maleTraits
-                    );
+            throw exceptionDescriptor.NotFound<MaleTraits>();
         }
-        else
-        {
-            var newMaleTraits =
-                new MaleTraits
-                {
-                    Id = Guid.NewGuid(),
-                    AppearanceTraitsId = appearanceTraits.Id,
-                    FacialHairLengthType = facialHairLengthType,
-                };
 
-            await
-                createRepository
-                    .CreateAsync(
-                        newMaleTraits
-                    );
-        }
+        maleTraits.FacialHairLengthType =
+            facialHairLengthType;
+
+        await
+            updateRepository
+                .UpdateAsync(
+                    maleTraits
+                );
     }
 }

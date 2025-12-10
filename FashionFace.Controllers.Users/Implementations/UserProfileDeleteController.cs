@@ -11,28 +11,26 @@ using Microsoft.AspNetCore.Mvc;
 namespace FashionFace.Controllers.Users.Implementations;
 
 [UserControllerGroup(
-    "Talent"
+    "Profile"
 )]
 [Route(
-    "api/v1/user/talent"
+    "api/v1/user/profile"
 )]
-public sealed class UserTalentUpdateController(
-    IUserTalentUpdateFacade facade
+public sealed class UserProfileDeleteController(
+    IUserProfileDeleteFacade facade
 ) : BaseUserController
 {
-    [HttpPut]
+    [HttpDelete]
     public async Task Invoke(
-        [FromBody] UserTalentUpdateRequest request
+        [FromBody] UserProfileDeleteRequest request
     )
     {
         var userId =
             GetUserId();
 
         var facadeArgs =
-            new UserTalentUpdateArgs(
-                userId,
-                request.TalentId,
-                request.Description
+            new UserProfileDeleteArgs(
+                userId
             );
 
         await

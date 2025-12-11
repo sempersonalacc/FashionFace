@@ -13,7 +13,7 @@ public sealed class Portfolio : EntityBase, IWithIsDeleted
     public required bool IsDeleted { get; set; }
     public required string Description { get; set; }
 
-    public ICollection<PortfolioMedia> PortfolioMediaCollection { get; set; }
+    public ICollection<PortfolioMediaAggregate> PortfolioMediaCollection { get; set; }
     public ICollection<PortfolioTag> PortfolioTagCollection { get; set; }
 
     public Talent? Talent { get; set; }

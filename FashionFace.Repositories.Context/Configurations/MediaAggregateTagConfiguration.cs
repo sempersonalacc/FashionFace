@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations;
 
-public sealed class PortfolioTagConfiguration : EntityBaseConfiguration<PortfolioTag>
+public sealed class MediaAggregateTagConfiguration : EntityBaseConfiguration<MediaAggregateTag>
 {
-    public override void Configure(EntityTypeBuilder<PortfolioTag> builder)
+    public override void Configure(EntityTypeBuilder<MediaAggregateTag> builder)
     {
         base.Configure(
             builder
@@ -16,10 +16,10 @@ public sealed class PortfolioTagConfiguration : EntityBaseConfiguration<Portfoli
 
         builder
             .Property(
-                entity => entity.PortfolioId
+                entity => entity.MediaAggregateId
             )
             .HasColumnName(
-                "PortfolioMediaAggregateId"
+                "MediaAggregateId"
             )
             .HasColumnType(
                 "uuid"
@@ -52,13 +52,13 @@ public sealed class PortfolioTagConfiguration : EntityBaseConfiguration<Portfoli
 
         builder
             .HasOne(
-                entity => entity.Portfolio
+                entity => entity.MediaAggregate
             )
             .WithMany(
-                entity => entity.PortfolioTagCollection
+                entity => entity.PortfolioMediaTagCollection
             )
             .HasForeignKey(
-                entity => entity.PortfolioId
+                entity => entity.MediaAggregateId
             )
             .OnDelete(
                 DeleteBehavior.Cascade
@@ -69,7 +69,7 @@ public sealed class PortfolioTagConfiguration : EntityBaseConfiguration<Portfoli
                 entity => entity.Tag
             )
             .WithMany(
-                entity => entity.PortfolioTagCollection
+                entity => entity.PortfolioMediaTagCollection
             )
             .HasForeignKey(
                 entity => entity.TagId

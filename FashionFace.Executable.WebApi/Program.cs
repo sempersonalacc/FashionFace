@@ -55,11 +55,25 @@ serviceCollection.Configure<NanoBananaSettings>(
     nanoBananaSection
 );
 
+var corsSection = builderConfiguration.GetSection(
+    "Cors"
+);
+serviceCollection.Configure<CorsSettings>(
+    corsSection
+);
+
 var jwtSection = builderConfiguration.GetSection(
     "Jwt"
 );
 serviceCollection.Configure<JwtSettings>(
     jwtSection
+);
+
+var applicationSection = builderConfiguration.GetSection(
+    "Application"
+);
+serviceCollection.Configure<ApplicationSettings>(
+    applicationSection
 );
 
 serviceCollection.AddLogging(
@@ -267,19 +281,8 @@ serviceCollection
         }
     );
 
-var corsSection =
-    builderConfiguration
-        .GetSection(
-            "Cors"
-        );
-
-serviceCollection.Configure<CorsSettings>(
-    corsSection
-);
-
 var corsSettings =
     corsSection.Get<CorsSettings>();
-
 
 foreach (var item in corsSettings.OriginList)
 {

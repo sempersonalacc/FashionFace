@@ -5,13 +5,13 @@ using FashionFace.Repositories.Context.Models.Base;
 
 namespace FashionFace.Repositories.Context.Models;
 
-public sealed class PortfolioMediaTag : EntityBase, IWithPositionIndex
+public sealed class MediaAggregateTag : EntityBase, IWithPositionIndex
 {
-    public required Guid PortfolioMediaId { get; set; }
+    public required Guid MediaAggregateId { get; set; }
     public required Guid TagId { get; set; }
 
     public required double PositionIndex { get; set; }
 
-    public PortfolioMedia? PortfolioMedia { get; set; }
+    public MediaAggregate? MediaAggregate { get; set; }
     public Tag? Tag { get; set; }
 }

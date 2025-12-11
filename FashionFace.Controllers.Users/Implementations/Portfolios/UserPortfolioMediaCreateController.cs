@@ -20,9 +20,6 @@ public sealed class UserPortfolioMediaCreateController(
     IUserPortfolioMediaCreateFacade facade
 ) : BaseUserController
 {
-    [ApiExplorerSettings(
-        IgnoreApi = true
-    )]
     [HttpPost]
     public async Task Invoke(
         [FromBody] UserPortfolioMediaCreateRequest request

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using FashionFace.Common.Exceptions.Interfaces;
@@ -38,16 +37,13 @@ public sealed class UserPortfolioMediaListFacade(
                         entity => entity.PortfolioMediaCollection
                     )
                     .ThenInclude(
-                        entity => entity.Media
+                        entity => entity.MediaAggregate
+                    )
+                    .ThenInclude(
+                        entity => entity!.PreviewMedia
                     )
                     .ThenInclude(
                         entity => entity!.OptimizedFile
-                    )
-                    .Include(
-                        entity => entity.PortfolioMediaCollection
-                    )
-                    .ThenInclude(
-                        entity => entity.PortfolioMediaTagCollection
                     )
                     .FirstOrDefaultAsync(
                         entity => entity.Id == portfolioId
@@ -68,25 +64,22 @@ public sealed class UserPortfolioMediaListFacade(
         {
             var optimizedFileUri =
                 portfolioMedia
-                    .Media!
+                    .MediaAggregate!
+                    .PreviewMedia!
                     .OptimizedFile!
-                    .Uri;
+                    .RelativePath;
 
-            var tagIdList =
+            var description =
                 portfolioMedia
-                    .PortfolioMediaTagCollection
-                    .Select(
-                        entity => entity.TagId
-                    )
-                    .ToList();
+                    .MediaAggregate
+                    .Description;
 
             var userMediaListItemResult =
                 new UserMediaListItemResult(
-                    portfolioMedia.Id,
+                    portfolioMedia.MediaAggregateId,
                     portfolioMedia.PositionIndex,
-                    portfolioMedia.Description,
-                    optimizedFileUri,
-                    tagIdList
+                    description,
+                    optimizedFileUri
                 );
 
             mediaListResults

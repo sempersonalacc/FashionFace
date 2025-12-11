@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using FashionFace.Common.Exceptions.Interfaces;
@@ -24,7 +25,7 @@ public sealed class UserPortfolioMediaCreateFacade(
     {
         var (
             userId,
-            portfolioMediaId,
+            mediaId,
             portfolioId
             ) = args;
 
@@ -49,34 +50,16 @@ public sealed class UserPortfolioMediaCreateFacade(
             throw exceptionDescriptor.NotFound<Portfolio>();
         }
 
-        var portfolioMediaCollection =
-            genericReadRepository.GetCollection<PortfolioMedia>();
-
-        var portfolioMedia =
-            await
-                portfolioMediaCollection
-                    .FirstOrDefaultAsync(
-                        entity =>
-                            entity.Id == portfolioMediaId
-                            && entity
-                                .Portfolio!
-                                .Talent!
-                                .ProfileTalent!
-                                .Profile!
-                                .ApplicationUserId
-                            == userId
-                    );
-
-        if (portfolioMedia is not null)
-        {
-            throw exceptionDescriptor.Exists<PortfolioMedia>();
-        }
+        var portfolioMediaAggregateCollection =
+            genericReadRepository.GetCollection<PortfolioMediaAggregate>();
 
         var lastPortfolioMedia =
             await
-                portfolioMediaCollection
+                portfolioMediaAggregateCollection
                     .Where(
-                        entity => entity
+                        entity =>
+                            entity.PortfolioId == portfolioId
+                            && entity
                                 .Portfolio!
                                 .Talent!
                                 .ProfileTalent!
@@ -95,20 +78,19 @@ public sealed class UserPortfolioMediaCreateFacade(
         var positionIndex =
             lastPositionIndex + 1000;
 
-        //todo : make something with this
-        /*var newPortfolioMedia =
-            new PortfolioMedia
+        var newPortfolioMediaAggregate =
+            new PortfolioMediaAggregate
             {
                 Id = Guid.NewGuid(),
-                MediaId = portfolioMediaId,
-                PortfolioId = portfolioId,
                 PositionIndex = positionIndex,
+                PortfolioId = portfolioId,
+                MediaAggregateId = mediaId,
             };
 
         await
             createRepository
                 .CreateAsync(
-                    newPortfolioMedia
-                );*/
+                    newPortfolioMediaAggregate
+                );
     }
 }

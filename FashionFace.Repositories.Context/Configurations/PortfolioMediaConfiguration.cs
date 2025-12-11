@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations;
 
-public sealed class PortfolioMediaConfiguration : EntityBaseConfiguration<PortfolioMedia>
+public sealed class PortfolioMediaConfiguration : EntityBaseConfiguration<PortfolioMediaAggregate>
 {
-    public override void Configure(EntityTypeBuilder<PortfolioMedia> builder)
+    public override void Configure(EntityTypeBuilder<PortfolioMediaAggregate> builder)
     {
         base.Configure(
             builder
@@ -28,10 +28,10 @@ public sealed class PortfolioMediaConfiguration : EntityBaseConfiguration<Portfo
 
         builder
             .Property(
-                entity => entity.MediaId
+                entity => entity.MediaAggregateId
             )
             .HasColumnName(
-                "MediaId"
+                "MediaAggregateId"
             )
             .HasColumnType(
                 "uuid"
@@ -40,13 +40,13 @@ public sealed class PortfolioMediaConfiguration : EntityBaseConfiguration<Portfo
 
         builder
             .Property(
-                entity => entity.Description
+                entity => entity.PositionIndex
             )
             .HasColumnName(
-                "Description"
+                "PositionIndex"
             )
             .HasColumnType(
-                "text"
+                "double precision"
             )
             .IsRequired();
 
@@ -66,13 +66,11 @@ public sealed class PortfolioMediaConfiguration : EntityBaseConfiguration<Portfo
 
         builder
             .HasOne(
-                entity => entity.Media
+                entity => entity.MediaAggregate
             )
-            .WithOne(
-                entity => entity.PortfolioMedia
-            )
-            .HasForeignKey<PortfolioMedia>(
-                entity => entity.MediaId
+            .WithOne()
+            .HasForeignKey<PortfolioMediaAggregate>(
+                entity => entity.MediaAggregateId
             )
             .OnDelete(
                 DeleteBehavior.Cascade

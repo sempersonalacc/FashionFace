@@ -23,18 +23,18 @@ public sealed class UserPortfolioMediaDeleteFacade(
     {
         var (
             userId,
-            portfolioMediaId
+            mediaId
             ) = args;
 
-        var portfolioMediaCollection =
-            genericReadRepository.GetCollection<PortfolioMedia>();
+        var portfolioMediaAggregateCollection =
+            genericReadRepository.GetCollection<PortfolioMediaAggregate>();
 
-        var portfolioMedia =
+        var portfolioMediaAggregate =
             await
-                portfolioMediaCollection
+                portfolioMediaAggregateCollection
                     .FirstOrDefaultAsync(
                         entity =>
-                            entity.Id == portfolioMediaId
+                            entity.MediaAggregateId == mediaId
                             && entity
                                 .Portfolio!
                                 .Talent!
@@ -44,15 +44,15 @@ public sealed class UserPortfolioMediaDeleteFacade(
                             == userId
                     );
 
-        if (portfolioMedia is null)
+        if (portfolioMediaAggregate is null)
         {
-            throw exceptionDescriptor.NotFound<PortfolioMedia>();
+            throw exceptionDescriptor.NotFound<PortfolioMediaAggregate>();
         }
 
         await
             deleteRepository
                 .DeleteAsync(
-                    portfolioMedia
+                    portfolioMediaAggregate
                 );
     }
 }

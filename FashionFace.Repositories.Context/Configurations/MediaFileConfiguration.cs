@@ -28,10 +28,10 @@ public sealed class MediaFileConfiguration : EntityBaseConfiguration<MediaFile>
 
         builder
             .Property(
-                entity => entity.Uri
+                entity => entity.RelativePath
             )
             .HasColumnName(
-                "Uri"
+                "RelativePath"
             )
             .HasColumnType(
                 "text"

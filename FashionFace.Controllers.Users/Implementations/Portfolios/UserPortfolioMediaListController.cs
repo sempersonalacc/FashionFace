@@ -68,8 +68,7 @@ public sealed class UserPortfolioMediaListController(
                             entity.Id,
                             entity.PositionIndex,
                             entity.Description,
-                            entity.Url,
-                            entity.TagIdList
+                            entity.RelativePath
                         )
                 )
                 .ToList();

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using FashionFace.Repositories.Context.Enums;
 using FashionFace.Repositories.Context.Interfaces;

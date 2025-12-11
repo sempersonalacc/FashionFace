@@ -4,7 +4,7 @@ namespace FashionFace.Dependencies.SkiaSharp.Interfaces;
 
 public interface IImageResizeService
 {
-    byte[] ResizeToQuarter(
-        MemoryStream inputStream
+    MemoryStream Optimize(
+        Stream inputStream
     );
 }

@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations;
 
-public sealed class PortfolioMediaTagConfiguration : EntityBaseConfiguration<PortfolioMediaTag>
+public sealed class MediaAggregateConfiguration : EntityBaseConfiguration<MediaAggregate>
 {
-    public override void Configure(EntityTypeBuilder<PortfolioMediaTag> builder)
+    public override void Configure(EntityTypeBuilder<MediaAggregate> builder)
     {
         base.Configure(
             builder
@@ -16,10 +16,22 @@ public sealed class PortfolioMediaTagConfiguration : EntityBaseConfiguration<Por
 
         builder
             .Property(
-                entity => entity.PortfolioMediaId
+                entity => entity.IsDeleted
             )
             .HasColumnName(
-                "PortfolioMediaId"
+                "IsDeleted"
+            )
+            .HasColumnType(
+                "boolean"
+            )
+            .IsRequired();
+
+        builder
+            .Property(
+                entity => entity.PreviewMediaId
+            )
+            .HasColumnName(
+                "PreviewMediaId"
             )
             .HasColumnType(
                 "uuid"
@@ -28,10 +40,10 @@ public sealed class PortfolioMediaTagConfiguration : EntityBaseConfiguration<Por
 
         builder
             .Property(
-                entity => entity.TagId
+                entity => entity.OriginalMediaId
             )
             .HasColumnName(
-                "TagId"
+                "OriginalMediaId"
             )
             .HasColumnType(
                 "uuid"
@@ -40,25 +52,23 @@ public sealed class PortfolioMediaTagConfiguration : EntityBaseConfiguration<Por
 
         builder
             .Property(
-                entity => entity.PositionIndex
+                entity => entity.Description
             )
             .HasColumnName(
-                "PositionIndex"
+                "Description"
             )
             .HasColumnType(
-                "double precision"
+                "text"
             )
             .IsRequired();
 
         builder
             .HasOne(
-                entity => entity.PortfolioMedia
+                entity => entity.PreviewMedia
             )
-            .WithMany(
-                entity => entity.PortfolioMediaTagCollection
-            )
-            .HasForeignKey(
-                entity => entity.PortfolioMediaId
+            .WithOne()
+            .HasForeignKey<MediaAggregate>(
+                entity => entity.PreviewMediaId
             )
             .OnDelete(
                 DeleteBehavior.Cascade
@@ -66,13 +76,11 @@ public sealed class PortfolioMediaTagConfiguration : EntityBaseConfiguration<Por
 
         builder
             .HasOne(
-                entity => entity.Tag
+                entity => entity.OriginalMedia
             )
-            .WithMany(
-                entity => entity.PortfolioMediaTagCollection
-            )
-            .HasForeignKey(
-                entity => entity.TagId
+            .WithOne()
+            .HasForeignKey<MediaAggregate>(
+                entity => entity.OriginalMediaId
             )
             .OnDelete(
                 DeleteBehavior.Cascade

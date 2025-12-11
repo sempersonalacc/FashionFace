@@ -14,5 +14,4 @@ public sealed class Media : EntityBase, IWithIsDeleted
 
     public MediaFile? OriginalFile { get; set; }
     public MediaFile? OptimizedFile { get; set; }
-    public PortfolioMedia? PortfolioMedia { get; set; }
 }

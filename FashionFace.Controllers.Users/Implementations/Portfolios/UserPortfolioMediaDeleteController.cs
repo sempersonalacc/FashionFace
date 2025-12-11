@@ -20,6 +20,9 @@ public sealed class UserPortfolioMediaDeleteController(
     IUserPortfolioMediaDeleteFacade facade
 ) : BaseUserController
 {
+    [ApiExplorerSettings(
+        IgnoreApi = true
+    )]
     [HttpDelete]
     public async Task Invoke(
         [FromBody] UserPortfolioMediaDeleteRequest request

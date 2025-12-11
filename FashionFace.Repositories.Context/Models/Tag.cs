@@ -8,6 +8,6 @@ public sealed class Tag : EntityBase
 {
     public required string Name { get; set; }
 
-    public ICollection<PortfolioMediaTag> PortfolioMediaTagCollection { get; set; }
+    public ICollection<MediaAggregateTag> PortfolioMediaTagCollection { get; set; }
     public ICollection<PortfolioTag> PortfolioTagCollection { get; set; }
 }

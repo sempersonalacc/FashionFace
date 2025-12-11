@@ -8,8 +8,7 @@ public sealed class MediaFile : EntityBase
 {
     public required Guid ProfileId { get; set; }
 
-    public required string Uri { get; set; }
+    public required string RelativePath { get; set; }
 
     public Profile? Profile { get; set; }
-    // reference to PortfolioMedia Original/Optimized File
 }

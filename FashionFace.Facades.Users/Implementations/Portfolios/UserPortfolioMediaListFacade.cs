@@ -38,7 +38,10 @@ public sealed class UserPortfolioMediaListFacade(
                         entity => entity.PortfolioMediaCollection
                     )
                     .ThenInclude(
-                        entity => entity.OptimizedFile
+                        entity => entity.Media
+                    )
+                    .ThenInclude(
+                        entity => entity!.OptimizedFile
                     )
                     .Include(
                         entity => entity.PortfolioMediaCollection
@@ -65,6 +68,7 @@ public sealed class UserPortfolioMediaListFacade(
         {
             var optimizedFileUri =
                 portfolioMedia
+                    .Media!
                     .OptimizedFile!
                     .Uri;
 

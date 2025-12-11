@@ -23,7 +23,8 @@ public sealed class UserPortfolioTagDeleteFacade(
     {
         var (
             userId,
-            tagId
+            tagId,
+            portfolioId
             ) = args;
 
         var portfolioTagCollection =
@@ -35,6 +36,7 @@ public sealed class UserPortfolioTagDeleteFacade(
                     .FirstOrDefaultAsync(
                         entity =>
                             entity.TagId == tagId
+                            && entity.PortfolioId == portfolioId
                             && entity
                                 .Portfolio!
                                 .Talent!

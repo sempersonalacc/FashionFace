@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations;
 
-public sealed class PortfolioMediaConfiguration : EntityBaseConfiguration<PortfolioMedia>
+public sealed class MediaConfiguration : EntityBaseConfiguration<Media>
 {
-    public override void Configure(EntityTypeBuilder<PortfolioMedia> builder)
+    public override void Configure(EntityTypeBuilder<Media> builder)
     {
         base.Configure(
             builder
@@ -16,10 +16,22 @@ public sealed class PortfolioMediaConfiguration : EntityBaseConfiguration<Portfo
 
         builder
             .Property(
-                entity => entity.PortfolioId
+                entity => entity.IsDeleted
             )
             .HasColumnName(
-                "PortfolioId"
+                "IsDeleted"
+            )
+            .HasColumnType(
+                "boolean"
+            )
+            .IsRequired();
+
+        builder
+            .Property(
+                entity => entity.OriginalFileId
+            )
+            .HasColumnName(
+                "OriginalFileId"
             )
             .HasColumnType(
                 "uuid"
@@ -28,51 +40,37 @@ public sealed class PortfolioMediaConfiguration : EntityBaseConfiguration<Portfo
 
         builder
             .Property(
-                entity => entity.MediaId
+                entity => entity.OptimizedFileId
             )
             .HasColumnName(
-                "MediaId"
+                "OptimizedFileId"
             )
             .HasColumnType(
                 "uuid"
             )
             .IsRequired();
 
-        builder
-            .Property(
-                entity => entity.Description
-            )
-            .HasColumnName(
-                "Description"
-            )
-            .HasColumnType(
-                "text"
-            )
-            .IsRequired();
-
+        // validate empty withOne
         builder
             .HasOne(
-                entity => entity.Portfolio
+                entity => entity.OriginalFile
             )
-            .WithMany(
-                entity => entity.PortfolioMediaCollection
-            )
-            .HasForeignKey(
-                entity => entity.PortfolioId
+            .WithOne()
+            .HasForeignKey<Media>(
+                entity => entity.OriginalFileId
             )
             .OnDelete(
                 DeleteBehavior.Cascade
             );
 
+        // validate empty withOne
         builder
             .HasOne(
-                entity => entity.Media
+                entity => entity.OptimizedFile
             )
-            .WithOne(
-                entity => entity.PortfolioMedia
-            )
-            .HasForeignKey<PortfolioMedia>(
-                entity => entity.MediaId
+            .WithOne()
+            .HasForeignKey<Media>(
+                entity => entity.OptimizedFileId
             )
             .OnDelete(
                 DeleteBehavior.Cascade

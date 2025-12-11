@@ -31,7 +31,8 @@ public sealed class UserPortfolioTagDeleteController(
         var facadeArgs =
             new UserPortfolioTagDeleteArgs(
                 userId,
-                request.TagId
+                request.TagId,
+                request.PortfolioId
             );
 
         await

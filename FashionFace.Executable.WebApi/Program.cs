@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json.Serialization;
 
 using FashionFace.Common.Extensions.Dependencies.Implementations;
 using FashionFace.Common.Extensions.Implementations;
@@ -70,7 +71,6 @@ serviceCollection.AddLogging(
 );
 
 serviceCollection.SetupDependencies();
-
 // todo : to use BCript for legacy users
 //serviceCollection.AddScoped<IPasswordHasher<ApplicationUser>, BcryptPasswordHasher<ApplicationUser>>();
 
@@ -80,19 +80,33 @@ var filters =
         typeof(ExceptionFilter),
     };
 
-serviceCollection.AddControllersWithViews(
-    options =>
-    {
-        foreach (var filter in filters)
+serviceCollection
+    .AddControllersWithViews(
+        options =>
+        {
+            foreach (var filter in filters)
+            {
+                options
+                    .Filters
+                    .Add(
+                        filter
+                    );
+            }
+        }
+    )
+    .AddJsonOptions(
+        options =>
         {
             options
-                .Filters
+                .JsonSerializerOptions
+                .Converters
                 .Add(
-                    filter
+                    new JsonStringEnumConverter(
+                        new PascalCaseNamingPolicy()
+                    )
                 );
         }
-    }
-);
+    );
 
 serviceCollection
     .AddDbContext<ApplicationDatabaseContext>(

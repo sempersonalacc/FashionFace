@@ -14,7 +14,7 @@ namespace FashionFace.Controllers.Users.Implementations.Portfolios;
     "Portfolio"
 )]
 [Route(
-    "api/v1/user/portfolio/Media"
+    "api/v1/user/portfolio/media"
 )]
 public sealed class UserPortfolioMediaCreateController(
     IUserPortfolioMediaCreateFacade facade

@@ -3,11 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 using FashionFace.Common.Extensions.Dependencies.Implementations;
 using FashionFace.Common.Extensions.Implementations;
-using FashionFace.Executable.WebApi.Configurations;
+using FashionFace.Dependencies.SignalR.Implementations;
 using FashionFace.Repositories.Context;
 using FashionFace.Repositories.Context.Models.IdentityEntities;
 using FashionFace.Services.ConfigurationSettings.Models;
@@ -16,11 +16,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -28,32 +28,17 @@ using Serilog;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-var builder = WebApplication.CreateBuilder(
-    args
-);
+var builder =
+    WebApplication
+        .CreateBuilder(
+            args
+        );
 
 var builderConfiguration =
     builder.Configuration;
 
-Log.Logger =
-    new LoggerConfiguration()
-        .ReadFrom
-        .Configuration(
-            builderConfiguration
-        )
-        .Enrich
-        .FromLogContext()
-        .CreateLogger();
-
 var serviceCollection =
     builder.Services;
-
-var nanoBananaSection = builderConfiguration.GetSection(
-    "NanoBanana"
-);
-serviceCollection.Configure<NanoBananaSettings>(
-    nanoBananaSection
-);
 
 var corsSection = builderConfiguration.GetSection(
     "Cors"
@@ -83,58 +68,16 @@ serviceCollection.Configure<ApplicationSettings>(
     applicationSection
 );
 
-serviceCollection.AddLogging(
-    loggingBuilder =>
-    {
-        loggingBuilder.ClearProviders();
-        loggingBuilder.AddSerilog();
-    }
-);
+Log.Logger =
+    new LoggerConfiguration()
+        .ReadFrom
+        .Configuration(
+            builderConfiguration
+        )
+        .Enrich
+        .FromLogContext()
+        .CreateLogger();
 
-serviceCollection.SetupDependencies();
-
-serviceCollection.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = "redis_stack:6379";
-    options.InstanceName = "app:";
-});
-
-// todo : to use BCript for legacy users
-//serviceCollection.AddScoped<IPasswordHasher<ApplicationUser>, BcryptPasswordHasher<ApplicationUser>>();
-
-var filters =
-    new[]
-    {
-        typeof(ExceptionFilter),
-    };
-
-serviceCollection
-    .AddControllersWithViews(
-        options =>
-        {
-            foreach (var filter in filters)
-            {
-                options
-                    .Filters
-                    .Add(
-                        filter
-                    );
-            }
-        }
-    )
-    .AddJsonOptions(
-        options =>
-        {
-            options
-                .JsonSerializerOptions
-                .Converters
-                .Add(
-                    new JsonStringEnumConverter(
-                        new PascalCaseNamingPolicy()
-                    )
-                );
-        }
-    );
 
 serviceCollection
     .AddDbContext<ApplicationDatabaseContext>(
@@ -323,6 +266,12 @@ serviceCollection
         }
     );
 
+serviceCollection.AddSignalR(
+    options => { options.AddFilter<HubExceptionsFilter>(); }
+);
+
+serviceCollection.SetupDependencies();
+serviceCollection.AddSingleton<IUserIdProvider, UserIdProvider>();
 
 var app =
     builder.Build();
@@ -335,11 +284,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseRouting();
 
-app.UseCors();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapHub<UserNotificationHub>($"/hubs/{nameof(UserNotificationHub)}")
+    .RequireAuthorization();
+
+app.MapHub<AdminNotificationHub>($"/hubs/{nameof(AdminNotificationHub)}")
+    .RequireAuthorization();
 
 app.Run();

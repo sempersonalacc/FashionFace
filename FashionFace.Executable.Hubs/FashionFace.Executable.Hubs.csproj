@@ -7,11 +7,6 @@
         <ImplicitUsings>disable</ImplicitUsings>
     </PropertyGroup>
 
-    <PropertyGroup>
-        <GenerateDocumentationFile>True</GenerateDocumentationFile>
-        <DocumentationFile>./FashionFace.Executable.WebApi.xml</DocumentationFile>
-    </PropertyGroup>
-
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.22"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.15"/>
@@ -29,16 +24,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\FashionFace.Common.Exceptions\FashionFace.Common.Exceptions.csproj"/>
-        <ProjectReference Include="..\FashionFace.Common.Extensions.Dependencies\FashionFace.Common.Extensions.Dependencies.csproj"/>
-        <ProjectReference Include="..\FashionFace.Controllers.Admins\FashionFace.Controllers.Admins.csproj"/>
-        <ProjectReference Include="..\FashionFace.Controllers.Anonymous\FashionFace.Controllers.Anonymous.csproj"/>
-        <ProjectReference Include="..\FashionFace.Controllers.Authorized\FashionFace.Controllers.Authorized.csproj"/>
-        <ProjectReference Include="..\FashionFace.Dependencies.Crypt\FashionFace.Dependencies.Crypt.csproj"/>
-        <ProjectReference Include="..\FashionFace.Dependencies.Redis\FashionFace.Dependencies.Redis.csproj" />
-        <ProjectReference Include="..\FashionFace.Services.ConfigurationSettings\FashionFace.Services.ConfigurationSettings.csproj"/>
-        <ProjectReference Include="..\FashionFace.Controllers.Users\FashionFace.Controllers.Users.csproj"/>
-        <ProjectReference Include="..\FashionFace.Repositories.Context\FashionFace.Repositories.Context.csproj"/>
+      <ProjectReference Include="..\FashionFace.Dependencies.SignalR\FashionFace.Dependencies.SignalR.csproj" />
+      <ProjectReference Include="..\FashionFace.Repositories.Context\FashionFace.Repositories.Context.csproj" />
+      <ProjectReference Include="..\FashionFace.Services.ConfigurationSettings\FashionFace.Services.ConfigurationSettings.csproj" />
     </ItemGroup>
 
 </Project>

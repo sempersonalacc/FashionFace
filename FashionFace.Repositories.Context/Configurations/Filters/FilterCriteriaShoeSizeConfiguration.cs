@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Filters;
 
-public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<FilterCriteriaTag>
+public sealed class FilterCriteriaShoeSizeConfiguration : EntityBaseConfiguration<FilterCriteriaShoeSize>
 {
-    public override void Configure(EntityTypeBuilder<FilterCriteriaTag> builder)
+    public override void Configure(EntityTypeBuilder<FilterCriteriaShoeSize> builder)
     {
         base.Configure(
             builder
@@ -16,10 +16,10 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .Property(
-                entity => entity.FilterCriteriaId
+                entity => entity.FilterCriteriaAppearanceTraitsId
             )
             .HasColumnName(
-                "FilterCriteriaId"
+                "FilterCriteriaAppearanceTraitsId"
             )
             .HasColumnType(
                 "uuid"
@@ -28,10 +28,10 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .Property(
-                entity => entity.TagId
+                entity => entity.FilterRangeValueId
             )
             .HasColumnName(
-                "TagId"
+                "FilterRangeValueId"
             )
             .HasColumnType(
                 "uuid"
@@ -40,13 +40,11 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .HasOne(
-                entity => entity.FilterCriteria
+                entity => entity.FilterRangeValue
             )
-            .WithMany(
-                entity => entity.TagCollection
-            )
-            .HasForeignKey(
-                entity => entity.FilterCriteriaId
+            .WithOne()
+            .HasForeignKey<FilterCriteriaShoeSize>(
+                entity => entity.FilterRangeValueId
             )
             .OnDelete(
                 DeleteBehavior.Cascade
@@ -54,11 +52,13 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .HasOne(
-                entity => entity.Tag
+                entity => entity.FilterCriteriaAppearanceTraits
             )
-            .WithMany()
-            .HasForeignKey(
-                entity => entity.TagId
+            .WithOne(
+                entity => entity.ShoeSize
+            )
+            .HasForeignKey<FilterCriteriaShoeSize>(
+                entity => entity.FilterCriteriaAppearanceTraitsId
             )
             .OnDelete(
                 DeleteBehavior.Cascade

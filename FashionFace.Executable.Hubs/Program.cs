@@ -67,6 +67,13 @@ serviceCollection.Configure<ApplicationSettings>(
     applicationSection
 );
 
+var rabbitMqSection = builderConfiguration.GetSection(
+    "RabbitMq"
+);
+serviceCollection.Configure<RabbitMqSettings>(
+    rabbitMqSection
+);
+
 Log.Logger =
     new LoggerConfiguration()
         .ReadFrom

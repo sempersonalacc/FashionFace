@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using FashionFace.Controllers.Base.Attributes.Groups;
 using FashionFace.Controllers.Users.Implementations.Base;
 using FashionFace.Controllers.Users.Requests.Models.Filters;
-using FashionFace.Controllers.Users.Responses.Models.AppearanceTraitsEntities;
 using FashionFace.Controllers.Users.Responses.Models.Filters;
 using FashionFace.Controllers.Users.Responses.Models.Locations;
 using FashionFace.Controllers.Users.Responses.Models.Portfolios;
@@ -116,13 +115,36 @@ public sealed class UserFilterController(
                 );
         }
 
-        UserAppearanceTraitsResponse? userAppearanceTraitsResponse = null;
+        UserFilterAppearanceTraitsResponse? userAppearanceTraitsResponse = null;
 
         var userAppearanceTraits =
             result.AppearanceTraits;
 
         if (userAppearanceTraits is not null)
         {
+
+            var heightArgs =
+                userAppearanceTraits.Height;
+
+            var height =
+                heightArgs is null
+                    ? null
+                    : new FilterRangeResponse(
+                        heightArgs.Min,
+                        heightArgs.Max
+                    );
+
+            var shoeSizeArgs =
+                userAppearanceTraits.ShoeSize;
+
+            var shoeSize =
+                shoeSizeArgs is null
+                    ? null
+                    : new FilterRangeResponse(
+                        shoeSizeArgs.Min,
+                        shoeSizeArgs.Max
+                    );
+
             userAppearanceTraitsResponse =
                 new(
                     userAppearanceTraits.SexType,
@@ -136,8 +158,8 @@ public sealed class UserFilterController(
                     userAppearanceTraits.EyeColorType,
                     userAppearanceTraits.NoseType,
                     userAppearanceTraits.JawType,
-                    userAppearanceTraits.Height,
-                    userAppearanceTraits.ShoeSize
+                    height,
+                    shoeSize
                 );
         }
 

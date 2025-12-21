@@ -44,7 +44,7 @@ public sealed class FilterCriteriaMaleTraitsConfiguration : EntityBaseConfigurat
                 entity => entity.FilterCriteriaAppearanceTraits
             )
             .WithOne(
-                entity => entity.FilterMaleTraits
+                entity => entity.MaleTraits
             )
             .HasForeignKey<FilterCriteriaMaleTraits>(
                 entity => entity.FilterCriteriaAppearanceTraitsId

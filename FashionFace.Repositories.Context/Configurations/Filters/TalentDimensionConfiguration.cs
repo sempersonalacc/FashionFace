@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Filters;
 
-public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<FilterCriteriaTag>
+public sealed class TalentDimensionValueConfiguration : EntityBaseConfiguration<TalentDimensionValue>
 {
-    public override void Configure(EntityTypeBuilder<FilterCriteriaTag> builder)
+    public override void Configure(EntityTypeBuilder<TalentDimensionValue> builder)
     {
         base.Configure(
             builder
@@ -16,10 +16,10 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .Property(
-                entity => entity.FilterCriteriaId
+                entity => entity.DimensionValueId
             )
             .HasColumnName(
-                "FilterCriteriaId"
+                "DimensionValueId"
             )
             .HasColumnType(
                 "uuid"
@@ -28,10 +28,10 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .Property(
-                entity => entity.TagId
+                entity => entity.TalentId
             )
             .HasColumnName(
-                "TagId"
+                "TalentId"
             )
             .HasColumnType(
                 "uuid"
@@ -40,13 +40,11 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .HasOne(
-                entity => entity.FilterCriteria
+                entity => entity.DimensionValue
             )
-            .WithMany(
-                entity => entity.TagCollection
-            )
+            .WithMany()
             .HasForeignKey(
-                entity => entity.FilterCriteriaId
+                entity => entity.DimensionValueId
             )
             .OnDelete(
                 DeleteBehavior.Cascade
@@ -54,14 +52,27 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .HasOne(
-                entity => entity.Tag
+                entity => entity.Talent
             )
-            .WithMany()
+            .WithMany(
+                entity => entity.TalentDimensionValueCollection
+            )
             .HasForeignKey(
-                entity => entity.TagId
+                entity => entity.TalentId
             )
             .OnDelete(
                 DeleteBehavior.Cascade
             );
+
+        builder
+            .HasIndex(
+                entity =>
+                    new
+                    {
+                        entity.DimensionValueId,
+                        entity.TalentId,
+                    }
+            )
+            .IsUnique();
     }
 }

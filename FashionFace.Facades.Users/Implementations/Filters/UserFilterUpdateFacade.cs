@@ -99,7 +99,7 @@ public sealed class UserFilterUpdateFacade(
                     Landmark = landmark,
                 };
 
-            filterFilterCriteria.FilterCriteriaLocation =
+            filterFilterCriteria.Location =
                 new()
                 {
                     Id = Guid.NewGuid(),
@@ -136,7 +136,59 @@ public sealed class UserFilterUpdateFacade(
                         BustSizeType = filterAppearanceTraitsArgs.FilterFemaleTraits.BustSizeType,
                     };
 
-            filterFilterCriteria.FilterCriteriaAppearanceTraits =
+            var heightArgs =
+                filterAppearanceTraitsArgs.Height;
+
+            FilterCriteriaHeight? height = null;
+
+            if (heightArgs is not null)
+            {
+                var filterRangeValue =
+                    new FilterRangeValue
+                    {
+                        Id = Guid.NewGuid(),
+                        Min = heightArgs.Min,
+                        Max = heightArgs.Max,
+                    };
+
+                height =
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        FilterCriteriaAppearanceTraitsId = appearanceTraitsId,
+
+                        FilterRangeValue = filterRangeValue,
+                        FilterRangeValueId = filterRangeValue.Id,
+                    };
+            }
+
+            var shoeSizeArgs =
+                filterAppearanceTraitsArgs.ShoeSize;
+
+            FilterCriteriaShoeSize? shoeSize = null;
+            
+            if (shoeSizeArgs is not null)
+            {
+                var filterRangeValue =
+                    new FilterRangeValue
+                    {
+                        Id = Guid.NewGuid(),
+                        Min = shoeSizeArgs.Min,
+                        Max = shoeSizeArgs.Max,
+                    };
+
+                shoeSize =
+                    new()
+                    {
+                        Id = Guid.NewGuid(),
+                        FilterCriteriaAppearanceTraitsId = appearanceTraitsId,
+
+                        FilterRangeValue = filterRangeValue,
+                        FilterRangeValueId = filterRangeValue.Id,
+                    };
+            }
+
+            filterFilterCriteria.AppearanceTraits =
                 new()
                 {
                     Id = appearanceTraitsId,
@@ -153,11 +205,12 @@ public sealed class UserFilterUpdateFacade(
                     SkinToneType = filterAppearanceTraitsArgs.SkinToneType,
                     NoseType = filterAppearanceTraitsArgs.NoseType,
                     JawType = filterAppearanceTraitsArgs.JawType,
-                    Height = filterAppearanceTraitsArgs.Height,
-                    ShoeSize = filterAppearanceTraitsArgs.ShoeSize,
 
-                    FilterMaleTraits = filterMaleTraits,
-                    FilterFemaleTraits = filterFemaleTraits,
+                    Height = height,
+                    ShoeSize = shoeSize,
+
+                    MaleTraits = filterMaleTraits,
+                    FemaleTraits = filterFemaleTraits,
                 };
         }
 

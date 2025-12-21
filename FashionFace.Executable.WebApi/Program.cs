@@ -83,6 +83,13 @@ serviceCollection.Configure<ApplicationSettings>(
     applicationSection
 );
 
+var rabbitMqSection = builderConfiguration.GetSection(
+    "RabbitMq"
+);
+serviceCollection.Configure<RabbitMqSettings>(
+    rabbitMqSection
+);
+
 serviceCollection.AddLogging(
     loggingBuilder =>
     {
@@ -95,8 +102,8 @@ serviceCollection.SetupDependencies();
 
 serviceCollection.AddStackExchangeRedisCache(options =>
 {
-    options.Configuration = "redis_stack:6379";
-    options.InstanceName = "app:";
+    options.Configuration = redisSection["Configuration"];
+    options.InstanceName = redisSection["InstanceName"];
 });
 
 // todo : to use BCript for legacy users

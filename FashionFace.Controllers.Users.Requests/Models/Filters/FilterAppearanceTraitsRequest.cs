@@ -14,8 +14,8 @@ public sealed record FilterAppearanceTraitsRequest(
     EyeColorType? EyeColorType,
     NoseType? NoseType,
     JawType? JawType,
-    int? Height,
-    int? ShoeSize,
+    FilterRangeRequest? Height,
+    FilterRangeRequest? ShoeSize,
     FilterMaleTraitsRequest? FilterMaleTraits,
     FilterFemaleTraitsRequest? FilterFemaleTraits
 );

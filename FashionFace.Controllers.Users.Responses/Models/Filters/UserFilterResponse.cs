@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using FashionFace.Controllers.Users.Responses.Models.AppearanceTraitsEntities;
 using FashionFace.Controllers.Users.Responses.Models.Portfolios;
 using FashionFace.Repositories.Context.Enums;
 
@@ -13,6 +12,6 @@ public sealed record UserFilterResponse(
     double PositionIndex,
     TalentType? TalentType,
     UserFilterLocationListItemResponse? Location,
-    UserAppearanceTraitsResponse? AppearanceTraits,
+    UserFilterAppearanceTraitsResponse? AppearanceTraits,
     IReadOnlyList<UserTagListItemResponse> TagList
 );

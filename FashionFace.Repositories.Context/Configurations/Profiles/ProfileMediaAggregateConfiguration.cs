@@ -1,14 +1,14 @@
 ﻿using FashionFace.Repositories.Context.Configurations.Base;
-using FashionFace.Repositories.Context.Models.Filters;
+using FashionFace.Repositories.Context.Models.Profiles;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace FashionFace.Repositories.Context.Configurations.Filters;
+namespace FashionFace.Repositories.Context.Configurations.Profiles;
 
-public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<FilterCriteriaTag>
+public sealed class ProfileMediaAggregateConfiguration : EntityBaseConfiguration<ProfileMediaAggregate>
 {
-    public override void Configure(EntityTypeBuilder<FilterCriteriaTag> builder)
+    public override void Configure(EntityTypeBuilder<ProfileMediaAggregate> builder)
     {
         base.Configure(
             builder
@@ -16,10 +16,10 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .Property(
-                entity => entity.FilterCriteriaId
+                entity => entity.ProfileId
             )
             .HasColumnName(
-                "FilterCriteriaId"
+                "ProfileId"
             )
             .HasColumnType(
                 "uuid"
@@ -28,10 +28,10 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .Property(
-                entity => entity.TagId
+                entity => entity.MediaAggregateId
             )
             .HasColumnName(
-                "TagId"
+                "MediaAggregateId"
             )
             .HasColumnType(
                 "uuid"
@@ -40,13 +40,13 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .HasOne(
-                entity => entity.FilterCriteria
+                entity => entity.Profile
             )
-            .WithMany(
-                entity => entity.TagCollection
+            .WithOne(
+                entity => entity.ProfileMediaAggregate
             )
-            .HasForeignKey(
-                entity => entity.FilterCriteriaId
+            .HasForeignKey<ProfileMediaAggregate>(
+                entity => entity.ProfileId
             )
             .OnDelete(
                 DeleteBehavior.Cascade
@@ -54,11 +54,11 @@ public sealed class FilterCriteriaTagConfiguration : EntityBaseConfiguration<Fil
 
         builder
             .HasOne(
-                entity => entity.Tag
+                entity => entity.MediaAggregate
             )
-            .WithMany()
-            .HasForeignKey(
-                entity => entity.TagId
+            .WithOne()
+            .HasForeignKey<ProfileMediaAggregate>(
+                entity => entity.MediaAggregateId
             )
             .OnDelete(
                 DeleteBehavior.Cascade

@@ -20,10 +20,11 @@ public sealed class FilterCriteriaAppearanceTraits : EntityBase
     public EyeColorType? EyeColorType { get; set; }
     public NoseType? NoseType { get; set; }
     public JawType? JawType { get; set; }
-    public int? Height { get; set; }
-    public int? ShoeSize { get; set; }
-    public FilterCriteriaMaleTraits? FilterMaleTraits { get; set; }
-    public FilterCriteriaFemaleTraits? FilterFemaleTraits { get; set; }
+
+    public FilterCriteriaHeight? Height { get; set; }
+    public FilterCriteriaShoeSize? ShoeSize { get; set; }
+    public FilterCriteriaMaleTraits? MaleTraits { get; set; }
+    public FilterCriteriaFemaleTraits? FemaleTraits { get; set; }
 
     public FilterCriteria? FilterCriteria { get; set; }
 }

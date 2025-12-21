@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Filters;
 
-public sealed class FilterResultTalentConfiguration : EntityBaseConfiguration<FilterResultTalent>
+public sealed class FilterCriteriaDimensionConfiguration : EntityBaseConfiguration<FilterCriteriaDimension>
 {
-    public override void Configure(EntityTypeBuilder<FilterResultTalent> builder)
+    public override void Configure(EntityTypeBuilder<FilterCriteriaDimension> builder)
     {
         base.Configure(
             builder
@@ -16,10 +16,10 @@ public sealed class FilterResultTalentConfiguration : EntityBaseConfiguration<Fi
 
         builder
             .Property(
-                entity => entity.FilterResultId
+                entity => entity.DimensionValueId
             )
             .HasColumnName(
-                "FilterResultId"
+                "DimensionValueId"
             )
             .HasColumnType(
                 "uuid"
@@ -28,40 +28,23 @@ public sealed class FilterResultTalentConfiguration : EntityBaseConfiguration<Fi
 
         builder
             .Property(
-                entity => entity.TalentId
+                entity => entity.FilterCriteriaId
             )
             .HasColumnName(
-                "TalentId"
+                "FilterCriteriaId"
             )
             .HasColumnType(
                 "uuid"
-            )
-            .IsRequired();
-
-        builder
-            .Property(
-                entity => entity.IsValidated
-            )
-            .HasColumnName(
-                "IsValidated"
-            )
-            .HasColumnType(
-                "boolean"
-            )
-            .HasDefaultValue(
-                true
             )
             .IsRequired();
 
         builder
             .HasOne(
-                entity => entity.FilterResult
+                entity => entity.DimensionValue
             )
-            .WithMany(
-                entity => entity.FilterResultTalentCollection
-            )
+            .WithMany()
             .HasForeignKey(
-                entity => entity.FilterResultId
+                entity => entity.DimensionValueId
             )
             .OnDelete(
                 DeleteBehavior.Cascade
@@ -69,13 +52,13 @@ public sealed class FilterResultTalentConfiguration : EntityBaseConfiguration<Fi
 
         builder
             .HasOne(
-                entity => entity.Talent
+                entity => entity.FilterCriteria
             )
             .WithMany(
-                entity => entity.FilterResultTalentCollection
+                entity => entity.DimensionCollection
             )
             .HasForeignKey(
-                entity => entity.TalentId
+                entity => entity.FilterCriteriaId
             )
             .OnDelete(
                 DeleteBehavior.Cascade

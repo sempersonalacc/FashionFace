@@ -1,8 +1,9 @@
-﻿using FashionFace.Repositories.Context.Enums;
+﻿using FashionFace.Facades.Users.Models.Filters;
+using FashionFace.Repositories.Context.Enums;
 
 namespace FashionFace.Facades.Users.Args.Filters;
 
-public sealed record FilterAppearanceTraitsArgs(
+public sealed record UserFilterAppearanceTraitsResult(
     SexType? SexType,
     FaceType? FaceType,
     HairColorType? HairColorType,
@@ -14,8 +15,6 @@ public sealed record FilterAppearanceTraitsArgs(
     EyeColorType? EyeColorType,
     NoseType? NoseType,
     JawType? JawType,
-    FilterRangeArgs? Height,
-    FilterRangeArgs? ShoeSize,
-    FilterMaleTraitsArgs? FilterMaleTraits,
-    FilterFemaleTraitsArgs? FilterFemaleTraits
+    FilterRangeResult? Height,
+    FilterRangeResult? ShoeSize
 );

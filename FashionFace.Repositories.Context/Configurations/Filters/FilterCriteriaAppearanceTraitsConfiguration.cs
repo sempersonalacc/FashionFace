@@ -185,7 +185,7 @@ public sealed class FilterCriteriaAppearanceTraitsConfiguration : EntityBaseConf
                 entity => entity.FilterCriteria
             )
             .WithOne(
-                entity => entity.FilterCriteriaAppearanceTraits
+                entity => entity.AppearanceTraits
             )
             .HasForeignKey<FilterCriteriaAppearanceTraits>(
                 entity => entity.FilterCriteriaId

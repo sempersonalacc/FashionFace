@@ -96,7 +96,7 @@ public sealed class FilterCriteriaLocationConfiguration : EntityBaseConfiguratio
                 entity => entity.FilterCriteria
             )
             .WithOne(
-                entity => entity.FilterCriteriaLocation
+                entity => entity.Location
             )
             .HasForeignKey<FilterCriteriaLocation>(
                 entity => entity.FilterCriteriaId

@@ -10,8 +10,7 @@ using FashionFace.Repositories.Context.Models.Profiles;
 
 namespace FashionFace.Repositories.Context.Models.Talents;
 
-public sealed class Talent : EntityBase,
-    IWithIsDeleted
+public sealed class Talent : EntityBase, IWithIsDeleted
 {
     public required bool IsDeleted { get; set; }
     public required string Description { get; set; }
@@ -21,5 +20,5 @@ public sealed class Talent : EntityBase,
     public ProfileTalent? ProfileTalent { get; set; }
     public TalentMediaAggregate? TalentMediaAggregate { get; set; }
     public ICollection<Location> LocationCollection { get; set; }
-    public ICollection<FilterResultTalent> FilterResultTalentCollection { get; set; }
+    public ICollection<TalentDimensionValue> TalentDimensionValueCollection { get; set; }
 }

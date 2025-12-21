@@ -27,4 +27,5 @@ public sealed class Profile : EntityBase,
     public ICollection<MediaFile> MediaFileCollection { get; set; }
 
     public ApplicationUser? ApplicationUser { get; set; }
+    public ProfileMediaAggregate? ProfileMediaAggregate { get; set; }
 }

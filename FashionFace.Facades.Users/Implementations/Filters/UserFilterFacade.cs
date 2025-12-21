@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using FashionFace.Common.Exceptions.Interfaces;
 using FashionFace.Facades.Users.Args.Filters;
 using FashionFace.Facades.Users.Interfaces.Filters;
-using FashionFace.Facades.Users.Models.AppearanceTraitsEntities;
 using FashionFace.Facades.Users.Models.Filters;
 using FashionFace.Facades.Users.Models.Locations;
 using FashionFace.Facades.Users.Models.Portfolios;
@@ -35,24 +34,23 @@ public sealed class UserFilterFacade(
         var filter =
             await
                 filterCollection
-                    .Include(
-                        entity => entity.FilterCriteria
-                    )
-                    .ThenInclude(
-                        entity => entity.FilterCriteriaLocation
-                    )
-                    .Include(
-                        entity => entity.FilterCriteria
-                    )
-                    .ThenInclude(
-                        entity => entity.FilterCriteriaAppearanceTraits
-                    )
-                    .Include(
-                        entity => entity.FilterCriteria
-                    )
-                    .ThenInclude(
-                        entity => entity.FilterCriteriaTagCollection
-                    )
+                    .Include(entity => entity.FilterCriteria)
+                    .ThenInclude(entity => entity!.AppearanceTraits)
+                    .ThenInclude(entity => entity!.Height)
+                    .ThenInclude(entity => entity!.FilterRangeValue)
+
+                    .Include(entity => entity.FilterCriteria)
+                    .ThenInclude(entity => entity!.AppearanceTraits)
+                    .ThenInclude(entity => entity!.ShoeSize)
+                    .ThenInclude(entity => entity!.FilterRangeValue)
+
+                    .Include(entity => entity.FilterCriteria)
+                    .ThenInclude(entity => entity!.Location)
+                    .ThenInclude(entity => entity!.Place)
+
+                    .Include(entity => entity.FilterCriteria)
+                    .ThenInclude(entity => entity!.TagCollection)
+
                     .FirstOrDefaultAsync(
                         entity =>
                             entity.ApplicationUserId == userId
@@ -68,13 +66,13 @@ public sealed class UserFilterFacade(
             filter.FilterCriteria!;
 
         var filterFilterLocation =
-            filterCriteria.FilterCriteriaLocation;
+            filterCriteria.Location;
 
         var filterCriteriaAppearanceTraits =
-            filterCriteria.FilterCriteriaAppearanceTraits;
+            filterCriteria.AppearanceTraits;
 
         var filterCriteriaTagCollection =
-            filterCriteria.FilterCriteriaTagCollection;
+            filterCriteria.TagCollection;
 
         UserFilterLocationListItemResult? userLocationListItemResult = null;
 
@@ -123,10 +121,36 @@ public sealed class UserFilterFacade(
                 );
         }
 
-        UserAppearanceTraitsResult? userAppearanceTraitsResult = null;
+        UserFilterAppearanceTraitsResult? userAppearanceTraitsResult = null;
 
         if (filterCriteriaAppearanceTraits is not null)
         {
+            var heightArgs =
+                filterCriteriaAppearanceTraits
+                    .Height?
+                    .FilterRangeValue;
+
+            var height =
+                heightArgs is null
+                    ? null
+                    : new FilterRangeResult(
+                        heightArgs.Min,
+                        heightArgs.Max
+                    );
+
+            var shoeSizeArgs =
+                filterCriteriaAppearanceTraits
+                    .ShoeSize?
+                    .FilterRangeValue;
+
+            var shoeSize =
+                shoeSizeArgs is null
+                    ? null
+                    : new FilterRangeResult(
+                        shoeSizeArgs.Min,
+                        shoeSizeArgs.Max
+                    );
+
             userAppearanceTraitsResult =
                 new(
                     filterCriteriaAppearanceTraits.SexType,
@@ -140,8 +164,8 @@ public sealed class UserFilterFacade(
                     filterCriteriaAppearanceTraits.EyeColorType,
                     filterCriteriaAppearanceTraits.NoseType,
                     filterCriteriaAppearanceTraits.JawType,
-                    filterCriteriaAppearanceTraits.Height,
-                    filterCriteriaAppearanceTraits.ShoeSize
+                    height,
+                    shoeSize
                 );
         }
 

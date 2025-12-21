@@ -111,6 +111,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionFace.Dependencies.Si
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionFace.Executable.Hubs", "FashionFace.Executable.Hubs\FashionFace.Executable.Hubs.csproj", "{8D120581-6EFA-458E-B4B9-92169566FFA2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionFace.Executable.Worker.FilterTemplates", "FashionFace.Executable.Worker.FilterTemplates\FashionFace.Executable.Worker.FilterTemplates.csproj", "{F2DA9618-F736-4FAB-A3F8-1AFDA0BB7E19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FashionFace.Dependencies.LinqKit", "FashionFace.Dependencies.LinqKit\FashionFace.Dependencies.LinqKit.csproj", "{5D93C690-3E51-4130-92BD-92F6CA4191F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -301,6 +305,14 @@ Global
 		{8D120581-6EFA-458E-B4B9-92169566FFA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D120581-6EFA-458E-B4B9-92169566FFA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8D120581-6EFA-458E-B4B9-92169566FFA2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2DA9618-F736-4FAB-A3F8-1AFDA0BB7E19}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2DA9618-F736-4FAB-A3F8-1AFDA0BB7E19}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2DA9618-F736-4FAB-A3F8-1AFDA0BB7E19}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2DA9618-F736-4FAB-A3F8-1AFDA0BB7E19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D93C690-3E51-4130-92BD-92F6CA4191F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D93C690-3E51-4130-92BD-92F6CA4191F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D93C690-3E51-4130-92BD-92F6CA4191F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D93C690-3E51-4130-92BD-92F6CA4191F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{ACE0776C-AE27-4DA0-BE79-83CDC1DA5748} = {8B56EEFF-7026-4D28-9A8E-499765367DC5}
@@ -349,5 +361,7 @@ Global
 		{F15BEEDB-E164-4908-8988-88D647C96973} = {E43C653E-C18F-4866-9F1E-638925A315E4}
 		{DEF6AE21-4E90-473D-AF04-2FF604953887} = {E43C653E-C18F-4866-9F1E-638925A315E4}
 		{8D120581-6EFA-458E-B4B9-92169566FFA2} = {8B56EEFF-7026-4D28-9A8E-499765367DC5}
+		{F2DA9618-F736-4FAB-A3F8-1AFDA0BB7E19} = {8B56EEFF-7026-4D28-9A8E-499765367DC5}
+		{5D93C690-3E51-4130-92BD-92F6CA4191F5} = {E43C653E-C18F-4866-9F1E-638925A315E4}
 	EndGlobalSection
 EndGlobal

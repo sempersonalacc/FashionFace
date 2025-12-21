@@ -85,6 +85,28 @@ public sealed class UserFilterUpdateController(
                         filterFemaleTraitsRequest.BustSizeType
                     );
 
+            var heightArgs =
+                requestFilterAppearanceTraits.Height;
+
+            var height =
+                heightArgs is null
+                    ? null
+                    : new FilterRangeArgs(
+                        heightArgs.Min,
+                        heightArgs.Max
+                    );
+
+            var shoeSizeArgs =
+                requestFilterAppearanceTraits.ShoeSize;
+
+            var shoeSize =
+                shoeSizeArgs is null
+                    ? null
+                    : new FilterRangeArgs(
+                        shoeSizeArgs.Min,
+                        shoeSizeArgs.Max
+                    );
+
             filterAppearanceTraitsArgs =
                 new(
                     requestFilterAppearanceTraits.SexType,
@@ -98,8 +120,8 @@ public sealed class UserFilterUpdateController(
                     requestFilterAppearanceTraits.EyeColorType,
                     requestFilterAppearanceTraits.NoseType,
                     requestFilterAppearanceTraits.JawType,
-                    requestFilterAppearanceTraits.Height,
-                    requestFilterAppearanceTraits.ShoeSize,
+                    height,
+                    shoeSize,
                     filterMaleTraitsArgs,
                     filterFemaleTraitsArgs
                 );

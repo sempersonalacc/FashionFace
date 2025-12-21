@@ -46,7 +46,7 @@ public sealed class FilterConfiguration : EntityBaseConfiguration<Filter>
                 "Name"
             )
             .HasColumnType(
-                "varchar(64)"
+                "varchar(128)"
             )
             .IsRequired();
 

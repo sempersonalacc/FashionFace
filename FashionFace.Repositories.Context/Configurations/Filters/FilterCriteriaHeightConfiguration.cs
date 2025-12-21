@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Filters;
 
-public sealed class FilterFilterTemplateConfiguration : EntityBaseConfiguration<FilterFilterTemplate>
+public sealed class FilterCriteriaHeightConfiguration : EntityBaseConfiguration<FilterCriteriaHeight>
 {
-    public override void Configure(EntityTypeBuilder<FilterFilterTemplate> builder)
+    public override void Configure(EntityTypeBuilder<FilterCriteriaHeight> builder)
     {
         base.Configure(
             builder
@@ -16,10 +16,10 @@ public sealed class FilterFilterTemplateConfiguration : EntityBaseConfiguration<
 
         builder
             .Property(
-                entity => entity.FilterId
+                entity => entity.FilterCriteriaAppearanceTraitsId
             )
             .HasColumnName(
-                "FilterId"
+                "FilterCriteriaAppearanceTraitsId"
             )
             .HasColumnType(
                 "uuid"
@@ -28,10 +28,10 @@ public sealed class FilterFilterTemplateConfiguration : EntityBaseConfiguration<
 
         builder
             .Property(
-                entity => entity.FilterTemplateId
+                entity => entity.FilterRangeValueId
             )
             .HasColumnName(
-                "FilterTemplateId"
+                "FilterRangeValueId"
             )
             .HasColumnType(
                 "uuid"
@@ -40,12 +40,11 @@ public sealed class FilterFilterTemplateConfiguration : EntityBaseConfiguration<
 
         builder
             .HasOne(
-                entity => entity.Filter
+                entity => entity.FilterRangeValue
             )
-            .WithOne(
-            )
-            .HasForeignKey<FilterFilterTemplate>(
-                entity => entity.FilterId
+            .WithOne()
+            .HasForeignKey<FilterCriteriaHeight>(
+                entity => entity.FilterRangeValueId
             )
             .OnDelete(
                 DeleteBehavior.Cascade
@@ -53,12 +52,11 @@ public sealed class FilterFilterTemplateConfiguration : EntityBaseConfiguration<
 
         builder
             .HasOne(
-                entity => entity.FilterTemplate
+                entity => entity.FilterCriteriaAppearanceTraits
             )
-            .WithOne(
-            )
-            .HasForeignKey<FilterFilterTemplate>(
-                entity => entity.FilterTemplateId
+            .WithOne()
+            .HasForeignKey<FilterCriteriaHeight>(
+                entity => entity.FilterCriteriaAppearanceTraitsId
             )
             .OnDelete(
                 DeleteBehavior.Cascade

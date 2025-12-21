@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Filters;
 
-public sealed class FilterResultConfiguration : EntityBaseConfiguration<FilterResult>
+public sealed class DimensionValueConfiguration : EntityBaseConfiguration<DimensionValue>
 {
-    public override void Configure(EntityTypeBuilder<FilterResult> builder)
+    public override void Configure(EntityTypeBuilder<DimensionValue> builder)
     {
         base.Configure(
             builder
@@ -16,10 +16,10 @@ public sealed class FilterResultConfiguration : EntityBaseConfiguration<FilterRe
 
         builder
             .Property(
-                entity => entity.FilterTemplateId
+                entity => entity.DimensionId
             )
             .HasColumnName(
-                "FilterTemplateId"
+                "DimensionId"
             )
             .HasColumnType(
                 "uuid"
@@ -28,29 +28,39 @@ public sealed class FilterResultConfiguration : EntityBaseConfiguration<FilterRe
 
         builder
             .Property(
-                entity => entity.FilterResultStatus
+                entity => entity.Code
             )
             .HasColumnName(
-                "FilterResultStatus"
+                "Code"
             )
-            .HasConversion<string>()
             .HasColumnType(
-                "varchar(64)"
+                "varchar(128)"
             )
             .IsRequired();
 
         builder
             .HasOne(
-                entity => entity.FilterTemplate
+                entity => entity.Dimension
             )
-            .WithOne(
-                entity => entity.FilterResult
+            .WithMany(
+                entity => entity.DimensionValueCollection
             )
-            .HasForeignKey<FilterResult>(
-                entity => entity.FilterTemplateId
+            .HasForeignKey(
+                entity => entity.Dimension
             )
             .OnDelete(
                 DeleteBehavior.Cascade
             );
+
+        builder
+            .HasIndex(
+                entity =>
+                    new
+                    {
+                        entity.DimensionId,
+                        entity.Code,
+                    }
+            )
+            .IsUnique();
     }
 }

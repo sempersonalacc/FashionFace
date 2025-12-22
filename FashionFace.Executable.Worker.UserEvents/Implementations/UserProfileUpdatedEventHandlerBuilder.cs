@@ -1,23 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-using FashionFace.Common.Constants.Constants;
 using FashionFace.Common.Exceptions.Interfaces;
-using FashionFace.Common.Extensions.Implementations;
 using FashionFace.Common.Models.Models;
 using FashionFace.Dependencies.Serialization.Interfaces;
 using FashionFace.Executable.Worker.UserEvents.Args;
 using FashionFace.Executable.Worker.UserEvents.Interfaces;
-using FashionFace.Repositories.Context.Enums;
-using FashionFace.Repositories.Context.Models.AppearanceTraitsEntities;
-using FashionFace.Repositories.Context.Models.Filters;
-using FashionFace.Repositories.Interfaces;
-using FashionFace.Repositories.Read.Interfaces;
+using FashionFace.Facades.Domains.Synchronization.Args;
+using FashionFace.Facades.Domains.Synchronization.Interfaces;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -52,14 +44,8 @@ public sealed class UserProfileUpdatedEventHandlerBuilder : IUserProfileUpdatedE
             var exceptionDescriptor =
                 serviceProvider.GetRequiredService<IExceptionDescriptor>();
 
-            var genericReadRepository =
-                serviceProvider.GetRequiredService<IGenericReadRepository>();
-
-            var createRepository =
-                serviceProvider.GetRequiredService<ICreateRepository>();
-
-            var deleteRepository =
-                serviceProvider.GetRequiredService<IDeleteRepository>();
+            var talentDimensionSynchronizer =
+                serviceProvider.GetRequiredService<IAppearanceTraitsDimensionsSynchronizationFacade>();
 
             var dictionary =
                 new Dictionary<string, object>
@@ -84,144 +70,25 @@ public sealed class UserProfileUpdatedEventHandlerBuilder : IUserProfileUpdatedE
                         messageAsString
                     );
 
+            if (eventModel is null)
+            {
+                throw exceptionDescriptor.Exception("InvalidMessageType");
+            }
+
             var profileId =
                 eventModel.ProfileId;
 
-            var appearanceTraitsCollection =
-                genericReadRepository.GetCollection<AppearanceTraits>();
-
-            var appearanceTraits =
-                await
-                    appearanceTraitsCollection
-                        .FirstOrDefaultAsync(
-                            entity => entity.ProfileId == profileId
-                        );
-
-            if (appearanceTraits is null)
-            {
-                throw exceptionDescriptor.NotFound<AppearanceTraits>();
-            }
-
-            var talentDimensionValueCollection =
-                genericReadRepository.GetCollection<ProfileDimensionValue>();
-
-            var talentDimensionValueList =
-                await
-                    talentDimensionValueCollection
-                        .Include(
-                            entity => entity.DimensionValue
-                        )
-                        .ThenInclude(
-                            entity => entity.Dimension
-                        )
-                        .Where(
-                            entity => entity.ProfileId == profileId
-                        )
-                        .ToListAsync();
-
-            var dimensionTypeCode =
-                TalentDimensionConstants.SexType;
-
-            var newDimensionValueCode =
-                appearanceTraits.SexType == SexType.Undefined
-                    ? string.Empty
-                    : appearanceTraits.SexType.ToString();
-
-            await
-                UpdateDimensionValue(
-                    genericReadRepository,
-                    deleteRepository,
-                    createRepository,
-                    exceptionDescriptor,
-
-                    talentDimensionValueList,
-                    dimensionTypeCode,
-                    newDimensionValueCode,
+            var talentDimensionSynchronizerArgs =
+                new AppearanceTraitsDimensionsSynchronizationArgs(
                     profileId
                 );
+
+            await
+                talentDimensionSynchronizer
+                    .SynchronizeAsync(
+                        talentDimensionSynchronizerArgs
+                    );
         };
-
-    private static async Task UpdateDimensionValue(
-        IGenericReadRepository genericReadRepository,
-        IDeleteRepository deleteRepository,
-        ICreateRepository createRepository,
-        IExceptionDescriptor  exceptionDescriptor,
-
-        IReadOnlyList<ProfileDimensionValue> talentDimensionValueList,
-        string dimensionTypeCode,
-        string newDimensionValueCode,
-        Guid profileId
-    )
-    {
-        var talentDimensionValue =
-            talentDimensionValueList
-                .FirstOrDefault(
-                    entity =>
-                        entity
-                            .DimensionValue!
-                            .Dimension!
-                            .Code == dimensionTypeCode
-                );
-
-        var oldDimensionValueCode =
-            talentDimensionValue?
-                .DimensionValue?
-                .Code;
-
-        var isNotDifferent =
-            newDimensionValueCode == oldDimensionValueCode;
-
-        if (isNotDifferent)
-        {
-            return;
-        }
-
-        if(talentDimensionValue is not null)
-        {
-            await
-                deleteRepository
-                    .DeleteAsync(
-                        talentDimensionValue
-                    );
-        }
-
-        var isNotEmpty =
-            newDimensionValueCode.IsNotEmpty();
-
-        if (isNotEmpty)
-        {
-            var dimensionValueCollection =
-                genericReadRepository.GetCollection<DimensionValue>();
-
-            var dimensionValue =
-                await
-                    dimensionValueCollection
-                        .FirstOrDefaultAsync(
-                            entity =>
-                                entity.Dimension!.Code == dimensionTypeCode
-                                && entity.Code == newDimensionValueCode
-                        );
-
-            if (dimensionValue is null)
-            {
-                throw exceptionDescriptor.NotFound<DimensionValue>();
-            }
-
-            var newTalentDimensionValue =
-                new ProfileDimensionValue
-                {
-                    Id = Guid.NewGuid(),
-                    DimensionValueId = dimensionValue.Id,
-                    ProfileId = profileId,
-                };
-
-            await
-                createRepository
-                    .CreateAsync(
-                        newTalentDimensionValue
-                    );
-        }
-    }
 
     private static string GetMessageAsString(
         BasicDeliverEventArgs basicDeliverEventArgs
@@ -242,5 +109,4 @@ public sealed class UserProfileUpdatedEventHandlerBuilder : IUserProfileUpdatedE
         return
             message;
     }
-
 }

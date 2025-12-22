@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <LangVersion>default</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>disable</ImplicitUsings>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\FashionFace.Common.Constants\FashionFace.Common.Constants.csproj" />
+      <ProjectReference Include="..\FashionFace.Common.Exceptions\FashionFace.Common.Exceptions.csproj" />
+      <ProjectReference Include="..\FashionFace.Repositories.Read\FashionFace.Repositories.Read.csproj" />
+      <ProjectReference Include="..\FashionFace.Repositories\FashionFace.Repositories.csproj" />
+    </ItemGroup>
+
+</Project>

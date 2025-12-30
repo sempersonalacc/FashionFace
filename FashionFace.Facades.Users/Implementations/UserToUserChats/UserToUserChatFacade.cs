@@ -31,23 +31,17 @@ public sealed class UserToUserChatFacade(
                 userToUserChatCollection
 
                     .Include(
-                        entity => entity.ProfileCollection
-                    )
-                    .ThenInclude(
-                        entity => entity.Profile
+                        entity => entity.UserCollection
                     )
 
                     .FirstOrDefaultAsync(
                         entity =>
                             entity.Id == chatId
                             && entity
-                                .ProfileCollection
+                                .UserCollection
                                 .Any(
                                     profile =>
-                                        profile
-                                            .Profile!
-                                            .ApplicationUserId
-                                        == userId
+                                        profile.ApplicationUserId == userId
                                 )
                     );
 
@@ -58,12 +52,9 @@ public sealed class UserToUserChatFacade(
 
         var anotherUserIdList =
             userToUserChat
-                .ProfileCollection
+                .UserCollection
                 .Select(
-                    entity =>
-                        entity
-                            .Profile!
-                            .ApplicationUserId
+                    entity => entity.ApplicationUserId
                 )
                 .ToList();
 

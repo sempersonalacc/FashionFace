@@ -5,5 +5,4 @@ public enum ChatInvitationStatus
     Created,
     Accepted,
     Rejected,
-    Cancelled,
 }

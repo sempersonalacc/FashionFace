@@ -11,7 +11,7 @@ public sealed class UserToUserChat : EntityBase, IWithCreatedAt
     public required DateTime CreatedAt { get; set; }
 
     public ICollection<UserToUserChatMessage> MessageCollection { get; set; }
-    public ICollection<UserToUserChatProfile> ProfileCollection { get; set; }
+    public ICollection<UserToUserChatApplicationUser> UserCollection { get; set; }
 
     public UserToUserChatSettings?  Settings { get; set; }
 }

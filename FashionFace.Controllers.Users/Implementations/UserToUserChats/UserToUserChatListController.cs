@@ -67,7 +67,7 @@ public sealed class UserToUserChatListController(
                     entity =>
                         new UserToUserChatListItemResponse(
                             entity.ChatId,
-                            entity.UserId
+                            entity.UserIdList
                         )
                 )
                 .ToList();

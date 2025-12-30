@@ -9,6 +9,7 @@ public sealed class UserToUserChatMessage : EntityBase, IWithPositionIndex, IWit
 {
     public required Guid MessageId { get; set; }
     public required Guid ChatId { get; set; }
+
     public required double PositionIndex { get; set; }
     public required DateTime CreatedAt { get; set; }
 

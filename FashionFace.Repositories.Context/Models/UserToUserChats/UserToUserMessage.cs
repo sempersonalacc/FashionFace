@@ -7,9 +7,9 @@ namespace FashionFace.Repositories.Context.Models.UserToUserChats;
 
 public sealed class UserToUserMessage : EntityBase
 {
-    public required Guid UserId { get; set; }
+    public required Guid ApplicationUserId { get; set; }
 
     public required string Value { get; set; }
 
-    public ApplicationUser? User { get; set; }
+    public ApplicationUser? ApplicationUser { get; set; }
 }

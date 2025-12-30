@@ -35,23 +35,17 @@ public sealed class UserToUserChatMessageSendFacade(
                 userToUserChatCollection
 
                     .Include(
-                        entity => entity.ProfileCollection
-                    )
-                    .ThenInclude(
-                        entity => entity.Profile
+                        entity => entity.UserCollection
                     )
 
                     .FirstOrDefaultAsync(
                         entity =>
                             entity.Id == chatId
                             && entity
-                                .ProfileCollection
+                                .UserCollection
                                 .Any(
                                     profile =>
-                                        profile
-                                            .Profile!
-                                            .ApplicationUserId
-                                        == userId
+                                        profile.ApplicationUserId == userId
                                 )
                     );
 
@@ -90,7 +84,7 @@ public sealed class UserToUserChatMessageSendFacade(
             new UserToUserMessage
             {
                 Id = messageId,
-                UserId = userId,
+                ApplicationUserId = userId,
                 Value =  message,
             };
 

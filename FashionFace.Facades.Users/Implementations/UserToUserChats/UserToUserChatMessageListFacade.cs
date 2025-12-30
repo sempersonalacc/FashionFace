@@ -36,13 +36,10 @@ public sealed class UserToUserChatMessageListFacade(
                         entity =>
                             entity.Id == chatId
                             && entity
-                                .ProfileCollection
+                                .UserCollection
                                 .Any(
                                     profile =>
-                                        profile
-                                            .Profile!
-                                            .ApplicationUserId
-                                        == userId
+                                        profile.ApplicationUserId == userId
                                 )
                     );
 
@@ -84,7 +81,7 @@ public sealed class UserToUserChatMessageListFacade(
                     .Select(
                         entity =>
                             new UserToUserChatMessageListItemResult(
-                                entity.UserId,
+                                entity.ApplicationUserId,
                                 new(
                                     entity.Id,
                                     entity.Value

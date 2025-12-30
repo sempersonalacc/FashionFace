@@ -1003,8 +1003,7 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("ApplicationUserId");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("CreatedAt");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -1142,6 +1141,176 @@ namespace FashionFace.Repositories.Context.Migrations
                         .IsUnique();
 
                     b.ToTable("TalentMediaAggregate", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid?>("SettingsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SettingsId");
+
+                    b.ToTable("UserToUserChat", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatApplicationUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ApplicationUserId");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ChatId");
+
+                    b.Property<double>("LastReadMessagePositionIndex")
+                        .HasColumnType("double precision")
+                        .HasColumnName("LastReadMessagePositionIndex");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("Status");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("Type");
+
+                    b.Property<Guid?>("UserToUserChatId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("UserToUserChatId");
+
+                    b.ToTable("UserToUserChatApplicationUser", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatInvitation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("InitiatorUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InitiatorUserId");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("Status");
+
+                    b.Property<Guid>("TargetUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("TargetUserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InitiatorUserId");
+
+                    b.HasIndex("TargetUserId");
+
+                    b.ToTable("UserToUserChatInvitation", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ChatId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("MessageId");
+
+                    b.Property<double>("PositionIndex")
+                        .HasColumnType("double precision");
+
+                    b.Property<Guid?>("UserToUserChatId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("MessageId");
+
+                    b.HasIndex("UserToUserChatId");
+
+                    b.ToTable("UserToUserChatMessage", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatSettings", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ChatId");
+
+                    b.Property<string>("ChatType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("ChatType");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.ToTable("UserToUserChatSettings", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ApplicationUserId");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("UserToUserMessage", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -1731,6 +1900,102 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.Navigation("Talent");
                 });
 
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatSettings", "Settings")
+                        .WithMany()
+                        .HasForeignKey("SettingsId");
+
+                    b.Navigation("Settings");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatApplicationUser", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", null)
+                        .WithMany("UserCollection")
+                        .HasForeignKey("UserToUserChatId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Chat");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatInvitation", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "InitiatorUser")
+                        .WithMany()
+                        .HasForeignKey("InitiatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "TargetUser")
+                        .WithMany()
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InitiatorUser");
+
+                    b.Navigation("TargetUser");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatMessage", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserMessage", "Message")
+                        .WithMany()
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", null)
+                        .WithMany("MessageCollection")
+                        .HasForeignKey("UserToUserChatId");
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("Message");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatSettings", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserMessage", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationRole", null)
@@ -1876,6 +2141,13 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.Navigation("ProfileTalent");
 
                     b.Navigation("TalentMediaAggregate");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", b =>
+                {
+                    b.Navigation("MessageCollection");
+
+                    b.Navigation("UserCollection");
                 });
 #pragma warning restore 612, 618
         }

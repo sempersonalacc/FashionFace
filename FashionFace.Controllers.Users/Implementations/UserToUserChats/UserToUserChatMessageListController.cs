@@ -68,7 +68,10 @@ public sealed class UserToUserChatMessageListController(
                     entity =>
                         new UserToUserChatMessageListItemResponse(
                             entity.UserId,
-                            entity.Value
+                            new(
+                                entity.Message.Id,
+                                entity.Message.Value
+                            )
                         )
                 )
                 .ToList();

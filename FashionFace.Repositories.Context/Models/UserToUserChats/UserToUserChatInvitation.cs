@@ -13,7 +13,6 @@ public sealed class UserToUserChatInvitation : EntityBase, IWithCreatedAt
     public required Guid TargetUserId { get; set; }
 
     public required DateTime CreatedAt { get; set; }
-
     public required ChatInvitationStatus Status { get; set; }
 
     public ApplicationUser? InitiatorUser  { get; set; }

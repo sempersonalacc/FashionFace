@@ -31,14 +31,11 @@ public sealed class UserToUserChatLeftListFacade(
         Expression<Func<UserToUserChat, bool>> predicate =
             entity =>
                 entity
-                    .ProfileCollection
+                    .UserCollection
                     .Any(
                         profile =>
                             profile.Status == ChatMemberStatus.Left
-                            && profile
-                                .Profile!
-                                .ApplicationUserId
-                            == userId
+                            && profile.ApplicationUserId == userId
                     );
 
         var totalCount =
@@ -68,12 +65,9 @@ public sealed class UserToUserChatLeftListFacade(
                             new UserToUserChatLeftListItemResult(
                                 entity.Id,
                                 entity
-                                    .ProfileCollection
+                                    .UserCollection
                                     .Select(
-                                        profile =>
-                                            profile
-                                                .Profile!
-                                                .ApplicationUserId
+                                        profile => profile.ApplicationUserId
                                     )
                                     .ToList()
                             )

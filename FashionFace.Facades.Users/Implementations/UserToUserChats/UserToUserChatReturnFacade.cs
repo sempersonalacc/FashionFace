@@ -33,23 +33,17 @@ public sealed class UserToUserChatReturnFacade(
                 userToUserChatCollection
 
                     .Include(
-                        entity => entity.ProfileCollection
-                    )
-                    .ThenInclude(
-                        entity => entity.Profile
+                        entity => entity.UserCollection
                     )
 
                     .FirstOrDefaultAsync(
                         entity =>
                             entity.Id == chatId
                             && entity
-                                .ProfileCollection
+                                .UserCollection
                                 .Any(
                                     profile =>
-                                        profile
-                                            .Profile!
-                                            .ApplicationUserId
-                                        == userId
+                                        profile.ApplicationUserId == userId
                                 )
                     );
 
@@ -60,13 +54,10 @@ public sealed class UserToUserChatReturnFacade(
 
         var userToUserChatProfile =
             userToUserChat
-                .ProfileCollection
+                .UserCollection
                 .First(
                     entity =>
-                        entity
-                            .Profile!
-                            .ApplicationUserId
-                        == userId
+                        entity.ApplicationUserId == userId
                 );
 
         userToUserChatProfile.Status =

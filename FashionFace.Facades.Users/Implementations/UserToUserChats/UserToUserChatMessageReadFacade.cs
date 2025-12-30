@@ -51,23 +51,17 @@ public sealed class UserToUserChatMessageReadFacade(
                 userToUserChatCollection
 
                     .Include(
-                        entity => entity.ProfileCollection
-                    )
-                    .ThenInclude(
-                        entity => entity.Profile
+                        entity => entity.UserCollection
                     )
 
                     .FirstOrDefaultAsync(
                         entity =>
                             entity.Id == chatId
                             && entity
-                                .ProfileCollection
+                                .UserCollection
                                 .Any(
                                     profile =>
-                                        profile
-                                            .Profile!
-                                            .ApplicationUserId
-                                        == userId
+                                        profile.ApplicationUserId == userId
                                 )
                     );
 
@@ -77,7 +71,7 @@ public sealed class UserToUserChatMessageReadFacade(
         }
 
         var userToUserChatProfileCollection =
-            genericReadRepository.GetCollection<UserToUserChatProfile>();
+            genericReadRepository.GetCollection<UserToUserChatApplicationUser>();
 
         var userToUserChatProfile =
             await
@@ -85,15 +79,12 @@ public sealed class UserToUserChatMessageReadFacade(
                     .FirstOrDefaultAsync(
                         entity =>
                             entity.ChatId == chatId
-                            && entity
-                                .Profile!
-                                .ApplicationUserId
-                            == userId
+                            && entity.ApplicationUserId == userId
                     );
 
         if (userToUserChatProfile is null)
         {
-            throw exceptionDescriptor.NotFound<UserToUserChatProfile>();
+            throw exceptionDescriptor.NotFound<UserToUserChatApplicationUser>();
         }
 
         userToUserChatProfile.LastReadMessagePositionIndex =

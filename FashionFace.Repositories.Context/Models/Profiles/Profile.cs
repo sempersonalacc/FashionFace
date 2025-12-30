@@ -13,7 +13,7 @@ using FashionFace.Repositories.Context.Models.MediaEntities;
 namespace FashionFace.Repositories.Context.Models.Profiles;
 
 public sealed class Profile : EntityBase,
-    IWithIsDeleted
+    IWithIsDeleted, IWithCreatedAt
 {
     public required Guid ApplicationUserId { get; set; }
     public required bool IsDeleted { get; set; }

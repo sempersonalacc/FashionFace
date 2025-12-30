@@ -21,4 +21,9 @@
         <ProjectReference Include="..\FashionFace.Dependencies.RabbitMq.Facades\FashionFace.Dependencies.RabbitMq.Facades.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Implementations\UserToUserChats\" />
+      <Folder Include="Implementations\UserToUserInvites\" />
+    </ItemGroup>
+
 </Project>

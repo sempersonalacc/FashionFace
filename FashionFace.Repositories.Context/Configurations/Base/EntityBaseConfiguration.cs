@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System;
+using System.Linq.Expressions;
 
 using FashionFace.Repositories.Context.Interfaces;
 using FashionFace.Repositories.Context.Models.Base;
@@ -122,6 +123,40 @@ public abstract class EntityBaseConfiguration<TEntity> : IEntityTypeConfiguratio
                 )
                 .HasColumnType(
                     "double precision"
+                )
+                .IsRequired();
+        }
+
+        var isWithCreatedAt =
+            type
+                .IsAssignableFrom(
+                    typeof(IWithCreatedAt)
+                );
+
+        if (isWithCreatedAt)
+        {
+            var parameter = Expression.Parameter(
+                type,
+                "entity"
+            );
+            var property = Expression.Property(
+                parameter,
+                nameof(IWithCreatedAt.CreatedAt)
+            );
+            var lambda = Expression.Lambda(
+                property,
+                parameter
+            );
+
+            builder
+                .Property(
+                    (dynamic)lambda
+                )
+                .HasColumnName(
+                    "CreatedAt"
+                )
+                .HasColumnType(
+                    "timestamp with time zone"
                 )
                 .IsRequired();
         }

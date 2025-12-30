@@ -52,18 +52,6 @@ public sealed class ProfileConfiguration : EntityBaseConfiguration<Profile>
 
         builder
             .Property(
-                entity => entity.CreatedAt
-            )
-            .HasColumnName(
-                "CreatedAt"
-            )
-            .HasColumnType(
-                "timestamp with time zone"
-            )
-            .IsRequired();
-
-        builder
-            .Property(
                 entity => entity.AgeCategoryType
             )
             .HasColumnName(

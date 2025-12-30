@@ -5,7 +5,7 @@ using FashionFace.Facades.Users.Models.UserToUserChats;
 
 namespace FashionFace.Facades.Users.Interfaces.UserToUserChats;
 
-public interface IUserToUserChatLeavedListFacade :
+public interface IUserToUserChatLeftListFacade :
     IQueryFacade
     <
         UserToUserChatLeftListArgs,

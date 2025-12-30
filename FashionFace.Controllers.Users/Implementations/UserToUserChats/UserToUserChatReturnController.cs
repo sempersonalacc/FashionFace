@@ -3,7 +3,6 @@
 using FashionFace.Controllers.Base.Attributes.Groups;
 using FashionFace.Controllers.Users.Implementations.Base;
 using FashionFace.Controllers.Users.Requests.Models.UserToUserChats;
-using FashionFace.Controllers.Users.Responses.Models.UserToUserChats;
 using FashionFace.Facades.Users.Args.UserToUserChats;
 using FashionFace.Facades.Users.Interfaces.UserToUserChats;
 
@@ -15,40 +14,30 @@ namespace FashionFace.Controllers.Users.Implementations.UserToUserChats;
     "UserToUserChat"
 )]
 [Route(
-    "api/v1/user-to-user-chat"
+    "api/v1/user-to-user-chat/return"
 )]
-public sealed class UserToUserChatController(
-    IUserToUserChatFacade facade
+public sealed class UserToUserChatReturnController(
+    IUserToUserChatReturnFacade facade
 ) : BaseUserController
 {
-    [HttpGet]
-    public async Task<UserToUserChatResponse> Invoke(
-        [FromQuery] UserToUserChatRequest request
+    [HttpPost]
+    public async Task Invoke(
+        [FromBody] UserToUserChatReturnRequest request
     )
     {
         var userId =
             GetUserId();
 
         var facadeArgs =
-            new UserToUserChatArgs(
+            new UserToUserChatReturnArgs(
                 userId,
                 request.ChatId
             );
 
-        var result =
-            await
-                facade
-                    .Execute(
-                        facadeArgs
-                    );
-
-        var response =
-            new UserToUserChatResponse(
-                result.ChatId,
-                result.UserIdList
-            );
-
-        return
-            response;
+        await
+            facade
+                .Execute(
+                    facadeArgs
+                );
     }
 }

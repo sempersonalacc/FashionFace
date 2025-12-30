@@ -22,7 +22,7 @@ namespace FashionFace.Controllers.Users.Implementations.UserToUserChats;
     "api/v1/user-to-user-chat/left/list"
 )]
 public sealed class UserToUserChatLeftListController(
-    IUserToUserChatLeavedListFacade facade
+    IUserToUserChatLeftListFacade facade
 ) : BaseUserController
 {
     [HttpGet]
@@ -67,7 +67,7 @@ public sealed class UserToUserChatLeftListController(
                     entity =>
                         new UserToUserChatLeftListItemResponse(
                             entity.ChatId,
-                            entity.UserId
+                            entity.UserIdList
                         )
                 )
                 .ToList();

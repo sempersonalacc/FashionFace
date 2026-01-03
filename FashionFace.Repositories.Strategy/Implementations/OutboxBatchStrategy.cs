@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FashionFace.Repositories.Strategy.Implementations;
 
-public sealed class PostgresOutboxBatchStrategy<TEntity>(
+public sealed class OutboxBatchStrategy<TEntity>(
     IExecuteRepository executeRepository,
     IUpdateRepository updateRepository,
     ITransactionManager transactionManager
@@ -21,7 +21,7 @@ public sealed class PostgresOutboxBatchStrategy<TEntity>(
     where TEntity : class, IOutbox
 {
     public async Task<IReadOnlyList<TEntity>> ClaimBatchAsync(
-        PostgresOutboxBatchStrategyArgs args
+        OutboxBatchStrategyArgs args
     )
     {
         var (sql, parameterList) = args;

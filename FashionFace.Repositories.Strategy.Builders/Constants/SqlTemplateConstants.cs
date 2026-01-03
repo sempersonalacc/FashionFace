@@ -1,4 +1,4 @@
-﻿namespace FashionFace.Repositories.Strategy.Constants;
+﻿namespace FashionFace.Repositories.Strategy.Builders.Constants;
 
 public static class SqlTemplateConstants
 {

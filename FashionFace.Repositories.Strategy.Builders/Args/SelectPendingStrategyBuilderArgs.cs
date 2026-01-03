@@ -1,4 +1,4 @@
-﻿namespace FashionFace.Repositories.Strategy.Args;
+﻿namespace FashionFace.Repositories.Strategy.Builders.Args;
 
 public sealed record SelectPendingStrategyBuilderArgs(
     int BatchCount

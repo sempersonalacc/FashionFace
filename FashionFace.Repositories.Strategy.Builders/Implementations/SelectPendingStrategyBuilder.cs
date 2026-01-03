@@ -4,14 +4,15 @@ using FashionFace.Repositories.Context.Enums;
 using FashionFace.Repositories.Context.Interfaces;
 using FashionFace.Repositories.Models;
 using FashionFace.Repositories.Strategy.Args;
-using FashionFace.Repositories.Strategy.Constants;
-using FashionFace.Repositories.Strategy.Interfaces;
+using FashionFace.Repositories.Strategy.Builders.Args;
+using FashionFace.Repositories.Strategy.Builders.Constants;
+using FashionFace.Repositories.Strategy.Builders.Interfaces;
 
-namespace FashionFace.Repositories.Strategy.Implementations;
+namespace FashionFace.Repositories.Strategy.Builders.Implementations;
 
 public sealed class SelectPendingStrategyBuilder : ISelectPendingStrategyBuilder
 {
-    public PostgresOutboxBatchStrategyArgs Build<TEntity>(
+    public OutboxBatchStrategyArgs Build<TEntity>(
         SelectPendingStrategyBuilderArgs args
     )
         where TEntity : class, IOutbox
@@ -42,7 +43,7 @@ public sealed class SelectPendingStrategyBuilder : ISelectPendingStrategyBuilder
         ];
 
         var postgresOutboxBatchStrategyArgs =
-            new PostgresOutboxBatchStrategyArgs(
+            new OutboxBatchStrategyArgs(
                 sql,
                 parameterList
             );

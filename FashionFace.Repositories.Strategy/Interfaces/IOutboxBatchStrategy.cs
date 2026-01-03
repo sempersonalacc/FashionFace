@@ -10,7 +10,7 @@ public interface IOutboxBatchStrategy<TEntity>
     where TEntity : class, IOutbox
 {
     Task<IReadOnlyList<TEntity>> ClaimBatchAsync(
-        PostgresOutboxBatchStrategyArgs args
+        OutboxBatchStrategyArgs args
     );
 
     Task MakeDoneAsync(

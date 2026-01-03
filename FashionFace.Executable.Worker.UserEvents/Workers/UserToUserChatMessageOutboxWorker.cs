@@ -3,7 +3,8 @@
 using FashionFace.Dependencies.SignalR.Interfaces;
 using FashionFace.Dependencies.SignalR.Models;
 using FashionFace.Repositories.Context.Models.UserToUserChats;
-using FashionFace.Repositories.Strategy.Args;
+using FashionFace.Repositories.Strategy.Builders.Args;
+using FashionFace.Repositories.Strategy.Builders.Interfaces;
 using FashionFace.Repositories.Strategy.Interfaces;
 
 using Microsoft.Extensions.Logging;

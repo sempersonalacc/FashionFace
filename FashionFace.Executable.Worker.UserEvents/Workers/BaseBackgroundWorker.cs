@@ -30,24 +30,37 @@ public abstract class BaseBackgroundWorker<TWorker>(
                     $"{workerName} cycle started"
                 );
 
-            await
-                DoWorkAsync();
+            try
+            {
+                await
+                    DoWorkAsync(
+                        cancellationToken
+                    );
+            }
+            catch (Exception exception)
+            {
+                logger
+                    .LogError(
+                    exception,
+                    $"{workerName} encountered an error during cycle"
+                );
+            }
 
             logger
                 .LogInformation(
                     $"{workerName} cycle ended"
                 );
 
-            var fiveSecondsTimeStamp =
-                TimeSpan
-                    .FromSeconds(
-                        30
-                    );
+            var jitter =
+                GetJitter();
+
+            var totalDelay =
+                GetDelay() + jitter;
 
             await
                 Task
                     .Delay(
-                        fiveSecondsTimeStamp,
+                        totalDelay,
                         cancellationToken
                     );
         }
@@ -58,5 +71,29 @@ public abstract class BaseBackgroundWorker<TWorker>(
             );
     }
 
-    protected abstract Task DoWorkAsync();
+    private static TimeSpan GetJitter()
+    {
+        var random =
+            new Random();
+
+        var milliseconds =
+            random
+                .Next(
+                    0,
+                    500
+                );
+
+        var timeSpan =
+            TimeSpan
+                .FromMilliseconds(
+                    milliseconds
+                );
+
+        return
+            timeSpan;
+    }
+
+    protected abstract Task DoWorkAsync(CancellationToken cancellationToken);
+
+    protected abstract TimeSpan GetDelay();
 }

@@ -12,7 +12,7 @@ public static class SqlTemplateConstants
             LIMIT @BatchCount
         """;
 
-    public const string SelectByStatusAndProcessingStartedAt =
+    public const string SelectClaimedRetry =
         """
             SELECT *
             FROM "{0}"

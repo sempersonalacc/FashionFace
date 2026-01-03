@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 using FashionFace.Dependencies.SignalR.Interfaces;
 using FashionFace.Dependencies.SignalR.Models;
@@ -11,25 +13,28 @@ using Microsoft.Extensions.Logging;
 
 namespace FashionFace.Executable.Worker.UserEvents.Workers;
 
-public sealed class UserToUserChatMessageOutboxWorker(
+public sealed class UserToUserChatMessageOutboxPendingWorker(
     IUserToUserChatNotificationsHubService userToUserChatNotificationsHubService,
     IOutboxBatchStrategy<UserToUserChatMessageOutbox> outboxBatchStrategy,
     ISelectPendingStrategyBuilder selectPendingStrategyBuilder,
-    ILogger<UserToUserChatMessageOutboxWorker> logger
-) : BaseBackgroundWorker<UserToUserChatMessageOutboxWorker>(
+    ILogger<UserToUserChatMessageOutboxPendingWorker> logger
+) : BaseBackgroundWorker<UserToUserChatMessageOutboxPendingWorker>(
     logger
 )
 {
+    private const int CycleDelayInSeconds = 5;
     private const int BatchCount = 5;
 
-    protected override async Task DoWorkAsync()
+    protected override async Task DoWorkAsync(
+        CancellationToken cancellationToken
+    )
     {
         var selectPendingStrategyBuilderArgs =
             new SelectPendingStrategyBuilderArgs(
                 BatchCount
             );
 
-        var postgresOutboxBatchStrategyArgs =
+        var outboxBatchStrategyArgs =
             selectPendingStrategyBuilder
                 .Build<UserToUserChatMessageOutbox>(
                     selectPendingStrategyBuilderArgs
@@ -39,8 +44,13 @@ public sealed class UserToUserChatMessageOutboxWorker(
             await
                 outboxBatchStrategy
                     .ClaimBatchAsync(
-                        postgresOutboxBatchStrategyArgs
+                        outboxBatchStrategyArgs
                     );
+
+        if (cancellationToken.IsCancellationRequested)
+        {
+            return;
+        }
 
         foreach (var userToUserChatMessageOutbox in userToUserChatMessageOutboxList)
         {
@@ -53,6 +63,11 @@ public sealed class UserToUserChatMessageOutboxWorker(
                     userToUserChatMessageOutbox.MessagePositionIndex,
                     userToUserChatMessageOutbox.MessageCreatedAt
                 );
+
+            if (cancellationToken.IsCancellationRequested)
+            {
+                return;
+            }
 
             await
                 userToUserChatNotificationsHubService
@@ -68,4 +83,10 @@ public sealed class UserToUserChatMessageOutboxWorker(
                     );
         }
     }
+
+    protected override TimeSpan GetDelay() =>
+        TimeSpan
+            .FromSeconds(
+                CycleDelayInSeconds
+            );
 }

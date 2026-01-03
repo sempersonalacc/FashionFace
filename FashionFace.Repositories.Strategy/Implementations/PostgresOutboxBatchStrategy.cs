@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 
 using FashionFace.Repositories.Context.Enums;
+using FashionFace.Repositories.Context.Interfaces;
 using FashionFace.Repositories.Interfaces;
-using FashionFace.Repositories.Models;
 using FashionFace.Repositories.Strategy.Args;
 using FashionFace.Repositories.Strategy.Interfaces;
+using FashionFace.Repositories.Transactions.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -14,47 +15,20 @@ namespace FashionFace.Repositories.Strategy.Implementations;
 
 public sealed class PostgresOutboxBatchStrategy<TEntity>(
     IExecuteRepository executeRepository,
-    IUpdateRepository updateRepository
+    IUpdateRepository updateRepository,
+    ITransactionManager transactionManager
 ) : IOutboxBatchStrategy<TEntity>
-    where TEntity : class
+    where TEntity : class, IOutbox
 {
     public async Task<IReadOnlyList<TEntity>> ClaimBatchAsync(
         PostgresOutboxBatchStrategyArgs args
     )
     {
-        var (status, batchSize) = args;
+        var (sql, parameterList) = args;
 
-        const string SqlFormat =
-            """
-                SELECT *
-                FROM "{0}"
-                WHERE "Status" = @Status
-                ORDER BY "MessageCreatedAt"
-                FOR UPDATE SKIP LOCKED
-                LIMIT @BatchCount
-            """;
-
-        var tableName =
-            typeof(TEntity).Name;
-
-        var sql =
-            string
-                .Format(
-                    SqlFormat,
-                    tableName
-                );
-
-        IReadOnlyList<SqlParameter> parameterList =
-        [
-            new SqlParameter(
-                "Status",
-                status.ToString()
-            ),
-            new SqlParameter(
-                "BatchCount",
-                batchSize
-            ),
-        ];
+        using var transaction =
+            await
+                transactionManager.BeginTransaction();
 
         var entityList =
             await
@@ -65,7 +39,7 @@ public sealed class PostgresOutboxBatchStrategy<TEntity>(
                     )
                     .ToListAsync();
 
-        foreach (dynamic entity in entityList)
+        foreach (var entity in entityList)
         {
             entity.AttemptCount++;
             entity.Status = OutboxStatus.Claimed;
@@ -78,7 +52,23 @@ public sealed class PostgresOutboxBatchStrategy<TEntity>(
                     entityList
                 );
 
+        await
+            transaction.CommitAsync();
+
         return
             entityList;
+    }
+
+    public async Task MakeDoneAsync(
+        TEntity entity
+    )
+    {
+        entity.Status = OutboxStatus.Done;
+
+        await
+            updateRepository
+                .UpdateAsync(
+                    entity
+                );
     }
 }

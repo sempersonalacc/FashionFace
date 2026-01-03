@@ -1,8 +1,10 @@
-﻿using FashionFace.Repositories.Context.Enums;
+﻿using System.Collections.Generic;
+
+using FashionFace.Repositories.Models;
 
 namespace FashionFace.Repositories.Strategy.Args;
 
 public sealed record PostgresOutboxBatchStrategyArgs(
-    OutboxStatus Status,
-    int BatchSize
+    string Sql,
+    IReadOnlyList<SqlParameter> ParameterList
 );

@@ -1,12 +1,13 @@
 ﻿using System;
 
 using FashionFace.Repositories.Context.Enums;
+using FashionFace.Repositories.Context.Interfaces;
 using FashionFace.Repositories.Context.Models.Base;
 using FashionFace.Repositories.Context.Models.IdentityEntities;
 
 namespace FashionFace.Repositories.Context.Models.UserToUserChats;
 
-public sealed class UserToUserChatMessageOutbox : EntityBase
+public sealed class UserToUserChatMessageOutbox : EntityBase, IOutbox
 {
     public required Guid ChatId { get; set; }
     public required Guid InitiatorUserId { get; set; }

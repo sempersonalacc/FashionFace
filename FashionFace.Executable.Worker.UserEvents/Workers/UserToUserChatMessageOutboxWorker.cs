@@ -1,80 +1,45 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 using FashionFace.Dependencies.SignalR.Interfaces;
 using FashionFace.Dependencies.SignalR.Models;
-using FashionFace.Repositories.Context.Enums;
 using FashionFace.Repositories.Context.Models.UserToUserChats;
-using FashionFace.Repositories.Interfaces;
-using FashionFace.Repositories.Models;
+using FashionFace.Repositories.Strategy.Args;
 using FashionFace.Repositories.Strategy.Interfaces;
-using FashionFace.Repositories.Transactions.Interfaces;
 
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace FashionFace.Executable.Worker.UserEvents.Workers;
 
 public sealed class UserToUserChatMessageOutboxWorker(
-    IExecuteRepository executeRepository,
-    IUpdateRepository updateRepository,
-    ITransactionManager transactionManager,
     IUserToUserChatNotificationsHubService userToUserChatNotificationsHubService,
     IOutboxBatchStrategy<UserToUserChatMessageOutbox> outboxBatchStrategy,
+    ISelectPendingStrategyBuilder selectPendingStrategyBuilder,
     ILogger<UserToUserChatMessageOutboxWorker> logger
 ) : BaseBackgroundWorker<UserToUserChatMessageOutboxWorker>(
     logger
-) {
+)
+{
     private const int BatchCount = 5;
 
     protected override async Task DoWorkAsync()
     {
-        using var transaction =
-            await
-                transactionManager.BeginTransaction();
+        var selectPendingStrategyBuilderArgs =
+            new SelectPendingStrategyBuilderArgs(
+                BatchCount
+            );
 
-        var userToUserChatMessageOutboxQuery =
-            executeRepository
-                .FromSqlRaw<UserToUserChatMessageOutbox>(
-                    """
-                    SELECT *
-                    FROM "UserToUserChatMessageOutbox"
-                    WHERE "Status" = @Status
-                    ORDER BY "MessageCreatedAt"
-                    FOR UPDATE SKIP LOCKED
-                    LIMIT @BatchCount
-                    """,
-                    [
-                        new SqlParameter(
-                            "Status",
-                            nameof(OutboxStatus.Pending)
-                        ),
-                        new SqlParameter(
-                            "BatchCount",
-                            BatchCount
-                        ),
-                    ]
+        var postgresOutboxBatchStrategyArgs =
+            selectPendingStrategyBuilder
+                .Build<UserToUserChatMessageOutbox>(
+                    selectPendingStrategyBuilderArgs
                 );
 
         var userToUserChatMessageOutboxList =
             await
-                userToUserChatMessageOutboxQuery.ToListAsync();
-
-        foreach (var userToUserChatMessageOutbox in userToUserChatMessageOutboxList)
-        {
-            userToUserChatMessageOutbox.AttemptCount++;
-            userToUserChatMessageOutbox.Status = OutboxStatus.Claimed;
-            userToUserChatMessageOutbox.ProcessingStartedAt = DateTime.UtcNow;
-        }
-
-        await
-            updateRepository
-                .UpdateCollectionAsync(
-                    userToUserChatMessageOutboxList
-                );
-
-        await
-            transaction.CommitAsync();
+                outboxBatchStrategy
+                    .ClaimBatchAsync(
+                        postgresOutboxBatchStrategyArgs
+                    );
 
         foreach (var userToUserChatMessageOutbox in userToUserChatMessageOutboxList)
         {
@@ -95,11 +60,9 @@ public sealed class UserToUserChatMessageOutboxWorker(
                         messageReceivedMessage
                     );
 
-            userToUserChatMessageOutbox.Status = OutboxStatus.Done;
-
             await
-                updateRepository
-                    .UpdateAsync(
+                outboxBatchStrategy
+                    .MakeDoneAsync(
                         userToUserChatMessageOutbox
                     );
         }

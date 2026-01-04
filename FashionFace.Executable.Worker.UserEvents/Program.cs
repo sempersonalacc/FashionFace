@@ -88,8 +88,17 @@ serviceCollection.AddStackExchangeRedisCache(
 
 serviceCollection.SetupDependencies();
 
+builder.Services.AddHostedService<UserToUserChatMessageSendOutboxPendingWorker>();
+builder.Services.AddHostedService<UserToUserChatMessageSendOutboxClaimedRetryWorker>();
+
+builder.Services.AddHostedService<UserToUserChatMessageReadOutboxPendingWorker>();
+builder.Services.AddHostedService<UserToUserChatMessageReadOutboxClaimedRetryWorker>();
+
 builder.Services.AddHostedService<UserToUserChatMessageSendNotificationOutboxPendingWorker>();
 builder.Services.AddHostedService<UserToUserChatMessageSendNotificationOutboxClaimedRetryWorker>();
+
+builder.Services.AddHostedService<UserToUserChatMessageReadNotificationOutboxPendingWorker>();
+builder.Services.AddHostedService<UserToUserChatMessageReadNotificationOutboxClaimedRetryWorker>();
 
 var host =
     builder.Build();

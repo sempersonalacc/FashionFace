@@ -77,6 +77,52 @@
       - app-network
 
 
+  hubs:
+    image: hubs
+    container_name: hubs
+    hostname: hubs
+    build:
+      context: .
+      dockerfile: FashionFace.Executable.Hubs/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=$Environment
+      - Database__ConnectionString=Host=${Postgres_Host};Port=${Postgres_Port};Database=${Postgres_Db};Username=${Postgres_User};Password=${Postgres_Password};Include Error Detail=true;
+      - NanoBanana__ApiKey=$NanoBanana_ApiKey
+      - Jwt__Issuer=$Jwt_Issuer
+      - Jwt__Audience=$Jwt_Audience
+      - Jwt__Secret=$Jwt_Secret
+      - Jwt__AccessTokenExpiryMinutes=$Jwt_AccessTokenExpiryMinutes
+      - Jwt__RefreshTokenExpiryDays=$Jwt_RefreshTokenExpiryDays
+      - RabbitMq__Host=$RabbitMq_Host
+      - RabbitMq__VHost=$RabbitMq_VHost
+      - RabbitMq__Port=$RabbitMq_Port
+      - RabbitMq__UserName=$RabbitMq_UserName
+      - RabbitMq__Password=$RabbitMq_Password
+      - Redis__Configuration=$Redis_Configuration
+      - Redis__InstanceName=$Redis_InstanceName
+    ports:
+      - "8090:8090"
+    expose:
+      - 8090
+    volumes:
+      - "${Hubs_Log_Dir}:/app/logs:rw"
+    depends_on:
+      postgres_migration:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      redis_stack:
+        condition: service_started
+    logging:
+      options:
+        max-size: $Docker_Log_Size
+    restart: unless-stopped
+    networks:
+      - app-network
+
+
   user_event_worker:
     image: user_event_worker
     container_name: user_event_worker

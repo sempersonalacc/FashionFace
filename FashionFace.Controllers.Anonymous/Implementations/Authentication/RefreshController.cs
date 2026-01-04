@@ -17,7 +17,7 @@ namespace FashionFace.Controllers.Anonymous.Implementations.Authentication;
 )]
 public sealed class RefreshController(
     IRefreshFacade facade
-) : BaseAnonymousController
+) : AnonymousControllerBase
 {
     [HttpPost]
     public async Task<RefreshResponse> Invoke(

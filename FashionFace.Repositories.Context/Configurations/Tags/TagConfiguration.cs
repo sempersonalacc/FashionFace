@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Tags;
 
-public sealed class TagConfiguration : EntityBaseConfiguration<Tag>
+public sealed class TagConfiguration : EntityConfigurationBase<Tag>
 {
     public override void Configure(EntityTypeBuilder<Tag> builder)
     {

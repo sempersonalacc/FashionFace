@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Profiles;
 
-public sealed class ProfileMediaAggregateConfiguration : EntityBaseConfiguration<ProfileMediaAggregate>
+public sealed class ProfileMediaAggregateConfiguration : EntityConfigurationBase<ProfileMediaAggregate>
 {
     public override void Configure(EntityTypeBuilder<ProfileMediaAggregate> builder)
     {

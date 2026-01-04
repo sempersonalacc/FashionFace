@@ -33,7 +33,7 @@ public sealed class SelectPendingForClaimStrategyBuilder : ISelectPendingStrateg
         IReadOnlyList<SqlParameter> parameterList =
         [
             new(
-                "Status",
+                "OutboxStatus",
                 nameof(OutboxStatus.Pending)
             ),
             new(

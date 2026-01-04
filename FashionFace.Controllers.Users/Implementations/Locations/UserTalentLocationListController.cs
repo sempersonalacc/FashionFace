@@ -23,7 +23,7 @@ namespace FashionFace.Controllers.Users.Implementations.Locations;
 )]
 public sealed class UserLocationListController(
     IUserLocationListFacade facade
-) : BaseUserController
+) : UserControllerBase
 {
     [HttpGet]
     public async Task<ListResponse<UserLocationListItemResponse>> Invoke(

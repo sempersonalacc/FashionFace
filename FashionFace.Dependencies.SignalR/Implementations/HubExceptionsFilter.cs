@@ -16,7 +16,7 @@ namespace FashionFace.Dependencies.SignalR.Implementations;
 public sealed class HubExceptionsFilter(
     ILogger<HubExceptionsFilter> logger,
     ISerializationDecorator serializationDecorator
-) : IBaseHubFilter
+) : IHubFilterBase
 {
     public async ValueTask<object?> InvokeMethodAsync(
         HubInvocationContext invocationContext,

@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Filters;
 
-public sealed class DimensionValueConfiguration : EntityBaseConfiguration<DimensionValue>
+public sealed class DimensionValueConfiguration : EntityConfigurationBase<DimensionValue>
 {
     public override void Configure(EntityTypeBuilder<DimensionValue> builder)
     {

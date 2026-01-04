@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Locations;
 
-public sealed class LocationConfiguration : EntityBaseConfiguration<Location>
+public sealed class LocationConfiguration : EntityConfigurationBase<Location>
 {
     public override void Configure(EntityTypeBuilder<Location> builder)
     {

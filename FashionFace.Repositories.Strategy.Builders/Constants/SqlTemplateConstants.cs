@@ -6,7 +6,7 @@ public static class SqlTemplateConstants
         """
             SELECT *
             FROM "{0}"
-            WHERE "Status" = @Status and "ProcessingStartedAt" is null
+            WHERE "OutboxStatus" = @OutboxStatus and "ProcessingStartedAt" is null
             ORDER BY "MessageCreatedAt"
             FOR UPDATE SKIP LOCKED
             LIMIT @BatchCount
@@ -16,7 +16,7 @@ public static class SqlTemplateConstants
         """
             SELECT *
             FROM "{0}"
-            WHERE "Status" = @Status and "ProcessingStartedAt" < @ProcessingStartedAt
+            WHERE "OutboxStatus" = @OutboxStatus and "ProcessingStartedAt" < @ProcessingStartedAt
             ORDER BY "MessageCreatedAt"
             FOR UPDATE SKIP LOCKED
             LIMIT @BatchCount

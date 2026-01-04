@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Locations;
 
-public sealed class LandmarkConfiguration : EntityBaseConfiguration<Landmark>
+public sealed class LandmarkConfiguration : EntityConfigurationBase<Landmark>
 {
     public override void Configure(EntityTypeBuilder<Landmark> builder)
     {

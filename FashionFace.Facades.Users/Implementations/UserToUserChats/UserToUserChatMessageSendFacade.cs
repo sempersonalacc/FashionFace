@@ -8,6 +8,7 @@ using FashionFace.Facades.Users.Args.UserToUserChats;
 using FashionFace.Facades.Users.Interfaces.UserToUserChats;
 using FashionFace.Facades.Users.Models.UserToUserChats;
 using FashionFace.Repositories.Context.Enums;
+using FashionFace.Repositories.Context.Models.OutboxEntity;
 using FashionFace.Repositories.Context.Models.UserToUserChats;
 using FashionFace.Repositories.Interfaces;
 using FashionFace.Repositories.Read.Interfaces;
@@ -105,34 +106,17 @@ public sealed class UserToUserChatMessageSendFacade(
                 Message = userToUserMessage,
             };
 
-        var userToUserChatMessageOutboxList =
-            userToUserChat
-                .UserCollection
-                .Where(
-                    entity =>
-                        entity.ApplicationUserId != userId
-                )
-                .Select(
-                    entity => entity.ApplicationUserId
-                )
-                .Select(
-                    targetUserId =>
-                        new UserToUserChatMessageOutbox
-                        {
-                            Id = Guid.NewGuid(),
-                            ChatId = chatId,
-                            MessageId = messageId,
-                            MessageValue = message,
-                            MessagePositionIndex = positionIndex,
-                            MessageCreatedAt = createdAt,
-                            InitiatorUserId = userId,
-                            TargetUserId = targetUserId,
-                            AttemptCount = 0,
-                            Status = OutboxStatus.Pending,
-                            ProcessingStartedAt = null,
-                        }
-                )
-                .ToList();
+        var userToUserChatMessageOutbox =
+            new UserToUserChatMessageSendOutbox
+            {
+                Id = Guid.NewGuid(),
+                ChatId = chatId,
+                MessageId = messageId,
+                InitiatorUserId = userId,
+                AttemptCount = 0,
+                OutboxStatus = OutboxStatus.Pending,
+                ProcessingStartedAt = null,
+            };
 
         using var transaction =
             await
@@ -146,8 +130,8 @@ public sealed class UserToUserChatMessageSendFacade(
 
         await
             createRepository
-                .CreateCollectionAsync(
-                    userToUserChatMessageOutboxList
+                .CreateAsync(
+                    userToUserChatMessageOutbox
                 );
 
         await

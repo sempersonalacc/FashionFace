@@ -18,7 +18,7 @@ namespace FashionFace.Controllers.Users.Implementations.Locations;
 )]
 public sealed class UserLocationUpdateController(
     IUserLocationUpdateFacade facade
-) : BaseUserController
+) : UserControllerBase
 {
     [ApiExplorerSettings(
         IgnoreApi = true

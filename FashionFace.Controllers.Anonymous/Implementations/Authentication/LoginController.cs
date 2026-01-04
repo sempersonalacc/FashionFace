@@ -17,7 +17,7 @@ namespace FashionFace.Controllers.Anonymous.Implementations.Authentication;
 )]
 public sealed class LoginController(
     ILoginFacade facade
-) : BaseAnonymousController
+) : AnonymousControllerBase
 {
     [HttpPost]
     public async Task<LoginResponse> Invoke(

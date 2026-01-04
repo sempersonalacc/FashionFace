@@ -40,7 +40,7 @@ public sealed class SelectClaimedForRetryStrategyBuilder : ISelectClaimedRetrySt
         IReadOnlyList<SqlParameter> parameterList =
         [
             new(
-                "Status",
+                "OutboxStatus",
                 nameof(OutboxStatus.Claimed)
             ),
             new(

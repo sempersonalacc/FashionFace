@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.DossierEntities;
 
-public sealed class DossierMediaConfiguration : EntityBaseConfiguration<DossierMediaAggregate>
+public sealed class DossierMediaConfiguration : EntityConfigurationBase<DossierMediaAggregate>
 {
     public override void Configure(EntityTypeBuilder<DossierMediaAggregate> builder)
     {

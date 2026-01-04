@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.AppearanceTraitsEntities;
 
-public sealed class AppearanceTraitsConfiguration : EntityBaseConfiguration<AppearanceTraits>
+public sealed class AppearanceTraitsConfiguration : EntityConfigurationBase<AppearanceTraits>
 {
     public override void Configure(EntityTypeBuilder<AppearanceTraits> builder)
     {

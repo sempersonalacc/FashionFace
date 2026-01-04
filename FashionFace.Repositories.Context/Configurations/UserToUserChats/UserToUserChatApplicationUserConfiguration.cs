@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.UserToUserChats;
 
-public sealed class UserToUserChatApplicationUserConfiguration : EntityBaseConfiguration<UserToUserChatApplicationUser>
+public sealed class UserToUserChatApplicationUserConfiguration : EntityConfigurationBase<UserToUserChatApplicationUser>
 {
     public override void Configure(EntityTypeBuilder<UserToUserChatApplicationUser> builder)
     {
@@ -43,7 +43,7 @@ public sealed class UserToUserChatApplicationUserConfiguration : EntityBaseConfi
                 entity => entity.Status
             )
             .HasColumnName(
-                "Status"
+                "OutboxStatus"
             )
             .HasConversion<string>()
             .HasColumnType(

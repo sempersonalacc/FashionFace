@@ -19,7 +19,7 @@ namespace FashionFace.Controllers.Users.Implementations.Locations;
 )]
 public sealed class UserLocationCreateController(
     IUserLocationCreateFacade facade
-) : BaseUserController
+) : UserControllerBase
 {
     [HttpPost]
     public async Task<UserLocationCreateResponse> Invoke(

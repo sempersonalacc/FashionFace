@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Profiles;
 
-public sealed class ProfileConfiguration : EntityBaseConfiguration<Profile>
+public sealed class ProfileConfiguration : EntityConfigurationBase<Profile>
 {
     public override void Configure(EntityTypeBuilder<Profile> builder)
     {

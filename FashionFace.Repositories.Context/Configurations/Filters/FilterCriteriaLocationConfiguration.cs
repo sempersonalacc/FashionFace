@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Filters;
 
-public sealed class FilterCriteriaLocationConfiguration : EntityBaseConfiguration<FilterCriteriaLocation>
+public sealed class FilterCriteriaLocationConfiguration : EntityConfigurationBase<FilterCriteriaLocation>
 {
     public override void Configure(EntityTypeBuilder<FilterCriteriaLocation> builder)
     {

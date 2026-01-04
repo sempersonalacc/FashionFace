@@ -18,7 +18,7 @@ namespace FashionFace.Controllers.Users.Implementations.UserToUserInvitations;
 )]
 public sealed class UserToUserChatInvitationRejectController(
     IUserToUserChatInvitationRejectFacade facade
-) : BaseUserController
+) : UserControllerBase
 {
     [HttpPost]
     public async Task Invoke(

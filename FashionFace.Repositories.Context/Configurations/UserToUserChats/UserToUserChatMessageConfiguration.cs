@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.UserToUserChats;
 
-public sealed class UserToUserChatMessageConfiguration : EntityBaseConfiguration<UserToUserChatMessage>
+public sealed class UserToUserChatMessageConfiguration : EntityConfigurationBase<UserToUserChatMessage>
 {
     public override void Configure(EntityTypeBuilder<UserToUserChatMessage> builder)
     {

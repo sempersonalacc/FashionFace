@@ -19,7 +19,7 @@ namespace FashionFace.Controllers.Users.Implementations.UserToUserInvitations;
 )]
 public sealed class UserToUserChatInvitationCreateController(
     IUserToUserChatInvitationCreateFacade facade
-) : BaseUserController
+) : UserControllerBase
 {
     [HttpPost]
     public async Task<UserToUserChatInvitationCreateResponse> Invoke(

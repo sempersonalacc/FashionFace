@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Talents;
 
-public sealed class TalentMediaAggregateConfiguration : EntityBaseConfiguration<TalentMediaAggregate>
+public sealed class TalentMediaAggregateConfiguration : EntityConfigurationBase<TalentMediaAggregate>
 {
     public override void Configure(EntityTypeBuilder<TalentMediaAggregate> builder)
     {

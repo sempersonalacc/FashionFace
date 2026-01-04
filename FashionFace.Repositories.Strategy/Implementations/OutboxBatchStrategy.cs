@@ -42,7 +42,7 @@ public sealed class OutboxBatchStrategy<TEntity>(
         foreach (var entity in entityList)
         {
             entity.AttemptCount++;
-            entity.Status = OutboxStatus.Claimed;
+            entity.OutboxStatus = OutboxStatus.Claimed;
             entity.ProcessingStartedAt = DateTime.UtcNow;
         }
 
@@ -63,7 +63,7 @@ public sealed class OutboxBatchStrategy<TEntity>(
         TEntity entity
     )
     {
-        entity.Status = OutboxStatus.Done;
+        entity.OutboxStatus = OutboxStatus.Done;
 
         await
             updateRepository

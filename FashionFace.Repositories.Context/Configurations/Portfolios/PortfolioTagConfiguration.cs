@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Portfolios;
 
-public sealed class PortfolioTagConfiguration : EntityBaseConfiguration<PortfolioTag>
+public sealed class PortfolioTagConfiguration : EntityConfigurationBase<PortfolioTag>
 {
     public override void Configure(EntityTypeBuilder<PortfolioTag> builder)
     {

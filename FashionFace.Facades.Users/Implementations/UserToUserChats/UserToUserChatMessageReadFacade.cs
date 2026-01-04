@@ -1,14 +1,16 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using FashionFace.Common.Exceptions.Interfaces;
-using FashionFace.Dependencies.SignalR.Interfaces;
-using FashionFace.Dependencies.SignalR.Models;
 using FashionFace.Facades.Users.Args.UserToUserChats;
 using FashionFace.Facades.Users.Interfaces.UserToUserChats;
+using FashionFace.Repositories.Context.Enums;
+using FashionFace.Repositories.Context.Models.OutboxEntity;
 using FashionFace.Repositories.Context.Models.UserToUserChats;
 using FashionFace.Repositories.Interfaces;
 using FashionFace.Repositories.Read.Interfaces;
+using FashionFace.Repositories.Transactions.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
@@ -18,7 +20,8 @@ public sealed class UserToUserChatMessageReadFacade(
     IGenericReadRepository genericReadRepository,
     IExceptionDescriptor exceptionDescriptor,
     IUpdateRepository updateRepository,
-    IUserToUserChatNotificationsHubService  userToUserChatNotificationsHubService
+    ICreateRepository createRepository,
+    ITransactionManager  transactionManager
 ) : IUserToUserChatMessageReadFacade
 {
     public async Task Execute(
@@ -92,39 +95,35 @@ public sealed class UserToUserChatMessageReadFacade(
         userToUserChatProfile.LastReadMessagePositionIndex =
             message.PositionIndex;
 
+        var userToUserChatMessageOutbox =
+            new UserToUserChatMessageReadOutbox
+            {
+                Id = Guid.NewGuid(),
+                ChatId = chatId,
+                MessageId = messageId,
+                InitiatorUserId = userId,
+                AttemptCount = 0,
+                OutboxStatus = OutboxStatus.Pending,
+                ProcessingStartedAt = null,
+            };
+
+        using var transaction =
+            await
+                transactionManager.BeginTransaction();
+
         await
             updateRepository
                 .UpdateAsync(
                     userToUserChatProfile
                 );
 
-        var targetUserIdList =
-            userToUserChat
-                .UserCollection
-                .Where(
-                    entity =>
-                        entity.ApplicationUserId != userId
-                )
-                .Select(
-                    entity => entity.ApplicationUserId
-                )
-                .ToList();
+        await
+            createRepository
+                .CreateAsync(
+                    userToUserChatMessageOutbox
+                );
 
-        var messageReadMessage =
-            new MessageReadMessage(
-                chatId,
-                userId,
-                messageId
-            );
-
-        foreach (var targetUserId in targetUserIdList)
-        {
-            await
-                userToUserChatNotificationsHubService
-                    .NotifyMessageRead(
-                        targetUserId,
-                        messageReadMessage
-                    );
-        }
+        await
+            transaction.CommitAsync();
     }
 }

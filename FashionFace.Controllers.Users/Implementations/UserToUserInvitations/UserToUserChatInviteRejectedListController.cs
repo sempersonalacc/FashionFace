@@ -23,7 +23,7 @@ namespace FashionFace.Controllers.Users.Implementations.UserToUserInvitations;
 )]
 public sealed class UserToUserChatInvitationRejectedListController(
     IUserToUserChatInvitationRejectedListFacade facade
-) : BaseUserController
+) : UserControllerBase
 {
     [HttpGet]
     public async Task<ListResponse<UserToUserChatInvitationRejectedListItemResponse>> Invoke(

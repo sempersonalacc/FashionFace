@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Filters;
 
-public sealed class FilterCriteriaShoeSizeConfiguration : EntityBaseConfiguration<FilterCriteriaShoeSize>
+public sealed class FilterCriteriaShoeSizeConfiguration : EntityConfigurationBase<FilterCriteriaShoeSize>
 {
     public override void Configure(EntityTypeBuilder<FilterCriteriaShoeSize> builder)
     {

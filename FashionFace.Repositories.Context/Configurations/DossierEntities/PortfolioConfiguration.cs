@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.DossierEntities;
 
-public sealed class DossierConfiguration : EntityBaseConfiguration<Dossier>
+public sealed class DossierConfiguration : EntityConfigurationBase<Dossier>
 {
     public override void Configure(EntityTypeBuilder<Dossier> builder)
     {

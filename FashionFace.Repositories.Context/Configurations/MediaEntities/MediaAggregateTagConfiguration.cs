@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.MediaEntities;
 
-public sealed class MediaAggregateTagConfiguration : EntityBaseConfiguration<MediaAggregateTag>
+public sealed class MediaAggregateTagConfiguration : EntityConfigurationBase<MediaAggregateTag>
 {
     public override void Configure(EntityTypeBuilder<MediaAggregateTag> builder)
     {

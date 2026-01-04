@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.MediaEntities;
 
-public sealed class MediaConfiguration : EntityBaseConfiguration<Media>
+public sealed class MediaConfiguration : EntityConfigurationBase<Media>
 {
     public override void Configure(EntityTypeBuilder<Media> builder)
     {

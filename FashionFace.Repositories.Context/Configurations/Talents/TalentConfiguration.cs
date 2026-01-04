@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FashionFace.Repositories.Context.Configurations.Talents;
 
-public sealed class TalentConfiguration : EntityBaseConfiguration<Talent>
+public sealed class TalentConfiguration : EntityConfigurationBase<Talent>
 {
     public override void Configure(EntityTypeBuilder<Talent> builder)
     {

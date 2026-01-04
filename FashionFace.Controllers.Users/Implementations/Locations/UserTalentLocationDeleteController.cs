@@ -18,7 +18,7 @@ namespace FashionFace.Controllers.Users.Implementations.Locations;
 )]
 public sealed class UserLocationDeleteController(
     IUserLocationDeleteFacade facade
-) : BaseUserController
+) : UserControllerBase
 {
     [HttpDelete]
     public async Task Invoke(

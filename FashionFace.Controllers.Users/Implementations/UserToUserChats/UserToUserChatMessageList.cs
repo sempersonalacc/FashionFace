@@ -37,8 +37,7 @@ public sealed class UserToUserChatMessageListController(
             new UserToUserChatMessageListArgs(
                 userId,
                 request.ChatId,
-                request.Offset,
-                request.Limit
+                request.Before
             );
 
         var result =

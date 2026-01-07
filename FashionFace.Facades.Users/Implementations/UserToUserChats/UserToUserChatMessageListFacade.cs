@@ -3,6 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
+using FashionFace.Common.Constants.Constants;
 using FashionFace.Common.Exceptions.Interfaces;
 using FashionFace.Facades.Base.Models;
 using FashionFace.Facades.Users.Args.UserToUserChats;
@@ -24,7 +25,7 @@ public sealed class UserToUserChatMessageListFacade(
         UserToUserChatMessageListArgs args
     )
     {
-        var (userId, chatId, offset, limit) = args;
+        var (userId, chatId, before) = args;
 
         var userToUserChatCollection =
             genericReadRepository.GetCollection<UserToUserChat>();
@@ -52,7 +53,9 @@ public sealed class UserToUserChatMessageListFacade(
             genericReadRepository.GetCollection<UserToUserChatMessage>();
 
         Expression<Func<UserToUserChatMessage, bool>> predicate =
-            entity => entity.ChatId == chatId;
+            entity =>
+                entity.ChatId == chatId
+                && (before == null || entity.CreatedAt < before);
 
         var totalCount =
             await userToUserChatMessageCollection
@@ -69,11 +72,8 @@ public sealed class UserToUserChatMessageListFacade(
                     .OrderByDescending(
                         entity => entity.CreatedAt
                     )
-                    .Skip(
-                        offset
-                    )
                     .Take(
-                        limit
+                        UserToUserChatConstants.PageSize
                     )
                     .Select(
                         entity => entity.Message!

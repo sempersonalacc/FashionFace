@@ -80,7 +80,7 @@ public sealed class UserToUserChatInvitationCreatedOutboxConfiguration :
                 entity => entity.Invitation
             )
             .WithOne()
-            .HasForeignKey<UserToUserChatInvitationRejectedOutbox>(
+            .HasForeignKey<UserToUserChatInvitationCreatedOutbox>(
                 entity => entity.InvitationId
             )
             .OnDelete(

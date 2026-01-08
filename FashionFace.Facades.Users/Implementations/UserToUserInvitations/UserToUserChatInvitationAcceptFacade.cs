@@ -6,6 +6,7 @@ using FashionFace.Facades.Users.Args.UserToUserInvitations;
 using FashionFace.Facades.Users.Interfaces.UserToUserInvitations;
 using FashionFace.Facades.Users.Models.UserToUserInvitations;
 using FashionFace.Repositories.Context.Enums;
+using FashionFace.Repositories.Context.Models.OutboxEntity;
 using FashionFace.Repositories.Context.Models.UserToUserChats;
 using FashionFace.Repositories.Interfaces;
 using FashionFace.Repositories.Read.Interfaces;
@@ -98,6 +99,20 @@ public sealed class UserToUserChatInvitationAcceptFacade(
                 UserCollection = userToUserChatProfiles,
             };
 
+        var outbox =
+            new UserToUserChatInvitationAcceptedOutbox
+            {
+                Id = guidGenerator.GetNew(),
+                InvitationId = userToUserChatInvitation.Id,
+                InitiatorUserId = userId,
+                TargetUserId = userToUserChatInvitation.TargetUserId,
+                ChatId = chatId,
+
+                AttemptCount = 0,
+                ProcessingStartedAt = null,
+                OutboxStatus = OutboxStatus.Pending,
+            };
+
         using var transaction =
             await
                 transactionManager.BeginTransaction();
@@ -112,6 +127,12 @@ public sealed class UserToUserChatInvitationAcceptFacade(
             createRepository
                 .CreateAsync(
                     userToUserChat
+                );
+
+        await
+            createRepository
+                .CreateAsync(
+                    outbox
                 );
 
         await

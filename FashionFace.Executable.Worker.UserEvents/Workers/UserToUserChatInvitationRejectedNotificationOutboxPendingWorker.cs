@@ -13,12 +13,12 @@ using Microsoft.Extensions.Logging;
 
 namespace FashionFace.Executable.Worker.UserEvents.Workers;
 
-public sealed class UserToUserChatMessageSendNotificationOutboxPendingWorker(
-    IUserToUserChatNotificationsHubService userToUserChatNotificationsHubService,
-    IOutboxBatchStrategy<UserToUserChatMessageSendNotificationOutbox> outboxBatchStrategy,
+public sealed class UserToUserChatInvitationRejectedNotificationOutboxPendingWorker(
+    IUserToUserChatInvitationNotificationsHubService userToUserChatInvitationNotificationsHubService,
+    IOutboxBatchStrategy<UserToUserChatInvitationRejectedOutbox> outboxBatchStrategy,
     ISelectPendingStrategyBuilder selectPendingStrategyBuilder,
-    ILogger<UserToUserChatMessageSendNotificationOutboxPendingWorker> logger
-) : BaseBackgroundWorker<UserToUserChatMessageSendNotificationOutboxPendingWorker>(
+    ILogger<UserToUserChatInvitationRejectedNotificationOutboxPendingWorker> logger
+) : BaseBackgroundWorker<UserToUserChatInvitationRejectedNotificationOutboxPendingWorker>(
     logger
 )
 {
@@ -36,7 +36,7 @@ public sealed class UserToUserChatMessageSendNotificationOutboxPendingWorker(
 
         var outboxBatchStrategyArgs =
             selectPendingStrategyBuilder
-                .Build<UserToUserChatMessageSendNotificationOutbox>(
+                .Build<UserToUserChatInvitationRejectedOutbox>(
                     selectPendingStrategyBuilderArgs
                 );
 
@@ -55,12 +55,9 @@ public sealed class UserToUserChatMessageSendNotificationOutboxPendingWorker(
         foreach (var outbox in outboxList)
         {
             var message =
-                new MessageReceivedMessage(
-                    outbox.ChatId,
-                    outbox.InitiatorUserId,
-                    outbox.MessageId,
-                    outbox.MessageValue,
-                    outbox.MessageCreatedAt
+                new InvitationRejectedMessage(
+                    outbox.InvitationId,
+                    outbox.TargetUserId
                 );
 
             if (cancellationToken.IsCancellationRequested)
@@ -69,9 +66,9 @@ public sealed class UserToUserChatMessageSendNotificationOutboxPendingWorker(
             }
 
             await
-                userToUserChatNotificationsHubService
-                    .NotifyMessageReceived(
-                        outbox.TargetUserId,
+                userToUserChatInvitationNotificationsHubService
+                    .NotifyInvitationRejected(
+                        outbox.InitiatorUserId,
                         message
                     );
 

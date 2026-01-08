@@ -4,22 +4,28 @@ using FashionFace.Common.Exceptions.Interfaces;
 using FashionFace.Facades.Users.Args.UserToUserInvitations;
 using FashionFace.Facades.Users.Interfaces.UserToUserInvitations;
 using FashionFace.Repositories.Context.Enums;
+using FashionFace.Repositories.Context.Models.OutboxEntity;
 using FashionFace.Repositories.Context.Models.UserToUserChats;
 using FashionFace.Repositories.Interfaces;
 using FashionFace.Repositories.Read.Interfaces;
+using FashionFace.Repositories.Transactions.Interfaces;
+using FashionFace.Services.Singleton.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace FashionFace.Facades.Users.Implementations.UserToUserInvitations;
 
-public sealed class UserToUserChatInvitationRejectFacade(
+public sealed class UserToUserChatInvitationCancelFacade(
     IGenericReadRepository genericReadRepository,
+    ICreateRepository createRepository,
+    ITransactionManager transactionManager,
     IExceptionDescriptor exceptionDescriptor,
-    IUpdateRepository updateRepository
-) : IUserToUserChatInvitationRejectFacade
+    IDeleteRepository deleteRepository,
+    IGuidGenerator guidGenerator
+) : IUserToUserChatInvitationCancelFacade
 {
     public async Task Execute(
-        UserToUserChatInvitationRejectArgs args
+        UserToUserChatInvitationCancelArgs args
     )
     {
         var (userId, invitationId) = args;
@@ -33,7 +39,7 @@ public sealed class UserToUserChatInvitationRejectFacade(
                     .FirstOrDefaultAsync(
                         entity =>
                             entity.Id == invitationId
-                            && entity.TargetUserId == userId
+                            && entity.InitiatorUserId == userId
                             && entity.Status == ChatInvitationStatus.Created
                     );
 
@@ -42,13 +48,36 @@ public sealed class UserToUserChatInvitationRejectFacade(
             throw exceptionDescriptor.NotFound<UserToUserChatInvitation>();
         }
 
-        userToUserChatInvitation.Status =
-            ChatInvitationStatus.Rejected;
+        var outbox =
+            new UserToUserChatInvitationCanceledOutbox
+            {
+                Id = guidGenerator.GetNew(),
+                InvitationId = userToUserChatInvitation.Id,
+                InitiatorUserId = userId,
+                TargetUserId = userToUserChatInvitation.TargetUserId,
+
+                AttemptCount = 0,
+                ProcessingStartedAt = null,
+                OutboxStatus = OutboxStatus.Pending,
+            };
+
+        using var transaction =
+            await
+                transactionManager.BeginTransaction();
 
         await
-            updateRepository
-                .UpdateAsync(
+            deleteRepository
+                .DeleteAsync(
                     userToUserChatInvitation
                 );
+
+        await
+            createRepository
+                .CreateAsync(
+                    outbox
+                );
+
+        await
+            transaction.CommitAsync();
     }
 }

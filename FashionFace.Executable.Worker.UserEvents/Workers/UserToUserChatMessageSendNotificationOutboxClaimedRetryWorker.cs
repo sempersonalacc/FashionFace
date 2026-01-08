@@ -56,7 +56,7 @@ public sealed class UserToUserChatMessageSendNotificationOutboxClaimedRetryWorke
 
         foreach (var outbox in outboxList)
         {
-            var messageReceivedMessage =
+            var message =
                 new MessageReceivedMessage(
                     outbox.ChatId,
                     outbox.InitiatorUserId,
@@ -74,7 +74,7 @@ public sealed class UserToUserChatMessageSendNotificationOutboxClaimedRetryWorke
                 userToUserChatNotificationsHubService
                     .NotifyMessageReceived(
                         outbox.TargetUserId,
-                        messageReceivedMessage
+                        message
                     );
 
             await

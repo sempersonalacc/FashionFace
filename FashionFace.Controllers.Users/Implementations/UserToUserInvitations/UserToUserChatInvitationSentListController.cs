@@ -19,22 +19,22 @@ namespace FashionFace.Controllers.Users.Implementations.UserToUserInvitations;
     "UserToUserChatInvitation"
 )]
 [Route(
-    "api/v1/user-to-user-chat/invite/received/list"
+    "api/v1/user-to-user-chat/invitation/sent/list"
 )]
-public sealed class UserToUserChatInvitationReceivedListController(
-    IUserToUserChatInvitationReceivedListFacade facade
+public sealed class UserToUserChatInvitationSentListController(
+    IUserToUserChatInvitationSentListFacade facade
 ) : UserControllerBase
 {
     [HttpGet]
-    public async Task<ListResponse<UserToUserChatInvitationReceivedListItemResponse>> Invoke(
-        [FromQuery] UserToUserChatInvitationReceivedListRequest request
+    public async Task<ListResponse<UserToUserChatInvitationSentListItemResponse>> Invoke(
+        [FromQuery] UserToUserChatInvitationSentListRequest request
     )
     {
         var userId =
             GetUserId();
 
         var facadeArgs =
-            new UserToUserChatInvitationReceivedListArgs(
+            new UserToUserChatInvitationSentListArgs(
                 userId,
                 request.Offset,
                 request.Limit
@@ -56,8 +56,8 @@ public sealed class UserToUserChatInvitationReceivedListController(
             response;
     }
 
-    private static ListResponse<UserToUserChatInvitationReceivedListItemResponse> GetResponse(
-        ListResult<UserToUserChatInvitationReceivedListItemResult> result
+    private static ListResponse<UserToUserChatInvitationSentListItemResponse> GetResponse(
+        ListResult<UserToUserChatInvitationSentListItemResult> result
     )
     {
         var talentListItemResponseList =
@@ -65,15 +65,15 @@ public sealed class UserToUserChatInvitationReceivedListController(
                 .ItemList
                 .Select(
                     entity =>
-                        new UserToUserChatInvitationReceivedListItemResponse(
+                        new UserToUserChatInvitationSentListItemResponse(
                             entity.InvitationId,
-                            entity.InitiatorUserId
+                            entity.TargetUserId
                         )
                 )
                 .ToList();
 
         var response =
-            new ListResponse<UserToUserChatInvitationReceivedListItemResponse>(
+            new ListResponse<UserToUserChatInvitationSentListItemResponse>(
                 result.TotalCount,
                 talentListItemResponseList
             );

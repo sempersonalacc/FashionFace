@@ -54,7 +54,7 @@ public sealed class UserToUserChatMessageReadNotificationOutboxPendingWorker(
 
         foreach (var outbox in outboxList)
         {
-            var messageReadMessage =
+            var message =
                 new MessageReadMessage(
                     outbox.ChatId,
                     outbox.InitiatorUserId,
@@ -70,7 +70,7 @@ public sealed class UserToUserChatMessageReadNotificationOutboxPendingWorker(
                 userToUserChatNotificationsHubService
                     .NotifyMessageRead(
                         outbox.TargetUserId,
-                        messageReadMessage
+                        message
                     );
 
             await

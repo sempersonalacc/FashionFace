@@ -15,7 +15,7 @@ namespace FashionFace.Controllers.Users.Implementations.UserToUserInvitations;
     "UserToUserChatInvitation"
 )]
 [Route(
-    "api/v1/user-to-user-chat/invite"
+    "api/v1/user-to-user-chat/invitation"
 )]
 public sealed class UserToUserChatInvitationController(
     IUserToUserChatInvitationFacade facade

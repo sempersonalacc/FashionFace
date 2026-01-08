@@ -19,7 +19,7 @@ namespace FashionFace.Controllers.Users.Implementations.UserToUserInvitations;
     "UserToUserChatInvitation"
 )]
 [Route(
-    "api/v1/user-to-user-chat/invite/rejected/list"
+    "api/v1/user-to-user-chat/invitation/rejected/list"
 )]
 public sealed class UserToUserChatInvitationRejectedListController(
     IUserToUserChatInvitationRejectedListFacade facade

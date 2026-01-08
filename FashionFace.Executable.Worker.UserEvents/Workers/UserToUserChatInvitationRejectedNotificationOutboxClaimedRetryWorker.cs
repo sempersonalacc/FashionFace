@@ -13,31 +13,33 @@ using Microsoft.Extensions.Logging;
 
 namespace FashionFace.Executable.Worker.UserEvents.Workers;
 
-public sealed class UserToUserChatMessageSendNotificationOutboxPendingWorker(
-    IUserToUserChatNotificationsHubService userToUserChatNotificationsHubService,
-    IOutboxBatchStrategy<UserToUserChatMessageSendNotificationOutbox> outboxBatchStrategy,
-    ISelectPendingStrategyBuilder selectPendingStrategyBuilder,
-    ILogger<UserToUserChatMessageSendNotificationOutboxPendingWorker> logger
-) : BaseBackgroundWorker<UserToUserChatMessageSendNotificationOutboxPendingWorker>(
+public sealed class UserToUserChatInvitationRejectedNotificationOutboxClaimedRetryWorker(
+    IUserToUserChatInvitationNotificationsHubService userToUserChatInvitationNotificationsHubService,
+    IOutboxBatchStrategy<UserToUserChatInvitationRejectedOutbox> outboxBatchStrategy,
+    ISelectClaimedRetryStrategyBuilder selectClaimedRetryStrategyBuilder,
+    ILogger<UserToUserChatInvitationRejectedNotificationOutboxClaimedRetryWorker> logger
+) : BaseBackgroundWorker<UserToUserChatInvitationRejectedNotificationOutboxClaimedRetryWorker>(
     logger
 )
 {
     private const int CycleDelayInSeconds = 5;
+    private const int RetryDelayMinutes = 5;
     private const int BatchCount = 5;
 
     protected override async Task DoWorkAsync(
         CancellationToken cancellationToken
     )
     {
-        var selectPendingStrategyBuilderArgs =
-            new SelectPendingStrategyBuilderArgs(
-                BatchCount
+        var selectClaimedRetryStrategyBuilderArgs =
+            new SelectClaimedRetryStrategyBuilderArgs(
+                BatchCount,
+                RetryDelayMinutes
             );
 
         var outboxBatchStrategyArgs =
-            selectPendingStrategyBuilder
-                .Build<UserToUserChatMessageSendNotificationOutbox>(
-                    selectPendingStrategyBuilderArgs
+            selectClaimedRetryStrategyBuilder
+                .Build<UserToUserChatInvitationRejectedOutbox>(
+                    selectClaimedRetryStrategyBuilderArgs
                 );
 
         var outboxList =
@@ -55,12 +57,9 @@ public sealed class UserToUserChatMessageSendNotificationOutboxPendingWorker(
         foreach (var outbox in outboxList)
         {
             var message =
-                new MessageReceivedMessage(
-                    outbox.ChatId,
-                    outbox.InitiatorUserId,
-                    outbox.MessageId,
-                    outbox.MessageValue,
-                    outbox.MessageCreatedAt
+                new InvitationRejectedMessage(
+                    outbox.InvitationId,
+                    outbox.TargetUserId
                 );
 
             if (cancellationToken.IsCancellationRequested)
@@ -69,9 +68,9 @@ public sealed class UserToUserChatMessageSendNotificationOutboxPendingWorker(
             }
 
             await
-                userToUserChatNotificationsHubService
-                    .NotifyMessageReceived(
-                        outbox.TargetUserId,
+                userToUserChatInvitationNotificationsHubService
+                    .NotifyInvitationRejected(
+                        outbox.InitiatorUserId,
                         message
                     );
 

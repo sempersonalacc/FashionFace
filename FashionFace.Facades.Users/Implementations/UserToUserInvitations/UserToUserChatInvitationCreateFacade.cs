@@ -4,9 +4,11 @@ using FashionFace.Facades.Users.Args.UserToUserInvitations;
 using FashionFace.Facades.Users.Interfaces.UserToUserInvitations;
 using FashionFace.Facades.Users.Models.UserToUserInvitations;
 using FashionFace.Repositories.Context.Enums;
+using FashionFace.Repositories.Context.Models.OutboxEntity;
 using FashionFace.Repositories.Context.Models.UserToUserChats;
 using FashionFace.Repositories.Interfaces;
 using FashionFace.Repositories.Read.Interfaces;
+using FashionFace.Repositories.Transactions.Interfaces;
 using FashionFace.Services.Singleton.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,7 @@ namespace FashionFace.Facades.Users.Implementations.UserToUserInvitations;
 public sealed class UserToUserChatInvitationCreateFacade(
     IGenericReadRepository genericReadRepository,
     ICreateRepository createRepository,
+    ITransactionManager transactionManager,
     IDateTimePicker dateTimePicker,
     IGuidGenerator guidGenerator
 ) : IUserToUserChatInvitationCreateFacade
@@ -62,11 +65,37 @@ public sealed class UserToUserChatInvitationCreateFacade(
                 CreatedAt = dateTimePicker.GetUtcNow(),
             };
 
+        var outbox =
+            new UserToUserChatInvitationCreatedOutbox
+            {
+                Id = guidGenerator.GetNew(),
+                InvitationId = newUserToUserChatInvitation.Id,
+                InitiatorUserId = userId,
+                TargetUserId = targetUserId,
+
+                AttemptCount = 0,
+                ProcessingStartedAt = null,
+                OutboxStatus = OutboxStatus.Pending,
+            };
+
+        using var transaction =
+            await
+                transactionManager.BeginTransaction();
+
         await
             createRepository
                 .CreateAsync(
                     newUserToUserChatInvitation
                 );
+
+        await
+            createRepository
+                .CreateAsync(
+                    outbox
+                );
+
+        await
+            transaction.CommitAsync();
 
         var result =
             new UserToUserChatInvitationCreateResult(

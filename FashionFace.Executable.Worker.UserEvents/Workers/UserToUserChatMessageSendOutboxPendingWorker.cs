@@ -71,41 +71,6 @@ public sealed class UserToUserChatMessageSendOutboxPendingWorker(
             var userToUserChatCollection =
                 genericReadRepository.GetCollection<UserToUserChat>();
 
-            var userToUserChat =
-                await
-                    userToUserChatCollection
-
-                        .Include(
-                            entity => entity.UserCollection
-                        )
-
-                        .FirstOrDefaultAsync(
-                            entity =>
-                                entity.Id == chatId
-                                && entity
-                                    .UserCollection
-                                    .Any(
-                                        profile =>
-                                            profile.ApplicationUserId == initiatorUserId
-                                    )
-                        );
-
-            if (userToUserChat is null)
-            {
-                await
-                    outboxBatchStrategy
-                        .MakeFailedAsync(
-                            outbox
-                        );
-
-                logger
-                    .LogError(
-                        $"Outbox [{outbox.Id}] failed. User to user chat [{chatId}] was not found"
-                    );
-
-                continue;
-            }
-
             var userToUserChatMessageCollection =
                 genericReadRepository.GetCollection<UserToUserChatMessage>();
 
@@ -148,15 +113,51 @@ public sealed class UserToUserChatMessageSendOutboxPendingWorker(
             var createdAt =
                 chatMessage.CreatedAt;
 
+            var userToUserChatUserIdList =
+                await
+                    userToUserChatCollection
+                        .Where(
+                            entity => entity.Id == chatId
+                        )
+                        .Select(
+                            entity =>
+                                entity
+                                    .UserCollection
+                                    .Select(
+                                        user => user.ApplicationUserId
+                                    )
+                                    .ToList()
+                        )
+                        .FirstOrDefaultAsync();
+
+            var initiatorBelongToUserTiUserChat =
+                userToUserChatUserIdList?
+                    .Any(
+                        id => id == initiatorUserId
+                    )
+                ?? false;
+
+            if (!initiatorBelongToUserTiUserChat)
+            {
+                await
+                    outboxBatchStrategy
+                        .MakeFailedAsync(
+                            outbox
+                        );
+
+                logger
+                    .LogError(
+                        $"Outbox [{outbox.Id}] failed. User to user chat [{chatId}] was not found for user id [{initiatorUserId}]"
+                    );
+
+                continue;
+            }
+
             var userToUserChatMessageSendNotificationOutboxList =
-                userToUserChat
-                    .UserCollection
+                userToUserChatUserIdList!
                     .Where(
                         entity =>
-                            entity.ApplicationUserId != initiatorUserId
-                    )
-                    .Select(
-                        entity => entity.ApplicationUserId
+                            entity != initiatorUserId
                     )
                     .Select(
                         targetUserId =>

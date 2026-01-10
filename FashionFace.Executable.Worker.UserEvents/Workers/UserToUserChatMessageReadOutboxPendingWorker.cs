@@ -71,26 +71,31 @@ public sealed class UserToUserChatMessageReadOutboxPendingWorker(
             var userToUserChatCollection =
                 genericReadRepository.GetCollection<UserToUserChat>();
 
-            var userToUserChat =
+            var userToUserChatUserIdList =
                 await
                     userToUserChatCollection
-
-                        .Include(
-                            entity => entity.UserCollection
+                        .Where(
+                            entity => entity.Id == chatId
                         )
-
-                        .FirstOrDefaultAsync(
+                        .Select(
                             entity =>
-                                entity.Id == chatId
-                                && entity
+                                entity
                                     .UserCollection
-                                    .Any(
-                                        profile =>
-                                            profile.ApplicationUserId == initiatorUserId
+                                    .Select(
+                                        user => user.ApplicationUserId
                                     )
-                        );
+                                    .ToList()
+                        )
+                        .FirstOrDefaultAsync();
 
-            if (userToUserChat is null)
+            var initiatorBelongToUserTiUserChat =
+                userToUserChatUserIdList?
+                    .Any(
+                        id => id == initiatorUserId
+                    )
+                ?? false;
+
+            if (!initiatorBelongToUserTiUserChat)
             {
                 await
                     outboxBatchStrategy
@@ -100,21 +105,17 @@ public sealed class UserToUserChatMessageReadOutboxPendingWorker(
 
                 logger
                     .LogError(
-                        $"Outbox [{outbox.Id}] failed. User to user chat [{chatId}] was not found"
+                        $"Outbox [{outbox.Id}] failed. User to user chat [{chatId}] was not found for user id [{initiatorUserId}]"
                     );
 
                 continue;
             }
 
             var userToUserChatMessageReadNotificationOutboxList =
-                userToUserChat
-                    .UserCollection
+                userToUserChatUserIdList!
                     .Where(
                         entity =>
-                            entity.ApplicationUserId != initiatorUserId
-                    )
-                    .Select(
-                        entity => entity.ApplicationUserId
+                            entity != initiatorUserId
                     )
                     .Select(
                         targetUserId =>

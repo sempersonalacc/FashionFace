@@ -22,7 +22,7 @@ public sealed class UserToUserChatInvitationAcceptedNotificationOutboxPendingWor
     logger
 )
 {
-    private const int CycleDelayInSeconds = 5;
+    private const int CycleDelayInMinutes = 5;
     private const int BatchCount = 5;
 
     protected override async Task DoWorkAsync(
@@ -83,7 +83,7 @@ public sealed class UserToUserChatInvitationAcceptedNotificationOutboxPendingWor
 
     protected override TimeSpan GetDelay() =>
         TimeSpan
-            .FromSeconds(
-                CycleDelayInSeconds
+            .FromMinutes(
+                CycleDelayInMinutes
             );
 }

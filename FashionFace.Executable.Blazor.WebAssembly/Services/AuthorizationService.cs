@@ -32,7 +32,7 @@ public sealed class AuthorizationService(
                 "application/json"
             );
 
-        httpClient.Timeout = TimeSpan.FromSeconds(
+        httpClient.Timeout = TimeSpan.FromMinutes(
             2
         );
 

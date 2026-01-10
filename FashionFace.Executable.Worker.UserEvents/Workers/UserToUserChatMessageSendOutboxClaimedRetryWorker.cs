@@ -31,7 +31,7 @@ public sealed class UserToUserChatMessageSendOutboxClaimedRetryWorker(
     logger
 )
 {
-    private const int CycleDelayInSeconds = 5;
+    private const int CycleDelayInMinutes = 5;
     private const int RetryDelayMinutes = 5;
     private const int BatchCount = 5;
 
@@ -209,7 +209,7 @@ public sealed class UserToUserChatMessageSendOutboxClaimedRetryWorker(
 
     protected override TimeSpan GetDelay() =>
         TimeSpan
-            .FromSeconds(
-                CycleDelayInSeconds
+            .FromMinutes(
+                CycleDelayInMinutes
             );
 }

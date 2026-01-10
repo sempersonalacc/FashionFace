@@ -228,7 +228,7 @@ serviceCollection
                         jwtSection["Secret"]
                     )
                 ),
-                ClockSkew = TimeSpan.FromSeconds(
+                ClockSkew = TimeSpan.FromMinutes(
                     30
                 ),
                 ValidateLifetime = true,

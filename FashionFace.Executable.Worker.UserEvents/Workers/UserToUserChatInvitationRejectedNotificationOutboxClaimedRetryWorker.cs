@@ -59,7 +59,7 @@ public sealed class UserToUserChatInvitationRejectedNotificationOutboxClaimedRet
             var message =
                 new InvitationRejectedMessage(
                     outbox.InvitationId,
-                    outbox.TargetUserId
+                    outbox.InitiatorUserId
                 );
 
             if (cancellationToken.IsCancellationRequested)
@@ -70,7 +70,7 @@ public sealed class UserToUserChatInvitationRejectedNotificationOutboxClaimedRet
             await
                 userToUserChatInvitationNotificationsHubService
                     .NotifyInvitationRejected(
-                        outbox.InitiatorUserId,
+                        outbox.TargetUserId,
                         message
                     );
 

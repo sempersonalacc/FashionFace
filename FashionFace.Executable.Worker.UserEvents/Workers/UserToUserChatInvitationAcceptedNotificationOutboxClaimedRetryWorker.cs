@@ -59,7 +59,7 @@ public sealed class UserToUserChatInvitationAcceptedNotificationOutboxClaimedRet
             var message =
                 new InvitationAcceptedMessage(
                     outbox.InvitationId,
-                    outbox.TargetUserId,
+                    outbox.InitiatorUserId,
                     outbox.ChatId
                 );
 
@@ -71,7 +71,7 @@ public sealed class UserToUserChatInvitationAcceptedNotificationOutboxClaimedRet
             await
                 userToUserChatInvitationNotificationsHubService
                     .NotifyInvitationAccepted(
-                        outbox.InitiatorUserId,
+                        outbox.TargetUserId,
                         message
                     );
 

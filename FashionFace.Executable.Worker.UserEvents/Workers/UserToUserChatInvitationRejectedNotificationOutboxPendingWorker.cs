@@ -57,7 +57,7 @@ public sealed class UserToUserChatInvitationRejectedNotificationOutboxPendingWor
             var message =
                 new InvitationRejectedMessage(
                     outbox.InvitationId,
-                    outbox.TargetUserId
+                    outbox.InitiatorUserId
                 );
 
             if (cancellationToken.IsCancellationRequested)
@@ -68,7 +68,7 @@ public sealed class UserToUserChatInvitationRejectedNotificationOutboxPendingWor
             await
                 userToUserChatInvitationNotificationsHubService
                     .NotifyInvitationRejected(
-                        outbox.InitiatorUserId,
+                        outbox.TargetUserId,
                         message
                     );
 

@@ -1,6 +1,6 @@
 ﻿namespace FashionFace.Repositories.Strategy.Builders.Args;
 
-public sealed record SelectClaimedRetryStrategyBuilderArgs(
+public sealed record GenericSelectClaimedRetryStrategyBuilderArgs(
     int BatchCount,
     int RetryDelayMinutes
 );

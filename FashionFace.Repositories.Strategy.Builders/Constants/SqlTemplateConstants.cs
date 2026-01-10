@@ -2,11 +2,21 @@
 
 public static class SqlTemplateConstants
 {
+    public const string CorrelatedSelectPendingForClaim =
+        """
+            SELECT *
+            FROM "{0}"
+            WHERE "OutboxStatus" = @OutboxStatus and "CorrelationId" = @CorrelationId and "ClaimedAt" is null
+            ORDER BY "MessageCreatedAt"
+            FOR UPDATE SKIP LOCKED
+            LIMIT @BatchCount
+        """;
+
     public const string SelectPendingForClaim =
         """
             SELECT *
             FROM "{0}"
-            WHERE "OutboxStatus" = @OutboxStatus and "ProcessingStartedAt" is null
+            WHERE "OutboxStatus" = @OutboxStatus and "ClaimedAt" is null
             ORDER BY "MessageCreatedAt"
             FOR UPDATE SKIP LOCKED
             LIMIT @BatchCount
@@ -16,7 +26,7 @@ public static class SqlTemplateConstants
         """
             SELECT *
             FROM "{0}"
-            WHERE "OutboxStatus" = @OutboxStatus and "ProcessingStartedAt" < @ProcessingStartedAt
+            WHERE "OutboxStatus" = @OutboxStatus and "ClaimedAt" < @ClaimedAt
             ORDER BY "MessageCreatedAt"
             FOR UPDATE SKIP LOCKED
             LIMIT @BatchCount

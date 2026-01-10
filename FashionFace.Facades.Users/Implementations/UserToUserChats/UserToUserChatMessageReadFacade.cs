@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 
 using FashionFace.Common.Exceptions.Interfaces;
+using FashionFace.Common.Models.Models.Commands;
+using FashionFace.Dependencies.RabbitMq.Facades.Interfaces;
 using FashionFace.Facades.Users.Args.UserToUserChats;
 using FashionFace.Facades.Users.Interfaces.UserToUserChats;
 using FashionFace.Repositories.Context.Enums;
@@ -22,7 +24,9 @@ public sealed class UserToUserChatMessageReadFacade(
     IUpdateRepository updateRepository,
     ICreateRepository createRepository,
     ITransactionManager  transactionManager,
-    IGuidGenerator guidGenerator
+    IGuidGenerator guidGenerator,
+    IQueuePublishFacade queuePublishFacade,
+    IQueuePublishFacadeCommandBuilder  queuePublishFacadeCommandBuilder
 ) : IUserToUserChatMessageReadFacade
 {
     public async Task Execute(
@@ -96,16 +100,21 @@ public sealed class UserToUserChatMessageReadFacade(
         userToUserChatProfile.LastReadAt =
             message.CreatedAt;
 
-        var userToUserChatMessageOutbox =
+        var correlationId =
+            guidGenerator.GetNew();
+
+        var outbox =
             new UserToUserChatMessageReadOutbox
             {
                 Id = guidGenerator.GetNew(),
                 ChatId = chatId,
                 MessageId = messageId,
                 InitiatorUserId = userId,
+
+                CorrelationId = correlationId,
                 AttemptCount = 0,
                 OutboxStatus = OutboxStatus.Pending,
-                ProcessingStartedAt = null,
+                ClaimedAt = null,
             };
 
         using var transaction =
@@ -121,10 +130,27 @@ public sealed class UserToUserChatMessageReadFacade(
         await
             createRepository
                 .CreateAsync(
-                    userToUserChatMessageOutbox
+                    outbox
                 );
 
         await
             transaction.CommitAsync();
+
+        var handleOutbox =
+            new HandleUserToUserMessageReadOutbox(
+                outbox.CorrelationId
+            );
+
+        var queuePublishFacadeArgs =
+            queuePublishFacadeCommandBuilder
+                .Build(
+                    handleOutbox
+                );
+
+        await
+            queuePublishFacade
+                .PublishAsync(
+                    queuePublishFacadeArgs
+                );
     }
 }

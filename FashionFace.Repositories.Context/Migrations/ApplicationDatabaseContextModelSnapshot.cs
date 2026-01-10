@@ -921,6 +921,12 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("ChatId");
 
+                    b.Property<DateTime?>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
                         .HasColumnName("InitiatorUserId");
@@ -931,9 +937,6 @@ namespace FashionFace.Repositories.Context.Migrations
 
                     b.Property<int>("OutboxStatus")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ProcessingStartedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -962,6 +965,12 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.Property<int>("AttemptCount")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
                         .HasColumnName("InitiatorUserId");
@@ -972,9 +981,6 @@ namespace FashionFace.Repositories.Context.Migrations
 
                     b.Property<int>("OutboxStatus")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ProcessingStartedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -1001,6 +1007,12 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.Property<int>("AttemptCount")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
                         .HasColumnName("InitiatorUserId");
@@ -1011,9 +1023,6 @@ namespace FashionFace.Repositories.Context.Migrations
 
                     b.Property<int>("OutboxStatus")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ProcessingStartedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -1040,6 +1049,12 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.Property<int>("AttemptCount")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime?>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
                         .HasColumnName("InitiatorUserId");
@@ -1050,9 +1065,6 @@ namespace FashionFace.Repositories.Context.Migrations
 
                     b.Property<int>("OutboxStatus")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ProcessingStartedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -1083,6 +1095,12 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("ChatId");
 
+                    b.Property<DateTime?>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
                         .HasColumnName("InitiatorUserId");
@@ -1093,9 +1111,6 @@ namespace FashionFace.Repositories.Context.Migrations
 
                     b.Property<int>("OutboxStatus")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ProcessingStartedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -1128,6 +1143,12 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("ChatId");
 
+                    b.Property<DateTime?>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
                         .HasColumnName("InitiatorUserId");
@@ -1138,9 +1159,6 @@ namespace FashionFace.Repositories.Context.Migrations
 
                     b.Property<int>("OutboxStatus")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ProcessingStartedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -1167,6 +1185,12 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("ChatId");
 
+                    b.Property<DateTime?>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
                         .HasColumnName("InitiatorUserId");
@@ -1186,9 +1210,6 @@ namespace FashionFace.Repositories.Context.Migrations
 
                     b.Property<int>("OutboxStatus")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ProcessingStartedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -1221,6 +1242,12 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("ChatId");
 
+                    b.Property<DateTime?>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("CorrelationId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
                         .HasColumnName("InitiatorUserId");
@@ -1231,9 +1258,6 @@ namespace FashionFace.Repositories.Context.Migrations
 
                     b.Property<int>("OutboxStatus")
                         .HasColumnType("integer");
-
-                    b.Property<DateTime?>("ProcessingStartedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

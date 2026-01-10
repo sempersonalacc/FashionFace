@@ -58,6 +58,40 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
                 .ValueGeneratedOnAdd();
         }
 
+        var iWithCorrelationId =
+            type
+                .IsAssignableFrom(
+                    typeof(IWithCorrelationId)
+                );
+
+        if (iWithCorrelationId)
+        {
+            var parameter = Expression.Parameter(
+                type,
+                "entity"
+            );
+            var property = Expression.Property(
+                parameter,
+                nameof(IWithCorrelationId.CorrelationId)
+            );
+            var lambda = Expression.Lambda(
+                property,
+                parameter
+            );
+
+            builder
+                .Property(
+                    (dynamic)lambda
+                )
+                .HasColumnName(
+                    nameof(IWithCorrelationId.CorrelationId)
+                )
+                .HasColumnType(
+                    "uuid"
+                )
+                .ValueGeneratedOnAdd();
+        }
+
         var isWithIDeleted =
             type
                 .IsAssignableFrom(
@@ -232,7 +266,7 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
         var isWithProcessingStartedAt =
             type
                 .IsAssignableFrom(
-                    typeof(IWithProcessingStartedAt)
+                    typeof(IWithClaimedAt)
                 );
 
         if (isWithProcessingStartedAt)
@@ -243,7 +277,7 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
             );
             var property = Expression.Property(
                 parameter,
-                nameof(IWithProcessingStartedAt.ProcessingStartedAt)
+                nameof(IWithClaimedAt.ClaimedAt)
             );
             var lambda = Expression.Lambda(
                 property,
@@ -255,7 +289,7 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
                     (dynamic)lambda
                 )
                 .HasColumnName(
-                    nameof(IWithProcessingStartedAt.ProcessingStartedAt)
+                    nameof(IWithClaimedAt.ClaimedAt)
                 )
                 .HasColumnType(
                     "timestamp with time zone"

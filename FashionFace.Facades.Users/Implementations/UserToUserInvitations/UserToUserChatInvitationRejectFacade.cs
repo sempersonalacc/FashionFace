@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 
 using FashionFace.Common.Exceptions.Interfaces;
+using FashionFace.Common.Models.Models.Commands;
+using FashionFace.Dependencies.RabbitMq.Facades.Interfaces;
 using FashionFace.Facades.Users.Args.UserToUserInvitations;
 using FashionFace.Facades.Users.Interfaces.UserToUserInvitations;
 using FashionFace.Repositories.Context.Enums;
@@ -21,7 +23,9 @@ public sealed class UserToUserChatInvitationRejectFacade(
     ITransactionManager transactionManager,
     IExceptionDescriptor exceptionDescriptor,
     IUpdateRepository updateRepository,
-    IGuidGenerator guidGenerator
+    IGuidGenerator guidGenerator,
+    IQueuePublishFacade queuePublishFacade,
+    IQueuePublishFacadeCommandBuilder  queuePublishFacadeCommandBuilder
 ) : IUserToUserChatInvitationRejectFacade
 {
     public async Task Execute(
@@ -51,16 +55,20 @@ public sealed class UserToUserChatInvitationRejectFacade(
         userToUserChatInvitation.Status =
             ChatInvitationStatus.Rejected;
 
+        var correlationId =
+            guidGenerator.GetNew();
+
         var outbox =
             new UserToUserChatInvitationRejectedOutbox
             {
                 Id = guidGenerator.GetNew(),
                 InvitationId = userToUserChatInvitation.Id,
                 InitiatorUserId = userId,
-                TargetUserId = userToUserChatInvitation.TargetUserId,
+                TargetUserId = userToUserChatInvitation.InitiatorUserId,
 
+                CorrelationId = correlationId,
                 AttemptCount = 0,
-                ProcessingStartedAt = null,
+                ClaimedAt = null,
                 OutboxStatus = OutboxStatus.Pending,
             };
 
@@ -82,5 +90,22 @@ public sealed class UserToUserChatInvitationRejectFacade(
 
         await
             transaction.CommitAsync();
+
+        var handleOutbox =
+            new HandleUserToUserInvitationRejectedOutbox(
+                outbox.CorrelationId
+            );
+
+        var queuePublishFacadeArgs =
+            queuePublishFacadeCommandBuilder
+                .Build(
+                    handleOutbox
+                );
+
+        await
+            queuePublishFacade
+                .PublishAsync(
+                    queuePublishFacadeArgs
+                );
     }
 }

@@ -4,10 +4,10 @@ using FashionFace.Repositories.Strategy.Builders.Args;
 
 namespace FashionFace.Repositories.Strategy.Builders.Interfaces;
 
-public interface ISelectPendingStrategyBuilder
+public interface IGenericSelectPendingStrategyBuilder
 {
     OutboxBatchStrategyArgs Build<TEntity>(
-        SelectPendingStrategyBuilderArgs args
+        GenericSelectPendingStrategyBuilderArgs args
     )
         where TEntity : class, IOutbox;
 }

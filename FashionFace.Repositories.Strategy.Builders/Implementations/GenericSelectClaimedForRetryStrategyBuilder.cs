@@ -11,10 +11,10 @@ using FashionFace.Repositories.Strategy.Builders.Interfaces;
 
 namespace FashionFace.Repositories.Strategy.Builders.Implementations;
 
-public sealed class SelectClaimedForRetryStrategyBuilder : ISelectClaimedRetryStrategyBuilder
+public sealed class GenericSelectClaimedForRetryStrategyBuilder : IGenericSelectClaimedRetryStrategyBuilder
 {
     public OutboxBatchStrategyArgs Build<TEntity>(
-        SelectClaimedRetryStrategyBuilderArgs args
+        GenericSelectClaimedRetryStrategyBuilderArgs args
     )
         where TEntity : class, IOutbox
     {
@@ -44,7 +44,7 @@ public sealed class SelectClaimedForRetryStrategyBuilder : ISelectClaimedRetrySt
                 nameof(OutboxStatus.Claimed)
             ),
             new(
-                "ProcessingStartedAt",
+                "ClaimedAt",
                 dateTimeDeadline
             ),
             new(

@@ -1,6 +1,8 @@
 ﻿using System.Threading.Tasks;
 
 using FashionFace.Common.Exceptions.Interfaces;
+using FashionFace.Common.Models.Models.Commands;
+using FashionFace.Dependencies.RabbitMq.Facades.Interfaces;
 using FashionFace.Facades.Users.Args.UserToUserInvitations;
 using FashionFace.Facades.Users.Interfaces.UserToUserInvitations;
 using FashionFace.Repositories.Context.Enums;
@@ -21,7 +23,9 @@ public sealed class UserToUserChatInvitationCancelFacade(
     ITransactionManager transactionManager,
     IExceptionDescriptor exceptionDescriptor,
     IDeleteRepository deleteRepository,
-    IGuidGenerator guidGenerator
+    IGuidGenerator guidGenerator,
+    IQueuePublishFacade queuePublishFacade,
+    IQueuePublishFacadeCommandBuilder  queuePublishFacadeCommandBuilder
 ) : IUserToUserChatInvitationCancelFacade
 {
     public async Task Execute(
@@ -48,6 +52,9 @@ public sealed class UserToUserChatInvitationCancelFacade(
             throw exceptionDescriptor.NotFound<UserToUserChatInvitation>();
         }
 
+        var correlationId =
+            guidGenerator.GetNew();
+
         var outbox =
             new UserToUserChatInvitationCanceledOutbox
             {
@@ -56,8 +63,9 @@ public sealed class UserToUserChatInvitationCancelFacade(
                 InitiatorUserId = userId,
                 TargetUserId = userToUserChatInvitation.TargetUserId,
 
+                CorrelationId = correlationId,
                 AttemptCount = 0,
-                ProcessingStartedAt = null,
+                ClaimedAt = null,
                 OutboxStatus = OutboxStatus.Pending,
             };
 
@@ -79,5 +87,22 @@ public sealed class UserToUserChatInvitationCancelFacade(
 
         await
             transaction.CommitAsync();
+
+        var handleOutbox =
+            new HandleUserToUserInvitationCanceledOutbox(
+                outbox.CorrelationId
+            );
+
+        var queuePublishFacadeArgs =
+            queuePublishFacadeCommandBuilder
+                .Build(
+                    handleOutbox
+                );
+
+        await
+            queuePublishFacade
+                .PublishAsync(
+                    queuePublishFacadeArgs
+                );
     }
 }

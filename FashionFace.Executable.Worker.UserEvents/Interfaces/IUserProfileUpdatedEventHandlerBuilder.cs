@@ -7,6 +7,6 @@ namespace FashionFace.Executable.Worker.UserEvents.Interfaces;
 public interface IUserProfileUpdatedEventHandlerBuilder
 {
     AsyncEventHandler<BasicDeliverEventArgs> Build(
-        EventHandlerBuilderArgs eventHandlerBuilderArgs
+        EventHandlerBuilderArgs args
     );
 }

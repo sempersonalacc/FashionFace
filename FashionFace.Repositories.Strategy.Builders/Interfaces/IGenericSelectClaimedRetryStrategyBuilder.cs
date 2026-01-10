@@ -4,10 +4,10 @@ using FashionFace.Repositories.Strategy.Builders.Args;
 
 namespace FashionFace.Repositories.Strategy.Builders.Interfaces;
 
-public interface ISelectClaimedRetryStrategyBuilder
+public interface IGenericSelectClaimedRetryStrategyBuilder
 {
     OutboxBatchStrategyArgs Build<TEntity>(
-        SelectClaimedRetryStrategyBuilderArgs args
+        GenericSelectClaimedRetryStrategyBuilderArgs args
     )
         where TEntity : class, IOutbox;
 }

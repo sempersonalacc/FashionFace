@@ -10,10 +10,10 @@ using FashionFace.Repositories.Strategy.Builders.Interfaces;
 
 namespace FashionFace.Repositories.Strategy.Builders.Implementations;
 
-public sealed class SelectPendingForClaimStrategyBuilder : ISelectPendingStrategyBuilder
+public sealed class GenericSelectPendingForClaimStrategyBuilder : IGenericSelectPendingStrategyBuilder
 {
     public OutboxBatchStrategyArgs Build<TEntity>(
-        SelectPendingStrategyBuilderArgs args
+        GenericSelectPendingStrategyBuilderArgs args
     )
         where TEntity : class, IOutbox
     {

@@ -44,7 +44,7 @@ public sealed class OutboxBatchStrategy<TEntity>(
         {
             entity.AttemptCount++;
             entity.OutboxStatus = OutboxStatus.Claimed;
-            entity.ProcessingStartedAt = dateTimePicker.GetUtcNow();
+            entity.ClaimedAt = dateTimePicker.GetUtcNow();
         }
 
         await

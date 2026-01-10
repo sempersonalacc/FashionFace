@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 
 using FashionFace.Common.Exceptions.Interfaces;
+using FashionFace.Common.Models.Models.Commands;
+using FashionFace.Dependencies.RabbitMq.Facades.Interfaces;
 using FashionFace.Facades.Users.Args.UserToUserInvitations;
 using FashionFace.Facades.Users.Interfaces.UserToUserInvitations;
 using FashionFace.Facades.Users.Models.UserToUserInvitations;
@@ -24,7 +26,9 @@ public sealed class UserToUserChatInvitationAcceptFacade(
     ICreateRepository createRepository,
     ITransactionManager transactionManager,
     IDateTimePicker dateTimePicker,
-    IGuidGenerator guidGenerator
+    IGuidGenerator guidGenerator,
+    IQueuePublishFacade queuePublishFacade,
+    IQueuePublishFacadeCommandBuilder  queuePublishFacadeCommandBuilder
 ) : IUserToUserChatInvitationAcceptFacade
 {
     public async Task<UserToUserChatInvitationAcceptResult> Execute(
@@ -99,17 +103,21 @@ public sealed class UserToUserChatInvitationAcceptFacade(
                 UserCollection = userToUserChatProfiles,
             };
 
+        var correlationId =
+            guidGenerator.GetNew();
+
         var outbox =
             new UserToUserChatInvitationAcceptedOutbox
             {
                 Id = guidGenerator.GetNew(),
                 InvitationId = userToUserChatInvitation.Id,
                 InitiatorUserId = userId,
-                TargetUserId = userToUserChatInvitation.TargetUserId,
+                TargetUserId = userToUserChatInvitation.InitiatorUserId,
                 ChatId = chatId,
 
+                CorrelationId = correlationId,
                 AttemptCount = 0,
-                ProcessingStartedAt = null,
+                ClaimedAt = null,
                 OutboxStatus = OutboxStatus.Pending,
             };
 
@@ -137,6 +145,23 @@ public sealed class UserToUserChatInvitationAcceptFacade(
 
         await
             transaction.CommitAsync();
+
+        var handleOutbox =
+            new HandleUserToUserInvitationAcceptedOutbox(
+                outbox.CorrelationId
+            );
+
+        var queuePublishFacadeArgs =
+            queuePublishFacadeCommandBuilder
+                .Build(
+                    handleOutbox
+                );
+
+        await
+            queuePublishFacade
+                .PublishAsync(
+                    queuePublishFacadeArgs
+                );
 
         var result =
             new UserToUserChatInvitationAcceptResult(

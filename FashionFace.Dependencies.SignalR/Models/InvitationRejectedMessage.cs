@@ -4,5 +4,5 @@ namespace FashionFace.Dependencies.SignalR.Models;
 
 public sealed record InvitationRejectedMessage(
     Guid InvitationId,
-    Guid TargetUserId
+    Guid InitiatorUserId
 );

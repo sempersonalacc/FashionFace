@@ -16,7 +16,7 @@ namespace FashionFace.Executable.Worker.UserEvents.Workers;
 public sealed class UserToUserChatInvitationCreateNotificationOutboxPendingWorker(
     IUserToUserChatInvitationNotificationsHubService userToUserChatInvitationNotificationsHubService,
     IOutboxBatchStrategy<UserToUserChatInvitationCreatedOutbox> outboxBatchStrategy,
-    ISelectPendingStrategyBuilder selectPendingStrategyBuilder,
+    IGenericSelectPendingStrategyBuilder genericSelectPendingStrategyBuilder,
     ILogger<UserToUserChatInvitationCreateNotificationOutboxPendingWorker> logger
 ) : BaseBackgroundWorker<UserToUserChatInvitationCreateNotificationOutboxPendingWorker>(
     logger
@@ -30,12 +30,12 @@ public sealed class UserToUserChatInvitationCreateNotificationOutboxPendingWorke
     )
     {
         var selectPendingStrategyBuilderArgs =
-            new SelectPendingStrategyBuilderArgs(
+            new GenericSelectPendingStrategyBuilderArgs(
                 BatchCount
             );
 
         var outboxBatchStrategyArgs =
-            selectPendingStrategyBuilder
+            genericSelectPendingStrategyBuilder
                 .Build<UserToUserChatInvitationCreatedOutbox>(
                     selectPendingStrategyBuilderArgs
                 );

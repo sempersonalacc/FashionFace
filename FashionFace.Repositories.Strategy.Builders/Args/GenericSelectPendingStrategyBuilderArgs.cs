@@ -1,5 +1,5 @@
 ﻿namespace FashionFace.Repositories.Strategy.Builders.Args;
 
-public sealed record SelectPendingStrategyBuilderArgs(
+public sealed record GenericSelectPendingStrategyBuilderArgs(
     int BatchCount
 );

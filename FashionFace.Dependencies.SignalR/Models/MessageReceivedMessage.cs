@@ -4,7 +4,7 @@ namespace FashionFace.Dependencies.SignalR.Models;
 
 public sealed record MessageReceivedMessage(
     Guid ChatId,
-    Guid UserId,
+    Guid InitiatorUserId,
     Guid MessageId,
     string MessageValue,
     DateTime MessageCreatedAt

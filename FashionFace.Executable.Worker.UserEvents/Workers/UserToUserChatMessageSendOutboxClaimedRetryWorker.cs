@@ -21,7 +21,7 @@ namespace FashionFace.Executable.Worker.UserEvents.Workers;
 
 public sealed class UserToUserChatMessageSendOutboxClaimedRetryWorker(
     IOutboxBatchStrategy<UserToUserChatMessageSendOutbox> outboxBatchStrategy,
-    ISelectClaimedRetryStrategyBuilder selectClaimedRetryStrategyBuilder,
+    IGenericSelectClaimedRetryStrategyBuilder genericSelectClaimedRetryStrategyBuilder,
     IGenericReadRepository genericReadRepository,
     IUpdateRepository updateRepository,
     ITransactionManager  transactionManager,
@@ -40,13 +40,13 @@ public sealed class UserToUserChatMessageSendOutboxClaimedRetryWorker(
     )
     {
         var selectClaimedRetryStrategyBuilderArgs =
-            new SelectClaimedRetryStrategyBuilderArgs(
+            new GenericSelectClaimedRetryStrategyBuilderArgs(
                 BatchCount,
                 RetryDelayMinutes
             );
 
         var outboxBatchStrategyArgs =
-            selectClaimedRetryStrategyBuilder
+            genericSelectClaimedRetryStrategyBuilder
                 .Build<UserToUserChatMessageSendOutbox>(
                     selectClaimedRetryStrategyBuilderArgs
                 );
@@ -68,6 +68,7 @@ public sealed class UserToUserChatMessageSendOutboxClaimedRetryWorker(
             var chatId = outbox.ChatId;
             var messageId = outbox.MessageId;
             var initiatorUserId = outbox.InitiatorUserId;
+            var correlationId = outbox.CorrelationId;
 
             var userToUserChatCollection =
                 genericReadRepository.GetCollection<UserToUserChat>();
@@ -170,9 +171,11 @@ public sealed class UserToUserChatMessageSendOutboxClaimedRetryWorker(
                                 MessageCreatedAt = createdAt,
                                 InitiatorUserId = initiatorUserId,
                                 TargetUserId = targetUserId,
+
+                                CorrelationId = correlationId,
                                 AttemptCount = 0,
                                 OutboxStatus = OutboxStatus.Pending,
-                                ProcessingStartedAt = null,
+                                ClaimedAt = null,
                             }
                     )
                     .ToList();

@@ -21,7 +21,7 @@ namespace FashionFace.Executable.Worker.UserEvents.Workers;
 
 public sealed class UserToUserChatMessageSendOutboxPendingWorker(
     IOutboxBatchStrategy<UserToUserChatMessageSendOutbox> outboxBatchStrategy,
-    ISelectPendingStrategyBuilder selectPendingStrategyBuilder,
+    IGenericSelectPendingStrategyBuilder genericSelectPendingStrategyBuilder,
     IGenericReadRepository genericReadRepository,
     IUpdateRepository updateRepository,
     ITransactionManager  transactionManager,
@@ -39,12 +39,12 @@ public sealed class UserToUserChatMessageSendOutboxPendingWorker(
     )
     {
         var selectPendingStrategyBuilderArgs =
-            new SelectPendingStrategyBuilderArgs(
+            new GenericSelectPendingStrategyBuilderArgs(
                 BatchCount
             );
 
         var outboxBatchStrategyArgs =
-            selectPendingStrategyBuilder
+            genericSelectPendingStrategyBuilder
                 .Build<UserToUserChatMessageSendOutbox>(
                     selectPendingStrategyBuilderArgs
                 );
@@ -66,6 +66,7 @@ public sealed class UserToUserChatMessageSendOutboxPendingWorker(
             var chatId = outbox.ChatId;
             var messageId = outbox.MessageId;
             var initiatorUserId = outbox.InitiatorUserId;
+            var correlationId = outbox.CorrelationId;
 
             var userToUserChatCollection =
                 genericReadRepository.GetCollection<UserToUserChat>();
@@ -168,9 +169,11 @@ public sealed class UserToUserChatMessageSendOutboxPendingWorker(
                                 MessageCreatedAt = createdAt,
                                 InitiatorUserId = initiatorUserId,
                                 TargetUserId = targetUserId,
+
+                                CorrelationId = correlationId,
                                 AttemptCount = 0,
                                 OutboxStatus = OutboxStatus.Pending,
-                                ProcessingStartedAt = null,
+                                ClaimedAt = null,
                             }
                     )
                     .ToList();

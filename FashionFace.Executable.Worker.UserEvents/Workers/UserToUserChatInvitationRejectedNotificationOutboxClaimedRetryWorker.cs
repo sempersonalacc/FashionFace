@@ -16,7 +16,7 @@ namespace FashionFace.Executable.Worker.UserEvents.Workers;
 public sealed class UserToUserChatInvitationRejectedNotificationOutboxClaimedRetryWorker(
     IUserToUserChatInvitationNotificationsHubService userToUserChatInvitationNotificationsHubService,
     IOutboxBatchStrategy<UserToUserChatInvitationRejectedOutbox> outboxBatchStrategy,
-    ISelectClaimedRetryStrategyBuilder selectClaimedRetryStrategyBuilder,
+    IGenericSelectClaimedRetryStrategyBuilder genericSelectClaimedRetryStrategyBuilder,
     ILogger<UserToUserChatInvitationRejectedNotificationOutboxClaimedRetryWorker> logger
 ) : BaseBackgroundWorker<UserToUserChatInvitationRejectedNotificationOutboxClaimedRetryWorker>(
     logger
@@ -31,13 +31,13 @@ public sealed class UserToUserChatInvitationRejectedNotificationOutboxClaimedRet
     )
     {
         var selectClaimedRetryStrategyBuilderArgs =
-            new SelectClaimedRetryStrategyBuilderArgs(
+            new GenericSelectClaimedRetryStrategyBuilderArgs(
                 BatchCount,
                 RetryDelayMinutes
             );
 
         var outboxBatchStrategyArgs =
-            selectClaimedRetryStrategyBuilder
+            genericSelectClaimedRetryStrategyBuilder
                 .Build<UserToUserChatInvitationRejectedOutbox>(
                     selectClaimedRetryStrategyBuilderArgs
                 );

@@ -2,6 +2,8 @@
 using System.Threading.Tasks;
 
 using FashionFace.Common.Exceptions.Interfaces;
+using FashionFace.Common.Models.Models.Commands;
+using FashionFace.Dependencies.RabbitMq.Facades.Interfaces;
 using FashionFace.Facades.Users.Args.UserToUserChats;
 using FashionFace.Facades.Users.Interfaces.UserToUserChats;
 using FashionFace.Facades.Users.Models.UserToUserChats;
@@ -23,7 +25,9 @@ public sealed class UserToUserChatMessageSendFacade(
     ICreateRepository createRepository,
     ITransactionManager  transactionManager,
     IDateTimePicker dateTimePicker,
-    IGuidGenerator guidGenerator
+    IGuidGenerator guidGenerator,
+    IQueuePublishFacade queuePublishFacade,
+    IQueuePublishFacadeCommandBuilder  queuePublishFacadeCommandBuilder
 ) : IUserToUserChatMessageSendFacade
 {
     public async Task<UserToUserChatMessageSendResult> Execute(
@@ -84,16 +88,21 @@ public sealed class UserToUserChatMessageSendFacade(
                 CreatedAt = createdAt,
             };
 
-        var userToUserChatMessageOutbox =
+        var correlationId =
+            guidGenerator.GetNew();
+
+        var outbox =
             new UserToUserChatMessageSendOutbox
             {
                 Id = guidGenerator.GetNew(),
                 ChatId = chatId,
                 MessageId = messageId,
                 InitiatorUserId = userId,
+
+                CorrelationId = correlationId,
                 AttemptCount = 0,
                 OutboxStatus = OutboxStatus.Pending,
-                ProcessingStartedAt = null,
+                ClaimedAt = null,
             };
 
         using var transaction =
@@ -109,11 +118,28 @@ public sealed class UserToUserChatMessageSendFacade(
         await
             createRepository
                 .CreateAsync(
-                    userToUserChatMessageOutbox
+                    outbox
                 );
 
         await
             transaction.CommitAsync();
+
+        var handleOutbox =
+            new HandleUserToUserMessageSendOutbox(
+                outbox.CorrelationId
+            );
+
+        var queuePublishFacadeArgs =
+            queuePublishFacadeCommandBuilder
+                .Build(
+                    handleOutbox
+                );
+
+        await
+            queuePublishFacade
+                .PublishAsync(
+                    queuePublishFacadeArgs
+                );
 
         var result =
             new UserToUserChatMessageSendResult(

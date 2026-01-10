@@ -4,6 +4,6 @@ namespace FashionFace.Dependencies.SignalR.Models;
 
 public sealed record MessageReadMessage(
     Guid ChatId,
-    Guid UserId,
+    Guid InitiatorUserId,
     Guid MessageId
 );

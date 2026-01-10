@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-using FashionFace.Repositories.Context.Interfaces;
+﻿using FashionFace.Repositories.Context.Interfaces;
 using FashionFace.Repositories.Context.Models.Base;
 
 using Microsoft.EntityFrameworkCore;
@@ -21,33 +19,20 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
         );
 
         var isWithIdentifier =
-            type
+            typeof(IWithIdentifier)
                 .IsAssignableFrom(
-                    typeof(IWithIdentifier)
+                    type
                 );
 
         if (isWithIdentifier)
         {
-            var parameter = Expression.Parameter(
-                type,
-                "entity"
-            );
-            var property = Expression.Property(
-                parameter,
-                nameof(IWithIdentifier.Id)
-            );
-            var lambda = Expression.Lambda(
-                property,
-                parameter
-            );
-
             builder.HasKey(
-                (dynamic)lambda
+                nameof(IWithIdentifier.Id)
             );
 
             builder
                 .Property(
-                    (dynamic)lambda
+                    nameof(IWithIdentifier.Id)
                 )
                 .HasColumnName(
                     nameof(IWithIdentifier.Id)
@@ -59,29 +44,16 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
         }
 
         var iWithCorrelationId =
-            type
+            typeof(IWithCorrelationId)
                 .IsAssignableFrom(
-                    typeof(IWithCorrelationId)
+                    type
                 );
 
         if (iWithCorrelationId)
         {
-            var parameter = Expression.Parameter(
-                type,
-                "entity"
-            );
-            var property = Expression.Property(
-                parameter,
-                nameof(IWithCorrelationId.CorrelationId)
-            );
-            var lambda = Expression.Lambda(
-                property,
-                parameter
-            );
-
             builder
                 .Property(
-                    (dynamic)lambda
+                    nameof(IWithCorrelationId.CorrelationId)
                 )
                 .HasColumnName(
                     nameof(IWithCorrelationId.CorrelationId)
@@ -93,29 +65,16 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
         }
 
         var isWithIDeleted =
-            type
+            typeof(IWithIsDeleted)
                 .IsAssignableFrom(
-                    typeof(IWithIsDeleted)
+                    type
                 );
 
         if (isWithIDeleted)
         {
-            var parameter = Expression.Parameter(
-                type,
-                "entity"
-            );
-            var property = Expression.Property(
-                parameter,
-                nameof(IWithIsDeleted.IsDeleted)
-            );
-            var lambda = Expression.Lambda(
-                property,
-                parameter
-            );
-
             builder
                 .Property(
-                    (dynamic)lambda
+                    nameof(IWithIsDeleted.IsDeleted)
                 )
                 .HasColumnName(
                     nameof(IWithIsDeleted.IsDeleted)
@@ -127,29 +86,16 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
         }
 
         var isWithPositionIndex =
-            type
+            typeof(IWithPositionIndex)
                 .IsAssignableFrom(
-                    typeof(IWithPositionIndex)
+                    type
                 );
 
         if (isWithPositionIndex)
         {
-            var parameter = Expression.Parameter(
-                type,
-                "entity"
-            );
-            var property = Expression.Property(
-                parameter,
-                nameof(IWithPositionIndex.PositionIndex)
-            );
-            var lambda = Expression.Lambda(
-                property,
-                parameter
-            );
-
             builder
                 .Property(
-                    (dynamic)lambda
+                    nameof(IWithPositionIndex.PositionIndex)
                 )
                 .HasColumnName(
                     nameof(IWithPositionIndex.PositionIndex)
@@ -161,29 +107,16 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
         }
 
         var isWithCreatedAt =
-            type
+            typeof(IWithCreatedAt)
                 .IsAssignableFrom(
-                    typeof(IWithCreatedAt)
+                    type
                 );
 
         if (isWithCreatedAt)
         {
-            var parameter = Expression.Parameter(
-                type,
-                "entity"
-            );
-            var property = Expression.Property(
-                parameter,
-                nameof(IWithCreatedAt.CreatedAt)
-            );
-            var lambda = Expression.Lambda(
-                property,
-                parameter
-            );
-
             builder
                 .Property(
-                    (dynamic)lambda
+                    nameof(IWithCreatedAt.CreatedAt)
                 )
                 .HasColumnName(
                     nameof(IWithCreatedAt.CreatedAt)
@@ -195,29 +128,16 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
         }
 
         var isWithOutboxStatus =
-            type
+            typeof(IWithOutboxStatus)
                 .IsAssignableFrom(
-                    typeof(IWithOutboxStatus)
+                    type
                 );
 
         if (isWithOutboxStatus)
         {
-            var parameter = Expression.Parameter(
-                type,
-                "entity"
-            );
-            var property = Expression.Property(
-                parameter,
-                nameof(IWithOutboxStatus.OutboxStatus)
-            );
-            var lambda = Expression.Lambda(
-                property,
-                parameter
-            );
-
             builder
                 .Property(
-                    (dynamic)lambda
+                    nameof(IWithOutboxStatus.OutboxStatus)
                 )
                 .HasColumnName(
                     nameof(IWithOutboxStatus.OutboxStatus)
@@ -230,29 +150,16 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
         }
 
         var isWithAttemptCount =
-            type
+            typeof(IWithAttemptCount)
                 .IsAssignableFrom(
-                    typeof(IWithAttemptCount)
+                    type
                 );
 
         if (isWithAttemptCount)
         {
-            var parameter = Expression.Parameter(
-                type,
-                "entity"
-            );
-            var property = Expression.Property(
-                parameter,
-                nameof(IWithAttemptCount.AttemptCount)
-            );
-            var lambda = Expression.Lambda(
-                property,
-                parameter
-            );
-
             builder
                 .Property(
-                    (dynamic)lambda
+                    nameof(IWithAttemptCount.AttemptCount)
                 )
                 .HasColumnName(
                     nameof(IWithAttemptCount.AttemptCount)
@@ -264,29 +171,16 @@ public abstract class EntityConfigurationBase<TEntity> : IEntityTypeConfiguratio
         }
 
         var isWithProcessingStartedAt =
-            type
+            typeof(IWithClaimedAt)
                 .IsAssignableFrom(
-                    typeof(IWithClaimedAt)
+                    type
                 );
 
         if (isWithProcessingStartedAt)
         {
-            var parameter = Expression.Parameter(
-                type,
-                "entity"
-            );
-            var property = Expression.Property(
-                parameter,
-                nameof(IWithClaimedAt.ClaimedAt)
-            );
-            var lambda = Expression.Lambda(
-                property,
-                parameter
-            );
-
             builder
                 .Property(
-                    (dynamic)lambda
+                    nameof(IWithClaimedAt.ClaimedAt)
                 )
                 .HasColumnName(
                     nameof(IWithClaimedAt.ClaimedAt)

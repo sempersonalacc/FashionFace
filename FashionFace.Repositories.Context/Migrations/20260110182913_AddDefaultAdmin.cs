@@ -7,7 +7,7 @@ namespace FashionFace.Repositories.Context.Migrations
     /// <inheritdoc />
     public partial class AddDefaultAdmin : Migration
     {
-        /// <inheritdoc />
+         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.InsertData(

@@ -7,7 +7,7 @@ public static class SqlTemplateConstants
             SELECT *
             FROM "{0}"
             WHERE "OutboxStatus" = @OutboxStatus and "CorrelationId" = @CorrelationId and "ClaimedAt" is null
-            ORDER BY "MessageCreatedAt"
+            ORDER BY "CreatedAt" DESC
             FOR UPDATE SKIP LOCKED
             LIMIT @BatchCount
         """;
@@ -17,7 +17,7 @@ public static class SqlTemplateConstants
             SELECT *
             FROM "{0}"
             WHERE "OutboxStatus" = @OutboxStatus and "ClaimedAt" is null
-            ORDER BY "MessageCreatedAt"
+            ORDER BY "CreatedAt" DESC
             FOR UPDATE SKIP LOCKED
             LIMIT @BatchCount
         """;
@@ -27,7 +27,7 @@ public static class SqlTemplateConstants
             SELECT *
             FROM "{0}"
             WHERE "OutboxStatus" = @OutboxStatus and "ClaimedAt" < @ClaimedAt
-            ORDER BY "MessageCreatedAt"
+            ORDER BY "CreatedAt" DESC
             FOR UPDATE SKIP LOCKED
             LIMIT @BatchCount
         """;

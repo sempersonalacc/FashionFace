@@ -9,9 +9,12 @@ using FashionFace.Executable.Worker.UserEvents.Args;
 using FashionFace.Executable.Worker.UserEvents.Interfaces;
 using FashionFace.Executable.Worker.UserEvents.Workers;
 using FashionFace.Repositories.Context;
+using FashionFace.Repositories.Context.Interfaces;
+using FashionFace.Repositories.Context.Models.IdentityEntities;
 using FashionFace.Repositories.Context.Models.OutboxEntity;
 using FashionFace.Services.ConfigurationSettings.Models;
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -88,6 +91,13 @@ serviceCollection
             )
     );
 
+serviceCollection
+    .AddIdentity<ApplicationUser, ApplicationRole>()
+    .AddRoleManager<RoleManager<ApplicationRole>>()
+    .AddDefaultTokenProviders()
+    .AddEntityFrameworkStores<ApplicationDatabaseContext>()
+    .AddRoles<ApplicationRole>();
+
 serviceCollection.AddStackExchangeRedisCache(
     options =>
     {
@@ -96,7 +106,29 @@ serviceCollection.AddStackExchangeRedisCache(
     }
 );
 
+serviceCollection
+    .AddSignalR(
+        options => { options.AddFilter<HubExceptionsFilter>(); }
+    )
+    .AddRedis(
+        redisSection["Configuration"],
+        options =>
+        {
+            options.Configuration.ChannelPrefix =
+                $"signalr:{builder.Environment.EnvironmentName}";
+        }
+    );
+
 serviceCollection.SetupDependencies();
+
+serviceCollection.AddScoped<UserToUserChatMessageSendOutboxPendingWorker,UserToUserChatMessageSendOutboxPendingWorker>();
+serviceCollection.AddScoped<UserToUserChatMessageSendOutboxClaimedRetryWorker,UserToUserChatMessageSendOutboxClaimedRetryWorker>();
+serviceCollection.AddScoped<UserToUserChatMessageReadOutboxPendingWorker,UserToUserChatMessageReadOutboxPendingWorker>();
+serviceCollection.AddScoped<UserToUserChatMessageReadOutboxClaimedRetryWorker,UserToUserChatMessageReadOutboxClaimedRetryWorker>();
+serviceCollection.AddScoped<UserToUserChatMessageSendNotificationOutboxPendingWorker,UserToUserChatMessageSendNotificationOutboxPendingWorker>();
+serviceCollection.AddScoped<UserToUserChatMessageSendNotificationOutboxClaimedRetryWorker,UserToUserChatMessageSendNotificationOutboxClaimedRetryWorker>();
+serviceCollection.AddScoped<UserToUserChatMessageReadNotificationOutboxPendingWorker,UserToUserChatMessageReadNotificationOutboxPendingWorker>();
+serviceCollection.AddScoped<UserToUserChatMessageReadNotificationOutboxClaimedRetryWorker,UserToUserChatMessageReadNotificationOutboxClaimedRetryWorker>();
 
 builder.Services.AddHostedService<UserToUserChatMessageSendOutboxPendingWorker>();
 builder.Services.AddHostedService<UserToUserChatMessageSendOutboxClaimedRetryWorker>();
@@ -113,24 +145,8 @@ builder.Services.AddHostedService<UserToUserChatMessageReadNotificationOutboxCla
 var host =
     builder.Build();
 
-serviceCollection
-    .AddSignalR(
-        options => { options.AddFilter<HubExceptionsFilter>(); }
-    )
-    .AddRedis(
-        redisSection["Configuration"],
-        options =>
-        {
-            options.Configuration.ChannelPrefix =
-                $"signalr:{builder.Environment.EnvironmentName}";
-        }
-    );
-
 var serviceProvider =
     host.Services;
-
-var queueConnectionCreateDomainFacadeBuilder =
-    serviceProvider.GetRequiredService<IQueueConnectionCreateDomainFacadeBuilder>();
 
 var publishSubscribeChannelService =
     serviceProvider.GetRequiredService<IPublishSubscribeChannelService>();
@@ -139,38 +155,96 @@ var channelSubscribeService =
     serviceProvider.GetRequiredService<IChannelSubscribeService>();
 
 var queueConnectionCreateDomainFacade =
-    queueConnectionCreateDomainFacadeBuilder.Build();
+    serviceProvider.GetRequiredService<IQueueConnectionCreateDomainFacade>();
 
 var connection =
     await
         queueConnectionCreateDomainFacade.CreateAsync();
 
 await
-    SubscribeToUserToUserChatMessageRead(
-    publishSubscribeChannelService,
-    connection,
-    serviceProvider,
-    channelSubscribeService
-);
+    Subscribe<IUserToUserChatInvitationAcceptedNotificationHandlerBuilder, UserToUserChatInvitationAcceptedOutbox>(
+        publishSubscribeChannelService,
+        connection,
+        serviceProvider,
+        channelSubscribeService
+    );
+
+await
+    Subscribe<IUserToUserChatInvitationCanceledNotificationHandlerBuilder, UserToUserChatInvitationCanceledOutbox>(
+        publishSubscribeChannelService,
+        connection,
+        serviceProvider,
+        channelSubscribeService
+    );
+
+await
+    Subscribe<IUserToUserChatInvitationCreatedNotificationHandlerBuilder, UserToUserChatInvitationCreatedOutbox>(
+        publishSubscribeChannelService,
+        connection,
+        serviceProvider,
+        channelSubscribeService
+    );
+
+await
+    Subscribe<IUserToUserChatInvitationRejectedNotificationHandlerBuilder, UserToUserChatInvitationRejectedOutbox>(
+        publishSubscribeChannelService,
+        connection,
+        serviceProvider,
+        channelSubscribeService
+    );
+
+await
+    Subscribe<IUserToUserChatMessageReadHandlerBuilder, UserToUserChatMessageReadOutbox>(
+        publishSubscribeChannelService,
+        connection,
+        serviceProvider,
+        channelSubscribeService
+    );
+
+await
+    Subscribe<IUserToUserChatMessageReadNotificationHandlerBuilder, UserToUserChatMessageReadNotificationOutbox>(
+        publishSubscribeChannelService,
+        connection,
+        serviceProvider,
+        channelSubscribeService
+    );
+
+await
+    Subscribe<IUserToUserChatMessageSendHandlerBuilder, UserToUserChatMessageSendOutbox>(
+        publishSubscribeChannelService,
+        connection,
+        serviceProvider,
+        channelSubscribeService
+    );
+
+await
+    Subscribe<IUserToUserChatMessageSendNotificationHandlerBuilder, UserToUserChatMessageSendNotificationOutbox>(
+        publishSubscribeChannelService,
+        connection,
+        serviceProvider,
+        channelSubscribeService
+    );
 
 host.Run();
 
 return;
 
-static async Task SubscribeToUserToUserChatMessageRead(
+static async Task Subscribe<TService, TOutbox>(
     IPublishSubscribeChannelService publishSubscribeChannelService,
     IConnection connection,
     IServiceProvider serviceProvider,
     IChannelSubscribeService channelSubscribeService
 )
+    where TService : class, IHandlerBuilderBase
+    where TOutbox : class, IOutbox
 {
     var channel =
         await
             publishSubscribeChannelService
                 .CreateDirect(
                     connection,
-                    $"{typeof(UserToUserChatMessageReadOutbox).FullName}.exchange",
-                    $"{typeof(UserToUserChatMessageReadOutbox).FullName}.queue"
+                    $"{typeof(TOutbox).FullName}.exchange",
+                    $"{typeof(TOutbox).FullName}.queue"
                 );
 
     var eventHandlerBuilderArgs =
@@ -179,7 +253,7 @@ static async Task SubscribeToUserToUserChatMessageRead(
         );
 
     var eventHandlerBuilder =
-        serviceProvider.GetRequiredService<IUserToUserChatMessageReadHandlerBuilder>();
+        serviceProvider.GetRequiredService<TService>();
 
     var eventHandler =
         eventHandlerBuilder

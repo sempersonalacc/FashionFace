@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using FashionFace.Dependencies.SignalR.Interfaces;
 using FashionFace.Repositories.Context.Enums;
 using FashionFace.Repositories.Context.Models.OutboxEntity;
 using FashionFace.Repositories.Context.Models.UserToUserChats;
@@ -15,17 +16,13 @@ using FashionFace.Repositories.Transactions.Interfaces;
 using FashionFace.Services.Singleton.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace FashionFace.Executable.Worker.UserEvents.Workers;
 
 public sealed class UserToUserChatMessageReadOutboxClaimedRetryWorker(
-    IOutboxBatchStrategy<UserToUserChatMessageReadOutbox> outboxBatchStrategy,
-    IGenericSelectClaimedRetryStrategyBuilder genericSelectClaimedRetryStrategyBuilder,
-    IGenericReadRepository genericReadRepository,
-    IUpdateRepository updateRepository,
-    ITransactionManager  transactionManager,
-    IGuidGenerator guidGenerator,
+    IServiceProvider serviceProvider,
     ILogger<UserToUserChatMessageReadOutboxClaimedRetryWorker> logger
 ) : BaseBackgroundWorker<UserToUserChatMessageReadOutboxClaimedRetryWorker>(
     logger
@@ -39,6 +36,36 @@ public sealed class UserToUserChatMessageReadOutboxClaimedRetryWorker(
         CancellationToken cancellationToken
     )
     {
+        using var scope =
+            serviceProvider.CreateScope();
+
+        var scopedServiceProvider =
+            scope.ServiceProvider;
+
+        var userToUserChatInvitationNotificationsHubService =
+            scopedServiceProvider.GetRequiredService<IUserToUserChatInvitationNotificationsHubService>();
+
+        var outboxBatchStrategy =
+            scopedServiceProvider.GetRequiredService<IOutboxBatchStrategy>();
+
+        var genericReadRepository =
+            scopedServiceProvider.GetRequiredService<IGenericReadRepository>();
+
+        var updateRepository =
+            scopedServiceProvider.GetRequiredService<IUpdateRepository>();
+
+        var transactionManager =
+            scopedServiceProvider.GetRequiredService<ITransactionManager>();
+
+        var guidGenerator =
+            scopedServiceProvider.GetRequiredService<IGuidGenerator>();
+
+        var genericSelectClaimedRetryStrategyBuilder =
+            scopedServiceProvider.GetRequiredService<IGenericSelectClaimedRetryStrategyBuilder>();
+
+        var dateTimePicker =
+            serviceProvider.GetRequiredService<IDateTimePicker>();
+
         var selectClaimedRetryStrategyBuilderArgs =
             new GenericSelectClaimedRetryStrategyBuilderArgs(
                 BatchCount,
@@ -54,7 +81,7 @@ public sealed class UserToUserChatMessageReadOutboxClaimedRetryWorker(
         var outboxList =
             await
                 outboxBatchStrategy
-                    .ClaimBatchAsync(
+                    .ClaimBatchAsync<UserToUserChatMessageReadOutbox>(
                         outboxBatchStrategyArgs
                     );
 
@@ -128,6 +155,7 @@ public sealed class UserToUserChatMessageReadOutboxClaimedRetryWorker(
                                 InitiatorUserId = initiatorUserId,
                                 TargetUserId = targetUserId,
 
+                                CreatedAt = dateTimePicker.GetUtcNow(),
                                 CorrelationId = correlationId,
                                 AttemptCount = 0,
                                 OutboxStatus = OutboxStatus.Pending,

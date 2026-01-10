@@ -15,17 +15,13 @@ using FashionFace.Repositories.Transactions.Interfaces;
 using FashionFace.Services.Singleton.Interfaces;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace FashionFace.Executable.Worker.UserEvents.Workers;
 
 public sealed class UserToUserChatMessageReadOutboxPendingWorker(
-    IOutboxBatchStrategy<UserToUserChatMessageReadOutbox> outboxBatchStrategy,
-    IGenericSelectPendingStrategyBuilder genericSelectPendingStrategyBuilder,
-    IGenericReadRepository genericReadRepository,
-    IUpdateRepository updateRepository,
-    ITransactionManager  transactionManager,
-    IGuidGenerator guidGenerator,
+    IServiceProvider serviceProvider,
     ILogger<UserToUserChatMessageReadOutboxPendingWorker> logger
 ) : BaseBackgroundWorker<UserToUserChatMessageReadOutboxPendingWorker>(
     logger
@@ -38,6 +34,33 @@ public sealed class UserToUserChatMessageReadOutboxPendingWorker(
         CancellationToken cancellationToken
     )
     {
+        using var scope =
+            serviceProvider.CreateScope();
+
+        var scopedServiceProvider =
+            scope.ServiceProvider;
+
+        var outboxBatchStrategy =
+            scopedServiceProvider.GetRequiredService<IOutboxBatchStrategy>();
+
+        var genericReadRepository =
+            scopedServiceProvider.GetRequiredService<IGenericReadRepository>();
+
+        var updateRepository =
+            scopedServiceProvider.GetRequiredService<IUpdateRepository>();
+
+        var transactionManager =
+            scopedServiceProvider.GetRequiredService<ITransactionManager>();
+
+        var guidGenerator =
+            scopedServiceProvider.GetRequiredService<IGuidGenerator>();
+
+        var genericSelectPendingStrategyBuilder =
+            scopedServiceProvider.GetRequiredService<IGenericSelectPendingStrategyBuilder>();
+
+        var dateTimePicker =
+            serviceProvider.GetRequiredService<IDateTimePicker>();
+
         var selectPendingStrategyBuilderArgs =
             new GenericSelectPendingStrategyBuilderArgs(
                 BatchCount
@@ -52,7 +75,7 @@ public sealed class UserToUserChatMessageReadOutboxPendingWorker(
         var outboxList =
             await
                 outboxBatchStrategy
-                    .ClaimBatchAsync(
+                    .ClaimBatchAsync<UserToUserChatMessageReadOutbox>(
                         outboxBatchStrategyArgs
                     );
 
@@ -127,6 +150,7 @@ public sealed class UserToUserChatMessageReadOutboxPendingWorker(
                                 InitiatorUserId = initiatorUserId,
                                 TargetUserId = targetUserId,
 
+                                CreatedAt = dateTimePicker.GetUtcNow(),
                                 CorrelationId = correlationId,
                                 AttemptCount = 0,
                                 OutboxStatus = OutboxStatus.Pending,

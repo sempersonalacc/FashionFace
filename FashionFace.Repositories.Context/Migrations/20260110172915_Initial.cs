@@ -281,6 +281,53 @@ namespace FashionFace.Repositories.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserToUserChatInvitation",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    InitiatorUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TargetUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Status = table.Column<string>(type: "varchar(32)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatInvitation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitation_AspNetUsers_InitiatorUserId",
+                        column: x => x.InitiatorUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitation_AspNetUsers_TargetUserId",
+                        column: x => x.TargetUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserToUserMessage",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ApplicationUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserMessage", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserMessage_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "DimensionValue",
                 columns: table => new
                 {
@@ -525,6 +572,117 @@ namespace FashionFace.Repositories.Context.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserToUserChatInvitationCanceledOutbox",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    InvitationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InitiatorUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TargetUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CorrelationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OutboxStatus = table.Column<string>(type: "varchar(16)", nullable: false),
+                    AttemptCount = table.Column<int>(type: "integer", nullable: false),
+                    ClaimedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatInvitationCanceledOutbox", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationCanceledOutbox_AspNetUsers_Initiato~",
+                        column: x => x.InitiatorUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationCanceledOutbox_AspNetUsers_TargetUs~",
+                        column: x => x.TargetUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationCanceledOutbox_UserToUserChatInvita~",
+                        column: x => x.InvitationId,
+                        principalTable: "UserToUserChatInvitation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserToUserChatInvitationCreatedOutbox",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    InvitationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InitiatorUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TargetUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CorrelationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OutboxStatus = table.Column<string>(type: "varchar(16)", nullable: false),
+                    AttemptCount = table.Column<int>(type: "integer", nullable: false),
+                    ClaimedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatInvitationCreatedOutbox", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationCreatedOutbox_AspNetUsers_Initiator~",
+                        column: x => x.InitiatorUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationCreatedOutbox_AspNetUsers_TargetUse~",
+                        column: x => x.TargetUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationCreatedOutbox_UserToUserChatInvitat~",
+                        column: x => x.InvitationId,
+                        principalTable: "UserToUserChatInvitation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserToUserChatInvitationRejectedOutbox",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    InvitationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InitiatorUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TargetUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CorrelationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OutboxStatus = table.Column<string>(type: "varchar(16)", nullable: false),
+                    AttemptCount = table.Column<int>(type: "integer", nullable: false),
+                    ClaimedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatInvitationRejectedOutbox", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationRejectedOutbox_AspNetUsers_Initiato~",
+                        column: x => x.InitiatorUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationRejectedOutbox_AspNetUsers_TargetUs~",
+                        column: x => x.TargetUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationRejectedOutbox_UserToUserChatInvita~",
+                        column: x => x.InvitationId,
+                        principalTable: "UserToUserChatInvitation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AppearanceTraitsDimensionValue",
                 columns: table => new
                 {
@@ -599,8 +757,7 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     FilterRangeValueId = table.Column<Guid>(type: "uuid", nullable: false),
-                    FilterCriteriaAppearanceTraitsId = table.Column<Guid>(type: "uuid", nullable: false),
-                    FilterCriteriaAppearanceTraitsId1 = table.Column<Guid>(type: "uuid", nullable: true)
+                    FilterCriteriaAppearanceTraitsId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -611,11 +768,6 @@ namespace FashionFace.Repositories.Context.Migrations
                         principalTable: "FilterCriteriaAppearanceTraits",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_FilterCriteriaHeight_FilterCriteriaAppearanceTraits_Filter~1",
-                        column: x => x.FilterCriteriaAppearanceTraitsId1,
-                        principalTable: "FilterCriteriaAppearanceTraits",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_FilterCriteriaHeight_FilterRangeValue_FilterRangeValueId",
                         column: x => x.FilterRangeValueId,
@@ -980,6 +1132,312 @@ namespace FashionFace.Repositories.Context.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserToUserChat",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    SettingsId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChat", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserToUserChatApplicationUser",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ApplicationUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Type = table.Column<string>(type: "varchar(32)", nullable: false),
+                    Status = table.Column<string>(type: "varchar(32)", nullable: false),
+                    LastReadAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UserToUserChatId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatApplicationUser", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatApplicationUser_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatApplicationUser_UserToUserChat_ChatId",
+                        column: x => x.ChatId,
+                        principalTable: "UserToUserChat",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatApplicationUser_UserToUserChat_UserToUserChat~",
+                        column: x => x.UserToUserChatId,
+                        principalTable: "UserToUserChat",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserToUserChatInvitationAcceptedOutbox",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    InvitationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InitiatorUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TargetUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CorrelationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OutboxStatus = table.Column<string>(type: "varchar(16)", nullable: false),
+                    AttemptCount = table.Column<int>(type: "integer", nullable: false),
+                    ClaimedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatInvitationAcceptedOutbox", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationAcceptedOutbox_AspNetUsers_Initiato~",
+                        column: x => x.InitiatorUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationAcceptedOutbox_AspNetUsers_TargetUs~",
+                        column: x => x.TargetUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationAcceptedOutbox_UserToUserChatInvita~",
+                        column: x => x.InvitationId,
+                        principalTable: "UserToUserChatInvitation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatInvitationAcceptedOutbox_UserToUserChat_ChatId",
+                        column: x => x.ChatId,
+                        principalTable: "UserToUserChat",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserToUserChatMessage",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    MessageId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    UserToUserChatId = table.Column<Guid>(type: "uuid", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatMessage", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessage_UserToUserChat_ChatId",
+                        column: x => x.ChatId,
+                        principalTable: "UserToUserChat",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessage_UserToUserChat_UserToUserChatId",
+                        column: x => x.UserToUserChatId,
+                        principalTable: "UserToUserChat",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessage_UserToUserMessage_MessageId",
+                        column: x => x.MessageId,
+                        principalTable: "UserToUserMessage",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserToUserChatSettings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChatType = table.Column<string>(type: "varchar(32)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatSettings", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatSettings_UserToUserChat_ChatId",
+                        column: x => x.ChatId,
+                        principalTable: "UserToUserChat",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserToUserChatMessageReadNotificationOutbox",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InitiatorUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TargetUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MessageId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CorrelationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OutboxStatus = table.Column<string>(type: "varchar(16)", nullable: false),
+                    AttemptCount = table.Column<int>(type: "integer", nullable: false),
+                    ClaimedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatMessageReadNotificationOutbox", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageReadNotificationOutbox_AspNetUsers_Ini~",
+                        column: x => x.InitiatorUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageReadNotificationOutbox_AspNetUsers_Tar~",
+                        column: x => x.TargetUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageReadNotificationOutbox_UserToUserChatM~",
+                        column: x => x.MessageId,
+                        principalTable: "UserToUserChatMessage",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageReadNotificationOutbox_UserToUserChat_~",
+                        column: x => x.ChatId,
+                        principalTable: "UserToUserChat",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserToUserChatMessageReadOutbox",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InitiatorUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MessageId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CorrelationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OutboxStatus = table.Column<string>(type: "varchar(16)", nullable: false),
+                    AttemptCount = table.Column<int>(type: "integer", nullable: false),
+                    ClaimedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatMessageReadOutbox", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageReadOutbox_AspNetUsers_InitiatorUserId",
+                        column: x => x.InitiatorUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageReadOutbox_UserToUserChatMessage_Messa~",
+                        column: x => x.MessageId,
+                        principalTable: "UserToUserChatMessage",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageReadOutbox_UserToUserChat_ChatId",
+                        column: x => x.ChatId,
+                        principalTable: "UserToUserChat",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserToUserChatMessageSendNotificationOutbox",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InitiatorUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TargetUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MessageId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MessageValue = table.Column<string>(type: "text", nullable: false),
+                    MessageCreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CorrelationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OutboxStatus = table.Column<string>(type: "varchar(16)", nullable: false),
+                    AttemptCount = table.Column<int>(type: "integer", nullable: false),
+                    ClaimedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatMessageSendNotificationOutbox", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageSendNotificationOutbox_AspNetUsers_Ini~",
+                        column: x => x.InitiatorUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageSendNotificationOutbox_AspNetUsers_Tar~",
+                        column: x => x.TargetUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageSendNotificationOutbox_UserToUserChatM~",
+                        column: x => x.MessageId,
+                        principalTable: "UserToUserChatMessage",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageSendNotificationOutbox_UserToUserChat_~",
+                        column: x => x.ChatId,
+                        principalTable: "UserToUserChat",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserToUserChatMessageSendOutbox",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ChatId = table.Column<Guid>(type: "uuid", nullable: false),
+                    InitiatorUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    MessageId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    CorrelationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    OutboxStatus = table.Column<string>(type: "varchar(16)", nullable: false),
+                    AttemptCount = table.Column<int>(type: "integer", nullable: false),
+                    ClaimedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserToUserChatMessageSendOutbox", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageSendOutbox_AspNetUsers_InitiatorUserId",
+                        column: x => x.InitiatorUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageSendOutbox_UserToUserChatMessage_Messa~",
+                        column: x => x.MessageId,
+                        principalTable: "UserToUserChatMessage",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserToUserChatMessageSendOutbox_UserToUserChat_ChatId",
+                        column: x => x.ChatId,
+                        principalTable: "UserToUserChat",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AppearanceTraits_ProfileId",
                 table: "AppearanceTraits",
@@ -1106,12 +1564,6 @@ namespace FashionFace.Repositories.Context.Migrations
                 name: "IX_FilterCriteriaHeight_FilterCriteriaAppearanceTraitsId",
                 table: "FilterCriteriaHeight",
                 column: "FilterCriteriaAppearanceTraitsId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_FilterCriteriaHeight_FilterCriteriaAppearanceTraitsId1",
-                table: "FilterCriteriaHeight",
-                column: "FilterCriteriaAppearanceTraitsId1",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -1305,11 +1757,220 @@ namespace FashionFace.Repositories.Context.Migrations
                 table: "TalentMediaAggregate",
                 column: "TalentId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChat_SettingsId",
+                table: "UserToUserChat",
+                column: "SettingsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatApplicationUser_ApplicationUserId",
+                table: "UserToUserChatApplicationUser",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatApplicationUser_ChatId",
+                table: "UserToUserChatApplicationUser",
+                column: "ChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatApplicationUser_UserToUserChatId",
+                table: "UserToUserChatApplicationUser",
+                column: "UserToUserChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitation_InitiatorUserId",
+                table: "UserToUserChatInvitation",
+                column: "InitiatorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitation_TargetUserId",
+                table: "UserToUserChatInvitation",
+                column: "TargetUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationAcceptedOutbox_ChatId",
+                table: "UserToUserChatInvitationAcceptedOutbox",
+                column: "ChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationAcceptedOutbox_InitiatorUserId",
+                table: "UserToUserChatInvitationAcceptedOutbox",
+                column: "InitiatorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationAcceptedOutbox_InvitationId",
+                table: "UserToUserChatInvitationAcceptedOutbox",
+                column: "InvitationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationAcceptedOutbox_TargetUserId",
+                table: "UserToUserChatInvitationAcceptedOutbox",
+                column: "TargetUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationCanceledOutbox_InitiatorUserId",
+                table: "UserToUserChatInvitationCanceledOutbox",
+                column: "InitiatorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationCanceledOutbox_InvitationId",
+                table: "UserToUserChatInvitationCanceledOutbox",
+                column: "InvitationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationCanceledOutbox_TargetUserId",
+                table: "UserToUserChatInvitationCanceledOutbox",
+                column: "TargetUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationCreatedOutbox_InitiatorUserId",
+                table: "UserToUserChatInvitationCreatedOutbox",
+                column: "InitiatorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationCreatedOutbox_InvitationId",
+                table: "UserToUserChatInvitationCreatedOutbox",
+                column: "InvitationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationCreatedOutbox_TargetUserId",
+                table: "UserToUserChatInvitationCreatedOutbox",
+                column: "TargetUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationRejectedOutbox_InitiatorUserId",
+                table: "UserToUserChatInvitationRejectedOutbox",
+                column: "InitiatorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationRejectedOutbox_InvitationId",
+                table: "UserToUserChatInvitationRejectedOutbox",
+                column: "InvitationId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatInvitationRejectedOutbox_TargetUserId",
+                table: "UserToUserChatInvitationRejectedOutbox",
+                column: "TargetUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessage_ChatId",
+                table: "UserToUserChatMessage",
+                column: "ChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessage_MessageId",
+                table: "UserToUserChatMessage",
+                column: "MessageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessage_UserToUserChatId",
+                table: "UserToUserChatMessage",
+                column: "UserToUserChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageReadNotificationOutbox_ChatId",
+                table: "UserToUserChatMessageReadNotificationOutbox",
+                column: "ChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageReadNotificationOutbox_InitiatorUserId",
+                table: "UserToUserChatMessageReadNotificationOutbox",
+                column: "InitiatorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageReadNotificationOutbox_MessageId",
+                table: "UserToUserChatMessageReadNotificationOutbox",
+                column: "MessageId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageReadNotificationOutbox_TargetUserId",
+                table: "UserToUserChatMessageReadNotificationOutbox",
+                column: "TargetUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageReadOutbox_ChatId",
+                table: "UserToUserChatMessageReadOutbox",
+                column: "ChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageReadOutbox_InitiatorUserId",
+                table: "UserToUserChatMessageReadOutbox",
+                column: "InitiatorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageReadOutbox_MessageId",
+                table: "UserToUserChatMessageReadOutbox",
+                column: "MessageId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageSendNotificationOutbox_ChatId",
+                table: "UserToUserChatMessageSendNotificationOutbox",
+                column: "ChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageSendNotificationOutbox_InitiatorUserId",
+                table: "UserToUserChatMessageSendNotificationOutbox",
+                column: "InitiatorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageSendNotificationOutbox_MessageId",
+                table: "UserToUserChatMessageSendNotificationOutbox",
+                column: "MessageId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageSendNotificationOutbox_TargetUserId",
+                table: "UserToUserChatMessageSendNotificationOutbox",
+                column: "TargetUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageSendOutbox_ChatId",
+                table: "UserToUserChatMessageSendOutbox",
+                column: "ChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageSendOutbox_InitiatorUserId",
+                table: "UserToUserChatMessageSendOutbox",
+                column: "InitiatorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatMessageSendOutbox_MessageId",
+                table: "UserToUserChatMessageSendOutbox",
+                column: "MessageId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserChatSettings_ChatId",
+                table: "UserToUserChatSettings",
+                column: "ChatId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserToUserMessage_ApplicationUserId",
+                table: "UserToUserMessage",
+                column: "ApplicationUserId");
+
+            migrationBuilder.AddForeignKey(
+                name: "FK_UserToUserChat_UserToUserChatSettings_SettingsId",
+                table: "UserToUserChat",
+                column: "SettingsId",
+                principalTable: "UserToUserChatSettings",
+                principalColumn: "Id");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropForeignKey(
+                name: "FK_UserToUserChat_UserToUserChatSettings_SettingsId",
+                table: "UserToUserChat");
+
             migrationBuilder.DropTable(
                 name: "AppearanceTraitsDimensionValue");
 
@@ -1383,6 +2044,33 @@ namespace FashionFace.Repositories.Context.Migrations
                 name: "TalentMediaAggregate");
 
             migrationBuilder.DropTable(
+                name: "UserToUserChatApplicationUser");
+
+            migrationBuilder.DropTable(
+                name: "UserToUserChatInvitationAcceptedOutbox");
+
+            migrationBuilder.DropTable(
+                name: "UserToUserChatInvitationCanceledOutbox");
+
+            migrationBuilder.DropTable(
+                name: "UserToUserChatInvitationCreatedOutbox");
+
+            migrationBuilder.DropTable(
+                name: "UserToUserChatInvitationRejectedOutbox");
+
+            migrationBuilder.DropTable(
+                name: "UserToUserChatMessageReadNotificationOutbox");
+
+            migrationBuilder.DropTable(
+                name: "UserToUserChatMessageReadOutbox");
+
+            migrationBuilder.DropTable(
+                name: "UserToUserChatMessageSendNotificationOutbox");
+
+            migrationBuilder.DropTable(
+                name: "UserToUserChatMessageSendOutbox");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -1416,6 +2104,12 @@ namespace FashionFace.Repositories.Context.Migrations
                 name: "MediaAggregate");
 
             migrationBuilder.DropTable(
+                name: "UserToUserChatInvitation");
+
+            migrationBuilder.DropTable(
+                name: "UserToUserChatMessage");
+
+            migrationBuilder.DropTable(
                 name: "Dimension");
 
             migrationBuilder.DropTable(
@@ -1434,6 +2128,9 @@ namespace FashionFace.Repositories.Context.Migrations
                 name: "Media");
 
             migrationBuilder.DropTable(
+                name: "UserToUserMessage");
+
+            migrationBuilder.DropTable(
                 name: "MediaFile");
 
             migrationBuilder.DropTable(
@@ -1441,6 +2138,12 @@ namespace FashionFace.Repositories.Context.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "UserToUserChatSettings");
+
+            migrationBuilder.DropTable(
+                name: "UserToUserChat");
         }
     }
 }

@@ -18,6 +18,7 @@ public sealed class UserToUserChatMessageSendNotificationOutbox : EntityBase, IO
     public required string MessageValue { get; set; }
     public required DateTime MessageCreatedAt { get; set; }
 
+    public required DateTime CreatedAt { get; set; }
     public required Guid CorrelationId { get; set; }
     public required OutboxStatus OutboxStatus { get; set; }
     public required int AttemptCount { get; set; }

@@ -80,6 +80,7 @@ public sealed class UserToUserChatInvitationCreateFacade(
                 InitiatorUserId = userId,
                 TargetUserId = targetUserId,
 
+                CreatedAt = dateTimePicker.GetUtcNow(),
                 CorrelationId = correlationId,
                 AttemptCount = 0,
                 ClaimedAt = null,

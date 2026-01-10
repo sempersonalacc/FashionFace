@@ -57,7 +57,7 @@ public sealed class UserToUserChatInvitationCanceledNotificationHandlerBuilder :
                 serviceProvider.GetRequiredService<IUserToUserChatInvitationNotificationsHubService>();
 
             var outboxBatchStrategy =
-                serviceProvider.GetRequiredService<IOutboxBatchStrategy<UserToUserChatInvitationCanceledOutbox>>();
+                serviceProvider.GetRequiredService<IOutboxBatchStrategy>();
 
             var correlatedSelectPendingStrategyBuilder =
                 serviceProvider.GetRequiredService<ICorrelatedSelectPendingStrategyBuilder>();
@@ -107,7 +107,7 @@ public sealed class UserToUserChatInvitationCanceledNotificationHandlerBuilder :
             var outboxList =
                 await
                     outboxBatchStrategy
-                        .ClaimBatchAsync(
+                        .ClaimBatchAsync<UserToUserChatInvitationCanceledOutbox>(
                             outboxBatchStrategyArgs
                         );
 
@@ -138,7 +138,7 @@ public sealed class UserToUserChatInvitationCanceledNotificationHandlerBuilder :
                 outboxList =
                     await
                         outboxBatchStrategy
-                            .ClaimBatchAsync(
+                            .ClaimBatchAsync<UserToUserChatInvitationCanceledOutbox>(
                                 outboxBatchStrategyArgs
                             );
             }

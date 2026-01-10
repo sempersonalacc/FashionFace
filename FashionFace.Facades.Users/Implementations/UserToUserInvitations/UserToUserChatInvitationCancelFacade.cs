@@ -25,7 +25,8 @@ public sealed class UserToUserChatInvitationCancelFacade(
     IDeleteRepository deleteRepository,
     IGuidGenerator guidGenerator,
     IQueuePublishFacade queuePublishFacade,
-    IQueuePublishFacadeCommandBuilder  queuePublishFacadeCommandBuilder
+    IQueuePublishFacadeCommandBuilder  queuePublishFacadeCommandBuilder,
+    IDateTimePicker dateTimePicker
 ) : IUserToUserChatInvitationCancelFacade
 {
     public async Task Execute(
@@ -63,6 +64,7 @@ public sealed class UserToUserChatInvitationCancelFacade(
                 InitiatorUserId = userId,
                 TargetUserId = userToUserChatInvitation.TargetUserId,
 
+                CreatedAt = dateTimePicker.GetUtcNow(),
                 CorrelationId = correlationId,
                 AttemptCount = 0,
                 ClaimedAt = null,

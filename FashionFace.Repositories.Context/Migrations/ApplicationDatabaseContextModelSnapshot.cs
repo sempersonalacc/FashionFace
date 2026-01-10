@@ -26,7 +26,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("BodyType")
                         .IsRequired()
@@ -107,7 +108,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("AppearanceTraitsId")
                         .HasColumnType("uuid")
@@ -130,7 +132,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("AppearanceTraitsId")
                         .HasColumnType("uuid")
@@ -153,10 +156,12 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uuid")
@@ -174,7 +179,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("DossierId")
                         .HasColumnType("uuid")
@@ -185,7 +191,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("MediaAggregateId");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.HasKey("Id");
 
@@ -201,7 +208,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("DimensionValueId")
                         .HasColumnType("uuid")
@@ -225,7 +233,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -241,7 +250,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -264,7 +274,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("ApplicationUserId")
                         .HasColumnType("uuid")
@@ -275,7 +286,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("FilterCriteriaId");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -283,7 +295,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("Name");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer")
@@ -303,7 +316,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("TalentType")
                         .IsRequired()
@@ -319,7 +333,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("BodyType")
                         .HasColumnType("varchar(32)")
@@ -381,7 +396,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("DimensionValueId")
                         .HasColumnType("uuid")
@@ -404,7 +420,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("BustSizeType")
                         .IsRequired()
@@ -427,14 +444,12 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("FilterCriteriaAppearanceTraitsId")
                         .HasColumnType("uuid")
                         .HasColumnName("FilterCriteriaAppearanceTraitsId");
-
-                    b.Property<Guid?>("FilterCriteriaAppearanceTraitsId1")
-                        .HasColumnType("uuid");
 
                     b.Property<Guid>("FilterRangeValueId")
                         .HasColumnType("uuid")
@@ -443,9 +458,6 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FilterCriteriaAppearanceTraitsId")
-                        .IsUnique();
-
-                    b.HasIndex("FilterCriteriaAppearanceTraitsId1")
                         .IsUnique();
 
                     b.HasIndex("FilterRangeValueId")
@@ -458,7 +470,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("CityId")
                         .HasColumnType("uuid")
@@ -494,7 +507,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("FacialHairLengthType")
                         .IsRequired()
@@ -517,7 +531,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("FilterCriteriaAppearanceTraitsId")
                         .HasColumnType("uuid")
@@ -542,7 +557,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("FilterCriteriaId")
                         .HasColumnType("uuid")
@@ -568,7 +584,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<int>("Max")
                         .HasColumnType("integer")
@@ -679,7 +696,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -695,7 +713,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -719,7 +738,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -735,14 +755,16 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("CityId")
                         .HasColumnType("uuid")
                         .HasColumnName("CityId");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("LocationType")
                         .IsRequired()
@@ -773,7 +795,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("BuildingId")
                         .HasColumnType("uuid")
@@ -803,10 +826,12 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<Guid>("OptimizedFileId")
                         .HasColumnType("uuid")
@@ -831,7 +856,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -839,7 +865,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("Description");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<Guid>("OriginalMediaId")
                         .HasColumnType("uuid")
@@ -864,14 +891,16 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("MediaAggregateId")
                         .HasColumnType("uuid")
                         .HasColumnName("MediaAggregateId");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.Property<Guid>("TagId")
                         .HasColumnType("uuid")
@@ -890,7 +919,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uuid")
@@ -912,20 +942,29 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<int>("AttemptCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
 
                     b.Property<Guid>("ChatId")
                         .HasColumnType("uuid")
                         .HasColumnName("ChatId");
 
-                    b.Property<DateTime?>("ClaimedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
 
                     b.Property<Guid>("CorrelationId")
-                        .HasColumnType("uuid");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
@@ -935,8 +974,10 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("InvitationId");
 
-                    b.Property<int>("OutboxStatus")
-                        .HasColumnType("integer");
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -960,16 +1001,25 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<int>("AttemptCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
 
-                    b.Property<DateTime?>("ClaimedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
 
                     b.Property<Guid>("CorrelationId")
-                        .HasColumnType("uuid");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
@@ -979,8 +1029,10 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("InvitationId");
 
-                    b.Property<int>("OutboxStatus")
-                        .HasColumnType("integer");
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -1002,16 +1054,25 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<int>("AttemptCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
 
-                    b.Property<DateTime?>("ClaimedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
 
                     b.Property<Guid>("CorrelationId")
-                        .HasColumnType("uuid");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
@@ -1021,8 +1082,10 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("InvitationId");
 
-                    b.Property<int>("OutboxStatus")
-                        .HasColumnType("integer");
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -1044,16 +1107,25 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<int>("AttemptCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
 
-                    b.Property<DateTime?>("ClaimedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
 
                     b.Property<Guid>("CorrelationId")
-                        .HasColumnType("uuid");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
@@ -1063,8 +1135,10 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("InvitationId");
 
-                    b.Property<int>("OutboxStatus")
-                        .HasColumnType("integer");
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -1086,20 +1160,29 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<int>("AttemptCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
 
                     b.Property<Guid>("ChatId")
                         .HasColumnType("uuid")
                         .HasColumnName("ChatId");
 
-                    b.Property<DateTime?>("ClaimedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
 
                     b.Property<Guid>("CorrelationId")
-                        .HasColumnType("uuid");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
@@ -1109,8 +1192,10 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("MessageId");
 
-                    b.Property<int>("OutboxStatus")
-                        .HasColumnType("integer");
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -1134,20 +1219,29 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<int>("AttemptCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
 
                     b.Property<Guid>("ChatId")
                         .HasColumnType("uuid")
                         .HasColumnName("ChatId");
 
-                    b.Property<DateTime?>("ClaimedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
 
                     b.Property<Guid>("CorrelationId")
-                        .HasColumnType("uuid");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
@@ -1157,8 +1251,10 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("MessageId");
 
-                    b.Property<int>("OutboxStatus")
-                        .HasColumnType("integer");
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
 
                     b.HasKey("Id");
 
@@ -1176,20 +1272,29 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<int>("AttemptCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
 
                     b.Property<Guid>("ChatId")
                         .HasColumnType("uuid")
                         .HasColumnName("ChatId");
 
-                    b.Property<DateTime?>("ClaimedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
 
                     b.Property<Guid>("CorrelationId")
-                        .HasColumnType("uuid");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
@@ -1197,7 +1302,7 @@ namespace FashionFace.Repositories.Context.Migrations
 
                     b.Property<DateTime>("MessageCreatedAt")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("CreatedAt");
+                        .HasColumnName("MessageCreatedAt");
 
                     b.Property<Guid>("MessageId")
                         .HasColumnType("uuid")
@@ -1208,8 +1313,10 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("text")
                         .HasColumnName("MessageValue");
 
-                    b.Property<int>("OutboxStatus")
-                        .HasColumnType("integer");
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
 
                     b.Property<Guid>("TargetUserId")
                         .HasColumnType("uuid")
@@ -1233,20 +1340,29 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<int>("AttemptCount")
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
 
                     b.Property<Guid>("ChatId")
                         .HasColumnType("uuid")
                         .HasColumnName("ChatId");
 
-                    b.Property<DateTime?>("ClaimedAt")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
 
                     b.Property<Guid>("CorrelationId")
-                        .HasColumnType("uuid");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
@@ -1256,8 +1372,10 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("MessageId");
 
-                    b.Property<int>("OutboxStatus")
-                        .HasColumnType("integer");
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
 
                     b.HasKey("Id");
 
@@ -1275,7 +1393,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -1283,7 +1402,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("Description");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<Guid>("TalentId")
                         .HasColumnType("uuid")
@@ -1301,7 +1421,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("MediaAggregateId")
                         .HasColumnType("uuid")
@@ -1312,7 +1433,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("PortfolioId");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.HasKey("Id");
 
@@ -1328,14 +1450,16 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("PortfolioId")
                         .HasColumnType("uuid")
                         .HasColumnName("PortfolioMediaAggregateId");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.Property<Guid>("TagId")
                         .HasColumnType("uuid")
@@ -1354,7 +1478,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("AgeCategoryType")
                         .IsRequired()
@@ -1366,7 +1491,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("ApplicationUserId");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -1374,7 +1500,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("Description");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1393,7 +1520,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("MediaAggregateId")
                         .HasColumnType("uuid")
@@ -1418,10 +1546,12 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uuid")
@@ -1445,7 +1575,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1461,7 +1592,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -1469,7 +1601,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("Description");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("TalentType")
                         .IsRequired()
@@ -1485,7 +1618,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("MediaAggregateId")
                         .HasColumnType("uuid")
@@ -1510,10 +1644,12 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid?>("SettingsId")
                         .HasColumnType("uuid");
@@ -1529,7 +1665,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("ApplicationUserId")
                         .HasColumnType("uuid")
@@ -1571,10 +1708,12 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid>("InitiatorUserId")
                         .HasColumnType("uuid")
@@ -1602,14 +1741,16 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("ChatId")
                         .HasColumnType("uuid")
                         .HasColumnName("ChatId");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<Guid>("MessageId")
                         .HasColumnType("uuid")
@@ -1633,7 +1774,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("ChatId")
                         .HasColumnType("uuid")
@@ -1655,14 +1797,16 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("ApplicationUserId")
                         .HasColumnType("uuid")
                         .HasColumnName("ApplicationUserId");
 
                     b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
 
                     b.Property<string>("Value")
                         .IsRequired()
@@ -1935,15 +2079,10 @@ namespace FashionFace.Repositories.Context.Migrations
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Filters.FilterCriteriaHeight", b =>
                 {
                     b.HasOne("FashionFace.Repositories.Context.Models.Filters.FilterCriteriaAppearanceTraits", "FilterCriteriaAppearanceTraits")
-                        .WithOne()
+                        .WithOne("Height")
                         .HasForeignKey("FashionFace.Repositories.Context.Models.Filters.FilterCriteriaHeight", "FilterCriteriaAppearanceTraitsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("FashionFace.Repositories.Context.Models.Filters.FilterCriteriaAppearanceTraits", null)
-                        .WithOne("Height")
-                        .HasForeignKey("FashionFace.Repositories.Context.Models.Filters.FilterCriteriaHeight", "FilterCriteriaAppearanceTraitsId1")
-                        .HasConstraintName("FK_FilterCriteriaHeight_FilterCriteriaAppearanceTraits_Filter~1");
 
                     b.HasOne("FashionFace.Repositories.Context.Models.Filters.FilterRangeValue", "FilterRangeValue")
                         .WithOne()

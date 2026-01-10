@@ -20,14 +20,14 @@ public sealed class GenericSelectClaimedForRetryStrategyBuilder : IGenericSelect
     {
         var (batchCount, retryDelayMinutes) = args;
 
-        const string TableName =
-            nameof(TEntity);
+        var tableName =
+            typeof(TEntity).Name;
 
         var sql =
             string
                 .Format(
                     SqlTemplateConstants.SelectClaimedForRetry,
-                    TableName
+                    tableName
                 );
 
         var dateTimeDeadline =

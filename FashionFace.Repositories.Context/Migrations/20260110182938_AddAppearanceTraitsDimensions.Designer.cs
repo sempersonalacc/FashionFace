@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FashionFace.Repositories.Context.Migrations
 {
     [DbContext(typeof(ApplicationDatabaseContext))]
-    [Migration("20251222101218_Initial")]
-    partial class Initial
+    [Migration("20260110182938_AddAppearanceTraitsDimensions")]
+    partial class AddAppearanceTraitsDimensions
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("BodyType")
                         .IsRequired()
@@ -110,7 +111,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("AppearanceTraitsId")
                         .HasColumnType("uuid")
@@ -133,7 +135,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("AppearanceTraitsId")
                         .HasColumnType("uuid")
@@ -156,10 +159,12 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uuid")
@@ -177,7 +182,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("DossierId")
                         .HasColumnType("uuid")
@@ -188,7 +194,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("MediaAggregateId");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.HasKey("Id");
 
@@ -204,7 +211,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("DimensionValueId")
                         .HasColumnType("uuid")
@@ -228,7 +236,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -244,7 +253,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Code")
                         .IsRequired()
@@ -267,7 +277,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("ApplicationUserId")
                         .HasColumnType("uuid")
@@ -278,7 +289,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("FilterCriteriaId");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -286,7 +298,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("Name");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.Property<int>("Version")
                         .HasColumnType("integer")
@@ -306,7 +319,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("TalentType")
                         .IsRequired()
@@ -322,7 +336,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("BodyType")
                         .HasColumnType("varchar(32)")
@@ -384,7 +399,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("DimensionValueId")
                         .HasColumnType("uuid")
@@ -407,7 +423,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("BustSizeType")
                         .IsRequired()
@@ -430,14 +447,12 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("FilterCriteriaAppearanceTraitsId")
                         .HasColumnType("uuid")
                         .HasColumnName("FilterCriteriaAppearanceTraitsId");
-
-                    b.Property<Guid?>("FilterCriteriaAppearanceTraitsId1")
-                        .HasColumnType("uuid");
 
                     b.Property<Guid>("FilterRangeValueId")
                         .HasColumnType("uuid")
@@ -446,9 +461,6 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("FilterCriteriaAppearanceTraitsId")
-                        .IsUnique();
-
-                    b.HasIndex("FilterCriteriaAppearanceTraitsId1")
                         .IsUnique();
 
                     b.HasIndex("FilterRangeValueId")
@@ -461,7 +473,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("CityId")
                         .HasColumnType("uuid")
@@ -497,7 +510,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("FacialHairLengthType")
                         .IsRequired()
@@ -520,7 +534,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("FilterCriteriaAppearanceTraitsId")
                         .HasColumnType("uuid")
@@ -545,7 +560,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("FilterCriteriaId")
                         .HasColumnType("uuid")
@@ -571,7 +587,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<int>("Max")
                         .HasColumnType("integer")
@@ -682,7 +699,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -698,7 +716,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -722,7 +741,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -738,14 +758,16 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("CityId")
                         .HasColumnType("uuid")
                         .HasColumnName("CityId");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("LocationType")
                         .IsRequired()
@@ -776,7 +798,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("BuildingId")
                         .HasColumnType("uuid")
@@ -806,10 +829,12 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<Guid>("OptimizedFileId")
                         .HasColumnType("uuid")
@@ -834,7 +859,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -842,7 +868,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("Description");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<Guid>("OriginalMediaId")
                         .HasColumnType("uuid")
@@ -867,14 +894,16 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("MediaAggregateId")
                         .HasColumnType("uuid")
                         .HasColumnName("MediaAggregateId");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.Property<Guid>("TagId")
                         .HasColumnType("uuid")
@@ -893,7 +922,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uuid")
@@ -911,11 +941,463 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.ToTable("MediaFile", (string)null);
                 });
 
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationAcceptedOutbox", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("AttemptCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ChatId");
+
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
+
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<Guid>("InitiatorUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InitiatorUserId");
+
+                    b.Property<Guid>("InvitationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InvitationId");
+
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
+
+                    b.Property<Guid>("TargetUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("TargetUserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("InitiatorUserId");
+
+                    b.HasIndex("InvitationId")
+                        .IsUnique();
+
+                    b.HasIndex("TargetUserId");
+
+                    b.ToTable("UserToUserChatInvitationAcceptedOutbox", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationCanceledOutbox", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("AttemptCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
+
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
+
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<Guid>("InitiatorUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InitiatorUserId");
+
+                    b.Property<Guid>("InvitationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InvitationId");
+
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
+
+                    b.Property<Guid>("TargetUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("TargetUserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InitiatorUserId");
+
+                    b.HasIndex("InvitationId")
+                        .IsUnique();
+
+                    b.HasIndex("TargetUserId");
+
+                    b.ToTable("UserToUserChatInvitationCanceledOutbox", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationCreatedOutbox", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("AttemptCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
+
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
+
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<Guid>("InitiatorUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InitiatorUserId");
+
+                    b.Property<Guid>("InvitationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InvitationId");
+
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
+
+                    b.Property<Guid>("TargetUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("TargetUserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InitiatorUserId");
+
+                    b.HasIndex("InvitationId")
+                        .IsUnique();
+
+                    b.HasIndex("TargetUserId");
+
+                    b.ToTable("UserToUserChatInvitationCreatedOutbox", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationRejectedOutbox", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("AttemptCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
+
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
+
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<Guid>("InitiatorUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InitiatorUserId");
+
+                    b.Property<Guid>("InvitationId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InvitationId");
+
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
+
+                    b.Property<Guid>("TargetUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("TargetUserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InitiatorUserId");
+
+                    b.HasIndex("InvitationId")
+                        .IsUnique();
+
+                    b.HasIndex("TargetUserId");
+
+                    b.ToTable("UserToUserChatInvitationRejectedOutbox", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageReadNotificationOutbox", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("AttemptCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ChatId");
+
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
+
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<Guid>("InitiatorUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InitiatorUserId");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("MessageId");
+
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
+
+                    b.Property<Guid>("TargetUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("TargetUserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("InitiatorUserId");
+
+                    b.HasIndex("MessageId")
+                        .IsUnique();
+
+                    b.HasIndex("TargetUserId");
+
+                    b.ToTable("UserToUserChatMessageReadNotificationOutbox", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageReadOutbox", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("AttemptCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ChatId");
+
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
+
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<Guid>("InitiatorUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InitiatorUserId");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("MessageId");
+
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("InitiatorUserId");
+
+                    b.HasIndex("MessageId")
+                        .IsUnique();
+
+                    b.ToTable("UserToUserChatMessageReadOutbox", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageSendNotificationOutbox", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("AttemptCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ChatId");
+
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
+
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<Guid>("InitiatorUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InitiatorUserId");
+
+                    b.Property<DateTime>("MessageCreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("MessageCreatedAt");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("MessageId");
+
+                    b.Property<string>("MessageValue")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("MessageValue");
+
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
+
+                    b.Property<Guid>("TargetUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("TargetUserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("InitiatorUserId");
+
+                    b.HasIndex("MessageId")
+                        .IsUnique();
+
+                    b.HasIndex("TargetUserId");
+
+                    b.ToTable("UserToUserChatMessageSendNotificationOutbox", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageSendOutbox", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<int>("AttemptCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("AttemptCount");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ChatId");
+
+                    b.Property<DateTime>("ClaimedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("ClaimedAt");
+
+                    b.Property<Guid>("CorrelationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("CorrelationId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<Guid>("InitiatorUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InitiatorUserId");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("MessageId");
+
+                    b.Property<string>("OutboxStatus")
+                        .IsRequired()
+                        .HasColumnType("varchar(16)")
+                        .HasColumnName("OutboxStatus");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("InitiatorUserId");
+
+                    b.HasIndex("MessageId")
+                        .IsUnique();
+
+                    b.ToTable("UserToUserChatMessageSendOutbox", (string)null);
+                });
+
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Portfolios.Portfolio", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -923,7 +1405,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("Description");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<Guid>("TalentId")
                         .HasColumnType("uuid")
@@ -941,7 +1424,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("MediaAggregateId")
                         .HasColumnType("uuid")
@@ -952,7 +1436,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("PortfolioId");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.HasKey("Id");
 
@@ -968,14 +1453,16 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("PortfolioId")
                         .HasColumnType("uuid")
                         .HasColumnName("PortfolioMediaAggregateId");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.Property<Guid>("TagId")
                         .HasColumnType("uuid")
@@ -994,7 +1481,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("AgeCategoryType")
                         .IsRequired()
@@ -1015,7 +1503,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("Description");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1034,7 +1523,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("MediaAggregateId")
                         .HasColumnType("uuid")
@@ -1059,10 +1549,12 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<double>("PositionIndex")
-                        .HasColumnType("double precision");
+                        .HasColumnType("double precision")
+                        .HasColumnName("PositionIndex");
 
                     b.Property<Guid>("ProfileId")
                         .HasColumnType("uuid")
@@ -1086,7 +1578,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -1102,7 +1595,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -1110,7 +1604,8 @@ namespace FashionFace.Repositories.Context.Migrations
                         .HasColumnName("Description");
 
                     b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("IsDeleted");
 
                     b.Property<string>("TalentType")
                         .IsRequired()
@@ -1126,7 +1621,8 @@ namespace FashionFace.Repositories.Context.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
 
                     b.Property<Guid>("MediaAggregateId")
                         .HasColumnType("uuid")
@@ -1145,6 +1641,186 @@ namespace FashionFace.Repositories.Context.Migrations
                         .IsUnique();
 
                     b.ToTable("TalentMediaAggregate", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<Guid?>("SettingsId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SettingsId");
+
+                    b.ToTable("UserToUserChat", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatApplicationUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ApplicationUserId");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ChatId");
+
+                    b.Property<DateTime>("LastReadAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("LastReadAt");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("Status");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("Type");
+
+                    b.Property<Guid?>("UserToUserChatId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("UserToUserChatId");
+
+                    b.ToTable("UserToUserChatApplicationUser", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatInvitation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<Guid>("InitiatorUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("InitiatorUserId");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("Status");
+
+                    b.Property<Guid>("TargetUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("TargetUserId");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InitiatorUserId");
+
+                    b.HasIndex("TargetUserId");
+
+                    b.ToTable("UserToUserChatInvitation", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ChatId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<Guid>("MessageId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("MessageId");
+
+                    b.Property<Guid?>("UserToUserChatId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.HasIndex("MessageId");
+
+                    b.HasIndex("UserToUserChatId");
+
+                    b.ToTable("UserToUserChatMessage", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatSettings", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("ChatId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ChatId");
+
+                    b.Property<string>("ChatType")
+                        .IsRequired()
+                        .HasColumnType("varchar(32)")
+                        .HasColumnName("ChatType");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChatId");
+
+                    b.ToTable("UserToUserChatSettings", (string)null);
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<Guid>("ApplicationUserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("ApplicationUserId");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("CreatedAt");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Value");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("UserToUserMessage", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -1406,15 +2082,10 @@ namespace FashionFace.Repositories.Context.Migrations
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Filters.FilterCriteriaHeight", b =>
                 {
                     b.HasOne("FashionFace.Repositories.Context.Models.Filters.FilterCriteriaAppearanceTraits", "FilterCriteriaAppearanceTraits")
-                        .WithOne()
+                        .WithOne("Height")
                         .HasForeignKey("FashionFace.Repositories.Context.Models.Filters.FilterCriteriaHeight", "FilterCriteriaAppearanceTraitsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("FashionFace.Repositories.Context.Models.Filters.FilterCriteriaAppearanceTraits", null)
-                        .WithOne("Height")
-                        .HasForeignKey("FashionFace.Repositories.Context.Models.Filters.FilterCriteriaHeight", "FilterCriteriaAppearanceTraitsId1")
-                        .HasConstraintName("FK_FilterCriteriaHeight_FilterCriteriaAppearanceTraits_Filter~1");
 
                     b.HasOne("FashionFace.Repositories.Context.Models.Filters.FilterRangeValue", "FilterRangeValue")
                         .WithOne()
@@ -1617,6 +2288,246 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.Navigation("Profile");
                 });
 
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationAcceptedOutbox", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "InitiatorUser")
+                        .WithMany()
+                        .HasForeignKey("InitiatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatInvitation", "Invitation")
+                        .WithOne()
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationAcceptedOutbox", "InvitationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "TargetUser")
+                        .WithMany()
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("InitiatorUser");
+
+                    b.Navigation("Invitation");
+
+                    b.Navigation("TargetUser");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationCanceledOutbox", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "InitiatorUser")
+                        .WithMany()
+                        .HasForeignKey("InitiatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatInvitation", "Invitation")
+                        .WithOne()
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationCanceledOutbox", "InvitationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "TargetUser")
+                        .WithMany()
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InitiatorUser");
+
+                    b.Navigation("Invitation");
+
+                    b.Navigation("TargetUser");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationCreatedOutbox", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "InitiatorUser")
+                        .WithMany()
+                        .HasForeignKey("InitiatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatInvitation", "Invitation")
+                        .WithOne()
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationCreatedOutbox", "InvitationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "TargetUser")
+                        .WithMany()
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InitiatorUser");
+
+                    b.Navigation("Invitation");
+
+                    b.Navigation("TargetUser");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationRejectedOutbox", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "InitiatorUser")
+                        .WithMany()
+                        .HasForeignKey("InitiatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatInvitation", "Invitation")
+                        .WithOne()
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatInvitationRejectedOutbox", "InvitationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "TargetUser")
+                        .WithMany()
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InitiatorUser");
+
+                    b.Navigation("Invitation");
+
+                    b.Navigation("TargetUser");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageReadNotificationOutbox", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "InitiatorUser")
+                        .WithMany()
+                        .HasForeignKey("InitiatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatMessage", "Message")
+                        .WithOne()
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageReadNotificationOutbox", "MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "TargetUser")
+                        .WithMany()
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("InitiatorUser");
+
+                    b.Navigation("Message");
+
+                    b.Navigation("TargetUser");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageReadOutbox", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "InitiatorUser")
+                        .WithMany()
+                        .HasForeignKey("InitiatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatMessage", "Message")
+                        .WithOne()
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageReadOutbox", "MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("InitiatorUser");
+
+                    b.Navigation("Message");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageSendNotificationOutbox", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "InitiatorUser")
+                        .WithMany()
+                        .HasForeignKey("InitiatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatMessage", "Message")
+                        .WithOne()
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageSendNotificationOutbox", "MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "TargetUser")
+                        .WithMany()
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("InitiatorUser");
+
+                    b.Navigation("Message");
+
+                    b.Navigation("TargetUser");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageSendOutbox", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "InitiatorUser")
+                        .WithMany()
+                        .HasForeignKey("InitiatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatMessage", "Message")
+                        .WithOne()
+                        .HasForeignKey("FashionFace.Repositories.Context.Models.OutboxEntity.UserToUserChatMessageSendOutbox", "MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("InitiatorUser");
+
+                    b.Navigation("Message");
+                });
+
             modelBuilder.Entity("FashionFace.Repositories.Context.Models.Portfolios.Portfolio", b =>
                 {
                     b.HasOne("FashionFace.Repositories.Context.Models.Talents.Talent", "Talent")
@@ -1732,6 +2643,102 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.Navigation("MediaAggregate");
 
                     b.Navigation("Talent");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatSettings", "Settings")
+                        .WithMany()
+                        .HasForeignKey("SettingsId");
+
+                    b.Navigation("Settings");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatApplicationUser", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", null)
+                        .WithMany("UserCollection")
+                        .HasForeignKey("UserToUserChatId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Chat");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatInvitation", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "InitiatorUser")
+                        .WithMany()
+                        .HasForeignKey("InitiatorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "TargetUser")
+                        .WithMany()
+                        .HasForeignKey("TargetUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("InitiatorUser");
+
+                    b.Navigation("TargetUser");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatMessage", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserMessage", "Message")
+                        .WithMany()
+                        .HasForeignKey("MessageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", null)
+                        .WithMany("MessageCollection")
+                        .HasForeignKey("UserToUserChatId");
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("Message");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChatSettings", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", "Chat")
+                        .WithMany()
+                        .HasForeignKey("ChatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chat");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserMessage", b =>
+                {
+                    b.HasOne("FashionFace.Repositories.Context.Models.IdentityEntities.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -1879,6 +2886,13 @@ namespace FashionFace.Repositories.Context.Migrations
                     b.Navigation("ProfileTalent");
 
                     b.Navigation("TalentMediaAggregate");
+                });
+
+            modelBuilder.Entity("FashionFace.Repositories.Context.Models.UserToUserChats.UserToUserChat", b =>
+                {
+                    b.Navigation("MessageCollection");
+
+                    b.Navigation("UserCollection");
                 });
 #pragma warning restore 612, 618
         }

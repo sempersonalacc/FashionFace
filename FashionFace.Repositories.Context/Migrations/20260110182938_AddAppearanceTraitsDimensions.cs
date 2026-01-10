@@ -1,6 +1,4 @@
-﻿using System;
-
-using FashionFace.Common.Constants.Constants;
+﻿using FashionFace.Common.Constants.Constants;
 
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -11,7 +9,7 @@ namespace FashionFace.Repositories.Context.Migrations
     /// <inheritdoc />
     public partial class AddAppearanceTraitsDimensions : Migration
     {
-        /// <inheritdoc />
+       /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             var SexTypeId = "362782d4-f58b-490e-88a2-91203ba5e118";

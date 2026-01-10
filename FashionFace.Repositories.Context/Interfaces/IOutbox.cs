@@ -4,4 +4,5 @@ public interface IOutbox :
     IWithOutboxStatus,
     IWithAttemptCount,
     IWithClaimedAt,
-    IWithCorrelationId;
+    IWithCorrelationId,
+    IWithCreatedAt;

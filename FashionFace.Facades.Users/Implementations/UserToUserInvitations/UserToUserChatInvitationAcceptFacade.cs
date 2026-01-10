@@ -115,6 +115,7 @@ public sealed class UserToUserChatInvitationAcceptFacade(
                 TargetUserId = userToUserChatInvitation.InitiatorUserId,
                 ChatId = chatId,
 
+                CreatedAt = dateTimePicker.GetUtcNow(),
                 CorrelationId = correlationId,
                 AttemptCount = 0,
                 ClaimedAt = null,

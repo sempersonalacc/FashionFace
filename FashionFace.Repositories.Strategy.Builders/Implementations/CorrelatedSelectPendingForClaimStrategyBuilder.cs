@@ -19,14 +19,14 @@ public sealed class CorrelatedSelectPendingForClaimStrategyBuilder : ICorrelated
     {
         var (correlationId, batchCount) = args;
 
-        const string TableName =
-            nameof(TEntity);
+        var tableName =
+            typeof(TEntity).Name;
 
         var sql =
             string
                 .Format(
                     SqlTemplateConstants.CorrelatedSelectPendingForClaim,
-                    TableName
+                    tableName
                 );
 
         IReadOnlyList<SqlParameter> parameterList =

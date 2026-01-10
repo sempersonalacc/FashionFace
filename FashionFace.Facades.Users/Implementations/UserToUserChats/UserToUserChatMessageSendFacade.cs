@@ -99,6 +99,7 @@ public sealed class UserToUserChatMessageSendFacade(
                 MessageId = messageId,
                 InitiatorUserId = userId,
 
+                CreatedAt = dateTimePicker.GetUtcNow(),
                 CorrelationId = correlationId,
                 AttemptCount = 0,
                 OutboxStatus = OutboxStatus.Pending,

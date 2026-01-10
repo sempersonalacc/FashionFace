@@ -310,4 +310,7 @@ app.MapHub<AdminNotificationHub>($"/hubs/{nameof(AdminNotificationHub)}")
 app.MapHub<UserToUserChatNotificationHub>($"/hubs/{nameof(UserToUserChatNotificationHub)}")
     .RequireAuthorization();
 
+app.MapHub<UserToUserChatInvitationNotificationHub>($"/hubs/{nameof(UserToUserChatInvitationNotificationHub)}")
+    .RequireAuthorization();
+
 app.Run();

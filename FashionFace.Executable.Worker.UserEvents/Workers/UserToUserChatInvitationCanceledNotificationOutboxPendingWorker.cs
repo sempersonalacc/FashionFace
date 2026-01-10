@@ -9,14 +9,13 @@ using FashionFace.Repositories.Strategy.Builders.Args;
 using FashionFace.Repositories.Strategy.Builders.Interfaces;
 using FashionFace.Repositories.Strategy.Interfaces;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace FashionFace.Executable.Worker.UserEvents.Workers;
 
 public sealed class UserToUserChatInvitationCanceledNotificationOutboxPendingWorker(
-    IUserToUserChatInvitationNotificationsHubService userToUserChatInvitationNotificationsHubService,
-    IOutboxBatchStrategy<UserToUserChatInvitationCanceledOutbox> outboxBatchStrategy,
-    IGenericSelectPendingStrategyBuilder genericSelectPendingStrategyBuilder,
+    IServiceProvider serviceProvider,
     ILogger<UserToUserChatInvitationCanceledNotificationOutboxPendingWorker> logger
 ) : BaseBackgroundWorker<UserToUserChatInvitationCanceledNotificationOutboxPendingWorker>(
     logger
@@ -29,6 +28,21 @@ public sealed class UserToUserChatInvitationCanceledNotificationOutboxPendingWor
         CancellationToken cancellationToken
     )
     {
+        using var scope =
+            serviceProvider.CreateScope();
+
+        var scopedServiceProvider =
+            scope.ServiceProvider;
+
+        var userToUserChatInvitationNotificationsHubService =
+            scopedServiceProvider.GetRequiredService<IUserToUserChatInvitationNotificationsHubService>();
+
+        var outboxBatchStrategy =
+            scopedServiceProvider.GetRequiredService<IOutboxBatchStrategy>();
+
+        var genericSelectPendingStrategyBuilder =
+            scopedServiceProvider.GetRequiredService<IGenericSelectPendingStrategyBuilder>();
+
         var selectPendingStrategyBuilderArgs =
             new GenericSelectPendingStrategyBuilderArgs(
                 BatchCount
@@ -43,7 +57,7 @@ public sealed class UserToUserChatInvitationCanceledNotificationOutboxPendingWor
         var outboxList =
             await
                 outboxBatchStrategy
-                    .ClaimBatchAsync(
+                    .ClaimBatchAsync<UserToUserChatInvitationCanceledOutbox>(
                         outboxBatchStrategyArgs
                     );
 

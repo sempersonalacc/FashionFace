@@ -17,14 +17,14 @@ public sealed class GenericSelectPendingForClaimStrategyBuilder : IGenericSelect
     )
         where TEntity : class, IOutbox
     {
-        const string TableName =
-            nameof(TEntity);
+        var tableName =
+            typeof(TEntity).Name;
 
         var sql =
             string
                 .Format(
                     SqlTemplateConstants.SelectPendingForClaim,
-                    TableName
+                    tableName
                 );
 
         var batchCount =

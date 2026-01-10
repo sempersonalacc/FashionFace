@@ -26,7 +26,8 @@ public sealed class UserToUserChatMessageReadFacade(
     ITransactionManager  transactionManager,
     IGuidGenerator guidGenerator,
     IQueuePublishFacade queuePublishFacade,
-    IQueuePublishFacadeCommandBuilder  queuePublishFacadeCommandBuilder
+    IQueuePublishFacadeCommandBuilder  queuePublishFacadeCommandBuilder,
+    IDateTimePicker dateTimePicker
 ) : IUserToUserChatMessageReadFacade
 {
     public async Task Execute(
@@ -111,6 +112,7 @@ public sealed class UserToUserChatMessageReadFacade(
                 MessageId = messageId,
                 InitiatorUserId = userId,
 
+                CreatedAt = dateTimePicker.GetUtcNow(),
                 CorrelationId = correlationId,
                 AttemptCount = 0,
                 OutboxStatus = OutboxStatus.Pending,

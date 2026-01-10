@@ -25,7 +25,8 @@ public sealed class UserToUserChatInvitationRejectFacade(
     IUpdateRepository updateRepository,
     IGuidGenerator guidGenerator,
     IQueuePublishFacade queuePublishFacade,
-    IQueuePublishFacadeCommandBuilder  queuePublishFacadeCommandBuilder
+    IQueuePublishFacadeCommandBuilder  queuePublishFacadeCommandBuilder,
+    IDateTimePicker  dateTimePicker
 ) : IUserToUserChatInvitationRejectFacade
 {
     public async Task Execute(
@@ -66,6 +67,7 @@ public sealed class UserToUserChatInvitationRejectFacade(
                 InitiatorUserId = userId,
                 TargetUserId = userToUserChatInvitation.InitiatorUserId,
 
+                CreatedAt = dateTimePicker.GetUtcNow(),
                 CorrelationId = correlationId,
                 AttemptCount = 0,
                 ClaimedAt = null,

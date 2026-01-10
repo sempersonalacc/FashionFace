@@ -9,14 +9,13 @@ using FashionFace.Repositories.Strategy.Builders.Args;
 using FashionFace.Repositories.Strategy.Builders.Interfaces;
 using FashionFace.Repositories.Strategy.Interfaces;
 
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
 namespace FashionFace.Executable.Worker.UserEvents.Workers;
 
 public sealed class UserToUserChatMessageReadNotificationOutboxPendingWorker(
-    IUserToUserChatNotificationsHubService userToUserChatNotificationsHubService,
-    IOutboxBatchStrategy<UserToUserChatMessageReadNotificationOutbox> outboxBatchStrategy,
-    IGenericSelectPendingStrategyBuilder genericSelectPendingStrategyBuilder,
+    IServiceProvider serviceProvider,
     ILogger<UserToUserChatMessageReadNotificationOutboxPendingWorker> logger
 ) : BaseBackgroundWorker<UserToUserChatMessageReadNotificationOutboxPendingWorker>(
     logger
@@ -29,6 +28,21 @@ public sealed class UserToUserChatMessageReadNotificationOutboxPendingWorker(
         CancellationToken cancellationToken
     )
     {
+        using var scope =
+            serviceProvider.CreateScope();
+
+        var scopedServiceProvider =
+            scope.ServiceProvider;
+
+        var userToUserChatNotificationsHubService =
+            scopedServiceProvider.GetRequiredService<IUserToUserChatNotificationsHubService>();
+
+        var outboxBatchStrategy =
+            scopedServiceProvider.GetRequiredService<IOutboxBatchStrategy>();
+
+        var genericSelectPendingStrategyBuilder =
+            scopedServiceProvider.GetRequiredService<IGenericSelectPendingStrategyBuilder>();
+
         var selectPendingStrategyBuilderArgs =
             new GenericSelectPendingStrategyBuilderArgs(
                 BatchCount
@@ -43,7 +57,7 @@ public sealed class UserToUserChatMessageReadNotificationOutboxPendingWorker(
         var outboxList =
             await
                 outboxBatchStrategy
-                    .ClaimBatchAsync(
+                    .ClaimBatchAsync<UserToUserChatMessageReadNotificationOutbox>(
                         outboxBatchStrategyArgs
                     );
 

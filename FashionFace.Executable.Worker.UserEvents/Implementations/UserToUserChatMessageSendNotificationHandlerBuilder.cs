@@ -57,7 +57,7 @@ public sealed class UserToUserChatMessageSendNotificationHandlerBuilder : IUserT
                 serviceProvider.GetRequiredService<IUserToUserChatNotificationsHubService>();
 
             var outboxBatchStrategy =
-                serviceProvider.GetRequiredService<IOutboxBatchStrategy<UserToUserChatMessageSendNotificationOutbox>>();
+                serviceProvider.GetRequiredService<IOutboxBatchStrategy>();
 
             var correlatedSelectPendingStrategyBuilder =
                 serviceProvider.GetRequiredService<ICorrelatedSelectPendingStrategyBuilder>();
@@ -107,7 +107,7 @@ public sealed class UserToUserChatMessageSendNotificationHandlerBuilder : IUserT
             var outboxList =
                 await
                     outboxBatchStrategy
-                        .ClaimBatchAsync(
+                        .ClaimBatchAsync<UserToUserChatMessageSendNotificationOutbox>(
                             outboxBatchStrategyArgs
                         );
 
@@ -141,7 +141,7 @@ public sealed class UserToUserChatMessageSendNotificationHandlerBuilder : IUserT
                 outboxList =
                     await
                         outboxBatchStrategy
-                            .ClaimBatchAsync(
+                            .ClaimBatchAsync<UserToUserChatMessageSendNotificationOutbox>(
                                 outboxBatchStrategyArgs
                             );
             }

@@ -1,12 +1,3 @@
-﻿using FashionFace.Executable.Worker.UserEvents.Args;
+﻿namespace FashionFace.Executable.Worker.UserEvents.Interfaces;
 
-using RabbitMQ.Client.Events;
-
-namespace FashionFace.Executable.Worker.UserEvents.Interfaces;
-
-public interface IUserToUserChatInvitationCanceledNotificationHandlerBuilder
-{
-    AsyncEventHandler<BasicDeliverEventArgs> Build(
-        EventHandlerBuilderArgs args
-    );
-}
+public interface IUserToUserChatInvitationCanceledNotificationHandlerBuilder : IHandlerBuilderBase;

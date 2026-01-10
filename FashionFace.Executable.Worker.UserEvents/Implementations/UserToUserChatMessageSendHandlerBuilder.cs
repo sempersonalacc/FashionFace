@@ -71,6 +71,9 @@ public sealed class UserToUserChatMessageSendHandlerBuilder : IUserToUserChatMes
             var queuePublishFacadeCommandBuilder =
                 serviceProvider.GetRequiredService<IQueuePublishFacadeCommandBuilder>();
 
+            var dateTimePicker =
+                serviceProvider.GetRequiredService<IDateTimePicker>();
+
             var state =
                 new
                 {
@@ -242,6 +245,7 @@ public sealed class UserToUserChatMessageSendHandlerBuilder : IUserToUserChatMes
                                 InitiatorUserId = initiatorUserId,
                                 TargetUserId = targetUserId,
 
+                                CreatedAt = dateTimePicker.GetUtcNow(),
                                 CorrelationId = outbox.CorrelationId,
                                 AttemptCount = 0,
                                 OutboxStatus = OutboxStatus.Pending,
